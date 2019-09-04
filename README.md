@@ -1,10 +1,8 @@
 # Benchmark
-<br/>
 
 ## For terminator prediction using RNA-Seq and Term-Seq data<br/>
-<br/>
 
-Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Benchmark.sh)<br/>
+Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Benchmark.sh) and run with `sh Benchmark.sh` <br/>
 
 
 ### Used Programs:<br/>
@@ -18,10 +16,10 @@ Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/maste
 
 ### Used Python3 packages:<br/>
 
-pip install packagename<br/>
+`pip install packagename`<br/>
 will be installed to /usr/bin/ on Linux of or in your Python installation on Windows<br/>
 <br/>
-pip install packagename --user<br/>
+`pip install packagename --user`<br/>
 will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Windows<br/>
 <br/>
 
