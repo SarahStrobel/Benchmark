@@ -21,7 +21,6 @@ will be installed to /usr/bin/ on Linux of or in your Python installation on Win
 <br/>
 `pip install packagename --user`<br/>
 will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Windows<br/>
-<br/>
 
 * [glob](https://docs.python.org/3/library/glob.html)<br/>
 * [numpy](https://numpy.org/)<br/>
@@ -62,10 +61,5 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 * [mlxtend](http://rasbt.github.io/mlxtend/api_subpackages/mlxtend.plotting/)<br/>
 
 
-
-### Genomes:<br/>
-
-* [B.subtilis](https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Genomes/Bacillus_subtilis_UtoT.fasta)<br/>
-* [E.coli](https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Genomes/Escherichia_coli_IAI39.fasta)<br/>
 
 
