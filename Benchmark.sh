@@ -17,9 +17,9 @@ wget https://github.com/SarahStrobel/Benchmark/blob/master/Scripts/ratioTermRNAS
 wget https://raw.githubusercontent.com/ppgardne/RNIE-benchmark/master/training-test/true.fa -P $pathToParentDirectory"/knownTerminators/"
 
 # change u to ts and make uppercase in known terminators sequences
-sed 's/U/t/g' $pathToParentDirectory$knownTerminators"/true.fa" > $pathToParentDirectory$knownTerminators"/true_UtoT.fa" 
-awk 'BEGIN{FS=" "}{if(!/>/){print toupper($0)}else{print $1 " " $2}}' $pathToParentDirectory$knownTerminators"/true_UtoT.fa" \
-	> $pathToParentDirectory$knownTerminators"/true_upper_UtoT.fa"
+sed 's/U/t/g' $pathToParentDirectory$knownTerminators"/true.fa" > $pathToParentDirectory"/knownTerminators/true_UtoT.fa" 
+awk 'BEGIN{FS=" "}{if(!/>/){print toupper($0)}else{print $1 " " $2}}' $pathToParentDirectory"/knownTerminators/true_UtoT.fa" \
+	> $pathToParentDirectory"/knownTerminators/true_upper_UtoT.fa"
 
 ###############################################################################################################################################
 
