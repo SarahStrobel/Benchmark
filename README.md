@@ -1,5 +1,6 @@
 # Benchmark
 <br/>
+
 ## For terminator prediction using RNA-Seq and Term-Seq data<br/>
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br/>
 <br/>
@@ -35,7 +36,7 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 * [os](https://docs.python.org/3/library/os.html)<br/>
 * [operator](https://docs.python.org/3/library/operator.html)<br/>
 * [tabulate](https://pypi.org/project/tabulate/)<br/>
-* [bisect]<br/>
+* [bisect](https://docs.python.org/3.0/library/bisect.html)<br/>
 <br/>
 
 
