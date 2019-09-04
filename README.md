@@ -1,16 +1,13 @@
 # Benchmark
 <br/>
-For terminator prediction using RNA-Seq and Term-Seq data<br/>
+## For terminator prediction using RNA-Seq and Term-Seq data<br/>
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br/>
 <br/>
 
-Download and run [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Benchmark.sh)<br/>
+Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Benchmark.sh)<br/>
 
 
-
-
-
-Used Programs:<br/>
+### Used Programs:<br/>
 
 * [git](https://git-scm.com/)<br/>
 * [SRA-Toolkit](https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/)<br/>
@@ -19,7 +16,7 @@ Used Programs:<br/>
 * [Bedtools](https://bedtools.readthedocs.io/en/latest/index.html)<br/>
 <br/>
 
-Used Python3 packages:<br/>
+### Used Python3 packages:<br/>
 
 pip install packagename<br/>
 will be installed to /usr/bin/ on Linux of or in your Python installation on Windows<br/>
@@ -42,13 +39,13 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 <br/>
 
 
-RNA-Seq / Term-Seq Data (Dar et al., 2016):<br/>
+### RNA-Seq / Term-Seq Data (Dar et al., 2016):<br/>
 * [Paper](https://www.ncbi.nlm.nih.gov/pubmed/27120414)<br/>
 * [fastq files](https://www.ncbi.nlm.nih.gov/sra?term=ERP014057)<br/>
 <br/>
 
 
-Additional Programs:<br/>
+### Additional Programs:<br/>
 
 *[Infernal](http://eddylab.org/infernal/)<br/>
 *[RNIE](https://github.com/ppgardne/RNIE)<br/>
@@ -61,14 +58,14 @@ Additional Programs:<br/>
 <br/>
 
 
-Additional Python3 packages:<br/>
+### Additional Python3 packages:<br/>
 
 * [scikit-learn](https://scikit-learn.org/stable/)<br/>
 * [mlxtend](http://rasbt.github.io/mlxtend/api_subpackages/mlxtend.plotting/)<br/>
 <br/>
 
 
-Genomes:<br/>
+### Genomes:<br/>
 
 * [B.subtilis](https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Genomes/Bacillus_subtilis_UtoT.fasta)<br/>
 * [E.coli](https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Genomes/Escherichia_coli_IAI39.fasta)<br/>
