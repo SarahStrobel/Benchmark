@@ -1,6 +1,6 @@
-# Benchmark
+# Benchmark for terminator prediction using RNA-Seq and Term-Seq data
 
-## For terminator prediction using RNA-Seq and Term-Seq data<br/>
+
 
 Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Benchmark.sh) and run with `sh Benchmark.sh` <br/>
 
