@@ -644,7 +644,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 		print 'predicted Terminators NOT overlapping genes: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingGenesTest))
 		print 'predicted Terminators NOT overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest))
 
-		print 'predicted Terminators overlapping genes, overlapping known terminators: ' + str(len(npPredictedTerminatorsAllPointsOverlappingTest))
+		print 'predicted Terminators overlapping genes or overlapping known terminators: ' + str(len(npPredictedTerminatorsAllPointsOverlappingTest))
 		print 'predicted Terminators overlapping genes: ' + str(len(predictedTerminatorsAllPointsOverlappingGenesTest))
 		print 'predicted Terminators overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsOverlappingTerminatorsTest))
 
@@ -654,7 +654,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 		print 'predicted Negatives NOT overlapping genes: ' + str(len(predictedNegativesAllPointsNOTOverlappingGenesTest))
 		print 'predicted Negatives NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTerminatorsTest))
 
-		print 'predicted Negatives overlapping genes, overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTest))
+		print 'predicted Negatives overlapping genes or overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTest))
 		print 'predicted Negatives overlapping genes: ' + str(len(predictedNegativesAllPointsOverlappingGenesTest))
 		print 'predicted Negatives overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTerminatorsTest))
 
