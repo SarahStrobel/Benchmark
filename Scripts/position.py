@@ -47,6 +47,14 @@ predictedNegatives = args.predictedNegatives
 outpath = args.outpath
 
 
+# positionPredTermBed = outpath + 'Distance_predictedTerminators_NO_knownTerminators_NO_genes.bed'
+# positionPredTermBed120 = outpath + 'Distance_120_predictedTerminators_NO_knownTerminators_NO_genes.bed'
+# positionPredTermBed60 = outpath + 'Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed'
+
+# positionPredNegBed = outpath + 'Distance_predictedNegatives_NO_knownTerminators_NO_genes.bed'
+# positionPredNegBed120 = outpath + 'Distance_120_predictedNegatives_NO_knownTerminators_NO_genes.bed'
+# positionPredNegBed60 = outpath + 'Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.bed'
+
 positionPredTermBed = outpath + 'Distance_predictedTerminators_NO_genes.bed'
 positionPredTermBed120 = outpath + 'Distance_120_predictedTerminators_NO_genes.bed'
 positionPredTermBed60 = outpath + 'Distance_60_predictedTerminators_NO_genes.bed'
@@ -158,7 +166,8 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 	sortedClosestTerm = sorted(closestTerm, key=lambda x: x[3])
 	sortedClosestNeg = sorted(closestNeg, key=lambda x: x[3])
 
-
+	numberOfTerminatorsUnder150 = 0
+	numberOfNegativesUnder150 = 0
 
 
 
@@ -172,45 +181,46 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 		for item1 in sortedClosestTerm: #[x,y,coord,distance,strand]
 			if item1[3] <= 150:
+				numberOfTerminatorsUnder150+=1
 				termbed.write('gi|255767013|ref|NC_000964.3|' + '\t' + str(item1[2]) + '\t' + str(item1[2]+1) + '\t' + str(item1[3]) + ' predicted Terminators' + '\t' + str(item1[4]) + '\n')
 
 				if item1[2]-100 > 0 and item1[2]+100 <= 4215606: 
 					if item1[4] == '-':
 						termbed120.write('NC_000964.3/1-4215606' +'\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										 + '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3]) +'_'+ str(item1[4])+'\n')
+										+ str(item1[2]) \
+										 + '_'+ str(item1[3]) +'_'+ str(item1[4])+'\n')
 
 					if item1[4] == '+':
 						termbed120.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										+ '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
+										+ str(item1[2]) \
+										+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
 
 					if item1[4] == 'nostrand':
 						termbed120.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										+ '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3])+'_'+ '+' + '\n')
+										+ str(item1[2]) \
+										+'_'+ str(item1[3])+'_'+ '+' + '\n')
 						termbed120.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										+ '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3])+'_'+ '-' + '\n')
+										+ str(item1[2]) \
+										+'_'+ str(item1[3])+'_'+ '-' + '\n')
 
 				if item1[2]-50 > 0 and item1[2]+50 <= 4215606: 
 					if item1[4] == '-':
 						termbed60.write('NC_000964.3/1-4215606' +'\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										 + '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3])+'_'+ str(item1[4])+'\n')
+										+ str(item1[2]) \
+										+'_'+ str(item1[3])+'_'+ str(item1[4])+'\n')
 
 					if item1[4] == '+':
 						termbed60.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										+ '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
+										+ str(item1[2]) \
+										+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
 
 					if item1[4] == 'nostrand':
 						termbed60.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										+ '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3])+'_'+ '+' + '\n')
+										+ str(item1[2]) \
+										+'_'+ str(item1[3])+'_'+ '+' + '\n')
 						termbed60.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item1[2]) \
-										+ '_' + str(item1[0]) + '_' + str(item1[1]) +'_'+ str(item1[3])+'_'+ '-' + '\n')
+										+ str(item1[2]) \
+										+'_'+ str(item1[3])+'_'+ '-' + '\n')
 
 
 
@@ -218,6 +228,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 		for item2 in sortedClosestNeg:
 			if item2[3] <= 150:
+				numberOfNegativesUnder150+=1
 				negbed.write('gi|255767013|ref|NC_000964.3|' + '\t' + str(item2[2]) + '\t' + str(item2[2]+1) + '\t' + str(item2[3]) + ' predicted Negatives' + '\t' + str(item2[4]) +'\n')
 
 
@@ -259,6 +270,11 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
 										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
 
+
+	print "predicted Terminators not overlapping genes, up to 150 nucs downstream of gene: " + str(numberOfTerminatorsUnder150)
+	print "predicted Negatives not overlapping genes, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150)
+	# print "predicted Terminators not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfTerminatorsUnder150)
+	# print "predicted Negatives not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150)
 
 	negbed.close()
 	negbed60.close()
