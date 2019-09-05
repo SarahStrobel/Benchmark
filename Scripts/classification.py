@@ -362,6 +362,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	predictedTerminatorsAllPointsNOTOverlappingGenesTest = []
 	predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest = []
 
+	predictedTerminatorsAllPointsOverlappingTest = []
 	predictedTerminatorsAllPointsOverlappingGenesTest = []
 	predictedTerminatorsAllPointsOverlappingTerminatorsTest = []
 
@@ -369,6 +370,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	predictedNegativesAllPointsNOTOverlappingGenesTest = []
 	predictedNegativesAllPointsNOTOverlappingTerminatorsTest = []
 
+	predictedNegativesAllPointsOverlappingTest = []
 	predictedNegativesAllPointsOverlappingGenesTest = []
 	predictedNegativesAllPointsOverlappingTerminatorsTest = []
 
@@ -444,7 +446,8 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '-' +'\n')
 
 
-
+			else:
+				predictedTerminatorsAllPointsOverlappingTest.append([posTest[0],posTest[1]])
 
 			
 			# bed file with false positives
@@ -571,7 +574,8 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 										+ 'NC_000964.3/1-4215606:'+ str(negTest[2]) \
 										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '-' + '\n')
 
-
+			else:
+				predictedNegativesAllPointsOverlappingTest.append([negTest[0],negTest[1]])
 
 			# bed file with predicted negatives not overl. genes alone / overlapping genes alone
 			if resultNeg2 == -1:
@@ -640,7 +644,6 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 		print 'predicted Terminators NOT overlapping genes: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingGenesTest))
 		print 'predicted Terminators NOT overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest))
 
-		print 'predicted Terminators overlapping genes or overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsOverlappingGenesTest)+len(predictedTerminatorsAllPointsOverlappingTerminatorsTest))
 		print 'predicted Terminators overlapping genes: ' + str(len(predictedTerminatorsAllPointsOverlappingGenesTest))
 		print 'predicted Terminators overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsOverlappingTerminatorsTest))
 
@@ -650,7 +653,6 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 		print 'predicted Negatives NOT overlapping genes: ' + str(len(predictedNegativesAllPointsNOTOverlappingGenesTest))
 		print 'predicted Negatives NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTerminatorsTest))
 
-		print 'predicted Negatives overlapping genes or overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingGenesTest)+len(predictedNegativesAllPointsOverlappingTerminatorsTest))
 		print 'predicted Negatives overlapping genes: ' + str(len(predictedNegativesAllPointsOverlappingGenesTest))
 		print 'predicted Negatives overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTerminatorsTest))
 
