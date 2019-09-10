@@ -6,151 +6,169 @@ pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 
 
 ################################################################################################################################################
 
-wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/5primePosfromSam_2_Bedgraph.py -P $pathToParentDirectory"/Scripts/"
-wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/classification.py -P $pathToParentDirectory"/Scripts/"
-wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/position.py -P $pathToParentDirectory"/Scripts/"
-wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/ratioTermRNASeq.py -P $pathToParentDirectory"/Scripts/"
+# # download scripts from Sarah Strobel's github to new folder with wget 
+# wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/5primePosfromSam_2_Bedgraph.py -P $pathToParentDirectory"/Scripts/"
+# wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/classification.py -P $pathToParentDirectory"/Scripts/"
+# wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/position.py -P $pathToParentDirectory"/Scripts/"
+# wget https://raw.githubusercontent.com/SarahStrobel/Benchmark/master/Scripts/ratioTermRNASeq.py -P $pathToParentDirectory"/Scripts/"
+
+# printf "\n##########################################################"
+# printf '\n\t\t all scripts downloaded'
+# printf "\n##########################################################\n\n"
+
+# ################################################################################################################################################
+
+# # download known terminator file from Paul Gardners's github to new folder with wget
+# wget https://raw.githubusercontent.com/ppgardne/RNIE-benchmark/master/training-test/true.fa -P $pathToParentDirectory"/knownTerminators/"
+
+# # change u to ts and make uppercase in known terminators sequences
+# sed 's/U/t/g' $pathToParentDirectory"/knownTerminators/true.fa" > $pathToParentDirectory"/knownTerminators/true_UtoT.fa" 
+# awk 'BEGIN{FS=" "}{if(!/>/){print toupper($0)}else{print $1 " " $2}}' $pathToParentDirectory"/knownTerminators/true_UtoT.fa" \
+# 	> $pathToParentDirectory"/knownTerminators/true_upper_UtoT.fa"
+
+# # download B.subtilis known terminator file form the Lin group homepage
+# wget http://lin-group.cn/server/iTerm-PseKNC/dependent_data2.csv -O $pathToParentDirectory"/knownTerminators/dependent_data2.fa"
+
+# # concat the terminator files
+# cat $pathToParentDirectory"/knownTerminators/dependent_data2.fa" $pathToParentDirectory"/knownTerminators/true_upper_UtoT.fa" \
+# 	> $pathToParentDirectory"/knownTerminators/knownTerminators.fa"
+
+# printf "\n##########################################################"
+# printf '\n\t\t Known terminators downloaded'
+# printf "\n##########################################################\n\n"
+
+# ###############################################################################################################################################
+
+# # create new folders for RNA-Seq and Term-Seq data
+# mkdir -p $pathToParentDirectory"/RNASeq"
+# mkdir -p $pathToParentDirectory"/TermSeq"
 
 
-printf "\n##########################################################"
-printf '\n\t\t all scripts downloaded'
-printf "\n##########################################################\n\n"
+# # download RNA-Seq and Term-Seq data with sra toolkits fastq-dump
+# fastq-dump ERX1320302 --outdir $pathToParentDirectory"/RNASeq"
+# fastq-dump ERX1304415 --outdir $pathToParentDirectory"/TermSeq"
+# fastq-dump ERX1320300 --outdir $pathToParentDirectory"/TermSeq"
+# fastq-dump ERX1320301 --outdir $pathToParentDirectory"/TermSeq"
 
-################################################################################################################################################
+# printf "\n##########################################################"
+# printf '\n    all RNA-Seq and Term-Seq experiments downloaded'
+# printf "\n##########################################################\n\n"
 
-# download known terminator file from Paul Gardners's github to new folder with wget
-wget https://raw.githubusercontent.com/ppgardne/RNIE-benchmark/master/training-test/true.fa -P $pathToParentDirectory"/knownTerminators/"
+# ###############################################################################################################################################
 
-# change u to ts and make uppercase in known terminators sequences
-sed 's/U/t/g' $pathToParentDirectory"/knownTerminators/true.fa" > $pathToParentDirectory"/knownTerminators/true_UtoT.fa" 
-awk 'BEGIN{FS=" "}{if(!/>/){print toupper($0)}else{print $1 " " $2}}' $pathToParentDirectory"/knownTerminators/true_UtoT.fa" \
-	> $pathToParentDirectory"/knownTerminators/true_upper_UtoT.fa"
+# # download B.subtilis genome and gene annotation file from Sarah Strobel's github to new folder with wget
+# wget https://raw.githubusercontent.com/SarahStrobel/Genomes/master/Bacillus_subtilis_UtoT.fasta -P $pathToParentDirectory"/Genomes"
+# wget https://raw.githubusercontent.com/SarahStrobel/Genomes/master/GCF_000009045.1_ASM904v1_genomic.gff -P $pathToParentDirectory"/Genomes"
 
-printf "\n##########################################################"
-printf '\n\t\t Known terminators downloaded'
-printf "\n##########################################################\n\n"
+# printf "\n##########################################################"
+# printf '\n\t\t B.subtilis genome downloaded'
+# printf "\n##########################################################\n\n"
 
-###############################################################################################################################################
+# ###############################################################################################################################################
 
-# create new folders for RNA-Seq and Term-Seq data
-mkdir -p $pathToParentDirectory"/RNASeq"
-mkdir -p $pathToParentDirectory"/TermSeq"
-
-
-# download RNA-Seq and Term-Seq data with sra toolkits fastq-dump
-fastq-dump ERX1320302 --outdir $pathToParentDirectory"/RNASeq"
-fastq-dump ERX1304415 --outdir $pathToParentDirectory"/TermSeq"
-fastq-dump ERX1320300 --outdir $pathToParentDirectory"/TermSeq"
-fastq-dump ERX1320301 --outdir $pathToParentDirectory"/TermSeq"
-
-printf "\n##########################################################"
-printf '\n    all RNA-Seq and Term-Seq experiments downloaded'
-printf "\n##########################################################\n\n"
-
-###############################################################################################################################################
-
-# download B.subtilis genomes from Sarah Strobel's github to new folder with wget
-wget https://raw.githubusercontent.com/SarahStrobel/Genomes/master/Bacillus_subtilis_UtoT.fasta -P $pathToParentDirectory"/Genomes"
-wget https://raw.githubusercontent.com/SarahStrobel/Genomes/master/GCF_000009045.1_ASM904v1_genomic.gff -P $pathToParentDirectory"/Genomes"
-
-printf "\n##########################################################"
-printf '\n\t\t B.subtilis genome downloaded'
-printf "\n##########################################################\n\n"
-
-###############################################################################################################################################
-
-mkdir -p $pathToParentDirectory"/Alignments"
-mkdir -p $pathToParentDirectory"/Alignments/TermSeq"
-mkdir -p $pathToParentDirectory"/Alignments/RNASeq"
+# mkdir -p $pathToParentDirectory"/Alignments"
+# mkdir -p $pathToParentDirectory"/Alignments/TermSeq"
+# mkdir -p $pathToParentDirectory"/Alignments/RNASeq"
 
 
-# creating Index files of B.subtilis genome with Novoindex for alignments with Novoalign
-novoindex $pathToParentDirectory"/Alignments/Bacillus_subtilis_UtoT_index" $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta"
+# # creating Index files of B.subtilis genome with Novoindex for alignments with Novoalign
+# novoindex $pathToParentDirectory"/Alignments/Bacillus_subtilis_UtoT_index" $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta"
 
 
-# align known Terminators to B.subtilis genomes with Novoalign
-novoalign -f $pathToParentDirectory"/knownTerminators/true_upper_UtoT.fa" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
-			-o SAM > $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.sam"
-printf "\n"
+# # align known Terminators to B.subtilis genomes with Novoalign
+# novoalign -f $pathToParentDirectory"/knownTerminators/true_upper_UtoT.fa" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
+# 			-o SAM > $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.sam"
+# printf "\n"
 
-align Term-Seq and RNA-Seq files to B.subtilis genome with Novoalign
-novoalign -f $pathToParentDirectory"/RNASeq/ERX1320302.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
-			-o SAM > $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.sam"
-printf "\n"
-novoalign -f $pathToParentDirectory"/TermSeq/ERX1304415.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
-			-o SAM > $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.sam"
-printf "\n"
-novoalign -f $pathToParentDirectory"/TermSeq/ERX1320300.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
-			-o SAM > $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.sam"
-printf "\n"
-novoalign -f $pathToParentDirectory"/TermSeq/ERX1320301.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
-			-o SAM > $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.sam"
+# novoalign -f $pathToParentDirectory"/knownTerminators/knownTerminators.fa" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
+# 			-o SAM > $pathToParentDirectory"/Alignments/Bacillus_subtilis_knownTerminators.sam"
+# printf "\n"
 
 
-printf "\n##########################################################"
-printf '\n\t all files aligned to B.subitils genome'
-printf "\n##########################################################\n\n"
+# align Term-Seq and RNA-Seq files to B.subtilis genome with Novoalign
+# novoalign -f $pathToParentDirectory"/RNASeq/ERX1320302.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
+# 			-o SAM > $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.sam"
+# printf "\n"
+# novoalign -f $pathToParentDirectory"/TermSeq/ERX1304415.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
+# 			-o SAM > $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.sam"
+# printf "\n"
+# novoalign -f $pathToParentDirectory"/TermSeq/ERX1320300.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
+# 			-o SAM > $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.sam"
+# printf "\n"
+# novoalign -f $pathToParentDirectory"/TermSeq/ERX1320301.fastq" -d $pathToParentDirectory/"Alignments/Bacillus_subtilis_UtoT_index" \
+# 			-o SAM > $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.sam"
 
-###############################################################################################################################################
 
-# converting into machine readable bam format with samtools view
-samtools view -S -b $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.sam" \
-				> $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bam"
+# printf "\n##########################################################"
+# printf '\n\t all files aligned to B.subitils genome'
+# printf "\n##########################################################\n\n"
 
+# ###############################################################################################################################################
 
-samtools view -S -b $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.sam" > $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.bam"
-samtools view -S -b $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.sam" > $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.bam"
-samtools view -S -b $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.sam" > $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.bam"
-samtools view -S -b $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.sam" > $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.bam"
+# # converting into machine readable bam format with samtools view
+# samtools view -S -b $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.sam" > $pathToParentDirectory/"Alignments/Bacillus_subtilis_true_upper_UtoT.bam"
+
+# # # one line gives error --> delete
+# sed -i '428d' $pathToParentDirectory"/Alignments/Bacillus_subtilis_knownTerminators.sam"
+
+# samtools view -S -b $pathToParentDirectory"/Alignments/Bacillus_subtilis_knownTerminators.sam" > $pathToParentDirectory/"Alignments/Bacillus_subtilis_knownTerminators.bam"
+
+# samtools view -S -b $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.sam" > $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.bam"
+# samtools view -S -b $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.sam" > $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.bam"
+# samtools view -S -b $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.sam" > $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.bam"
+# samtools view -S -b $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.sam" > $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.bam"
 
 
 
-# sorting and indexing bam files to make them readable for genome browsers (e.g. IGV)
-samtools sort $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.bam" -o $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam" \
-				> $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam"
-samtools sort $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.bam" -o $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1304415.bam" \
-				> $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1304415.bam"
-samtools sort $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.bam" -o $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320300.bam" \
-				> $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320300.bam"
-samtools sort $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.bam" -o $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320301.bam" \
-				> $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320301.bam"
+# # sorting and indexing bam files to make them readable for genome browsers (e.g. IGV)
+# samtools sort $pathToParentDirectory"/Alignments/RNASeq/ERX1320302.bam" -o $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam" \
+# 				> $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam"
+# samtools sort $pathToParentDirectory"/Alignments/TermSeq/ERX1304415.bam" -o $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1304415.bam" \
+# 				> $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1304415.bam"
+# samtools sort $pathToParentDirectory"/Alignments/TermSeq/ERX1320300.bam" -o $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320300.bam" \
+# 				> $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320300.bam"
+# samtools sort $pathToParentDirectory"/Alignments/TermSeq/ERX1320301.bam" -o $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320301.bam" \
+# 				> $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320301.bam"
 
 
-samtools index $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam"
-samtools index $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1304415.bam"
-samtools index $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320300.bam"
-samtools index $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320301.bam"
+# samtools index $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam"
+# samtools index $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1304415.bam"
+# samtools index $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320300.bam"
+# samtools index $pathToParentDirectory"/Alignments/TermSeq/sorted_ERX1320301.bam"
 
-printf "\n##########################################################"
-printf '\n\t\t all files sorted and indexed'
-printf "\n##########################################################\n"
+# printf "\n##########################################################"
+# printf '\n\t\t all files sorted and indexed'
+# printf "\n##########################################################\n"
 
-###############################################################################################################################################
+# ###############################################################################################################################################
 
-# convert known Terminator bam file to bed file 
-bedtools bamtobed -i /$pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bam" \
-					> $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed"
+# # convert known Terminator bam file to bed file 
+# bedtools bamtobed -i $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bam" \
+# 					> $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed"
 
-###############################################################################################################################################
+# bedtools bamtobed -i $pathToParentDirectory"/Alignments/Bacillus_subtilis_knownTerminators.bam" \
+# 					> $pathToParentDirectory"/Alignments/Bacillus_subtilis_knownTerminators.bed"
 
-# calculate genome coverage of RNA-Seq file with 
-genomeCoverageBed -d -split -ibam $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam" \
-					> $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph"
+# ###############################################################################################################################################
 
-##############################################################################################################################################
+# # calculate genome coverage of RNA-Seq file with 
+# genomeCoverageBed -d -split -ibam $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302.bam" \
+# 					> $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph"
 
-# calculate 5' end nuc count from Term-Seq alignment files, can be viewed in geneome browser (e.g. IGV)
-python $pathToParentDirectory"/Scripts/5primePosfromSam_2_Bedgraph.py" -rnaSeq $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph" \
-										-termSeq $pathToParentDirectory"/Alignments/TermSeq/" \
-										-o $pathToParentDirectory"/Alignments/TermSeq/stop_"
+# ##############################################################################################################################################
 
-printf "\n##########################################################"
-printf "\n   RNA-Seq coverage and Term-Seq 5\' end nucs counted"
-printf "\n##########################################################\n\n"
+# # calculate 5' end nuc count from Term-Seq alignment files, can be viewed in geneome browser (e.g. IGV)
+# python $pathToParentDirectory"/Scripts/5primePosfromSam_2_Bedgraph.py" -rnaSeq $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph" \
+# 										-termSeq $pathToParentDirectory"/Alignments/TermSeq/" \
+# 										-o $pathToParentDirectory"/Alignments/TermSeq/stop_"
 
-###############################################################################################################################################
+# printf "\n##########################################################"
+# printf "\n   RNA-Seq coverage and Term-Seq 5\' end nucs counted"
+# printf "\n##########################################################\n\n"
 
-mkdir $pathToParentDirectory"/Results"
+# ###############################################################################################################################################
+
+# mkdir $pathToParentDirectory"/Results"
 
 # ###############################################################################################################################################
 
@@ -171,28 +189,38 @@ mkdir $pathToParentDirectory"/Results"
 # 		# - decide over how many nucs you want to average/max the RNA-Seq data over (default 50)
 
 # # example for first 500k nucleotides in B.subtilis
-# # python $pathToParentDirectory"/Scripts/ratioTermRNASeq.py" -gff $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
-# # 						-ts $pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320300.bedgraph" \
-# # 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320301.bedgraph" \
-# # 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1304415.bedgraph" \
-# # 						-rs $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph" \
-# # 						-bed $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
-# # 						-g 1 500000 \
-# # 						-o  $pathToParentDirectory"/Results/first500k"
+# python $pathToParentDirectory"/Scripts/ratioTermRNASeq.py" -gff $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 						-ts $pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320300.bedgraph" \
+# 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320301.bedgraph" \
+# 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1304415.bedgraph" \
+# 						-rs $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph" \
+# 						-bed $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
+# 						-g 1 500000 \
+# 						-o  $pathToParentDirectory"/Results/first500k"
+
+# # example for whole genome in B.subtilis
+# python $pathToParentDirectory"/Scripts/ratioTermRNASeq.py" -gff $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 						-ts $pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320300.bedgraph" \
+# 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320301.bedgraph" \
+# 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1304415.bedgraph" \
+# 						-rs $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph" \
+# 						-bed $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
+# 						-g 1 4215606 \
+# 						-o $pathToParentDirectory"/Results/wholeGenome"
 
 # example for whole genome in B.subtilis
-python $pathToParentDirectory"/Scripts/ratioTermRNASeq.py" -gff $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
-						-ts $pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320300.bedgraph" \
-							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320301.bedgraph" \
-							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1304415.bedgraph" \
-						-rs $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph" \
-						-bed $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
-						-g 1 4215606 \
-						-o $pathToParentDirectory"/Results/wholeGenome"
+# python $pathToParentDirectory"/Scripts/ratioTermRNASeq.py" -gff $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 						-ts $pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320300.bedgraph" \
+# 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1320301.bedgraph" \
+# 							$pathToParentDirectory"/Alignments/TermSeq/stop_ERX1304415.bedgraph" \
+# 						-rs $pathToParentDirectory"/Alignments/RNASeq/sorted_ERX1320302_genomeCoverageBed.bedgraph" \
+# 						-bed $pathToParentDirectory"/Alignments/Bacillus_subtilis_knownTerminators.bed" \
+# 						-g 1 4215606 \
+# 						-o $pathToParentDirectory"/Results/new_wholeGenome"
 
-printf "\n##########################################################"
-printf '\n   max. Term-Seq vs. avg. RNA-Seq over all replicates'
-printf "\n##########################################################\n\n"
+# printf "\n##########################################################"
+# printf '\n   max. Term-Seq vs. avg. RNA-Seq over all replicates'
+# printf "\n##########################################################\n\n"
 
 # ###############################################################################################################################################
 
@@ -203,65 +231,195 @@ printf "\n##########################################################\n\n"
 # 		#- bed files for predicted negatives and positives (not overlapping genes or not overlapping genes and not overlapping terminators)
 # 		#- bed files creating 120 and 60 nucleotide long sequences (100/50 upstream and 20/10 downstream) for further investigation (e.g. BLAST, RNIE, mfold,...)
 
-mkdir $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/"
+# mkdir $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/"
 
-python $pathToParentDirectory"/Scripts/classification.py" -pos $pathToParentDirectory"/Results/wholeGenome_50_nucs_TScountsOverlappingTerminators" \
-						-neg $pathToParentDirectory"/Results/wholeGenome_50_nucs_TScountsOverlappingGenes" \
-						-all $pathToParentDirectory"/Results/wholeGenome_50_nucs_TSvsRS" \
-						-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
-						-term $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
-						-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/"
+# python $pathToParentDirectory"/Scripts/classification.py" -pos $pathToParentDirectory"/Results/first500k_50_nucs_TScountsOverlappingTerminators" \
+# 						-neg $pathToParentDirectory"/Results/first500k_50_nucs_TScountsOverlappingGenes" \
+# 						-all $pathToParentDirectory"/Results/first500k_50_nucs_TSvsRS" \
+# 						-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 						-term $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
+# 						-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/first500k_"
 
-printf "\n##########################################################"
-printf '\n\t\t decision boundary drawn'
-printf "\n##########################################################\n\n"
+# python $pathToParentDirectory"/Scripts/classification.py" -pos $pathToParentDirectory"/Results/first500k_50_nucs_TScountsOverlappingTerminators" \
+# 						-neg $pathToParentDirectory"/Results/first500k_50_nucs_TScountsOverlappingGenes" \
+# 						-all $pathToParentDirectory"/Results/first500k_50_nucs_TSvsRS" \
+# 						-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 						-term $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
+# 						-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/first500k_"
+
+# python $pathToParentDirectory"/Scripts/classification.py" -pos $pathToParentDirectory"/Results/wholeGenome_50_nucs_TScountsOverlappingTerminators" \
+# 						-neg $pathToParentDirectory"/Results/wholeGenome_50_nucs_TScountsOverlappingGenes" \
+# 						-all $pathToParentDirectory"/Results/wholeGenome_50_nucs_TSvsRS" \
+# 						-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 						-term $pathToParentDirectory"/Alignments/Bacillus_subtilis_true_upper_UtoT.bed" \
+# 						-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/"
+
+# python $pathToParentDirectory"/Scripts/classification.py" -pos $pathToParentDirectory"/Results/new_wholeGenome_50_nucs_TScountsOverlappingTerminators" \
+# 						-neg $pathToParentDirectory"/Results/new_wholeGenome_50_nucs_TScountsOverlappingGenes" \
+# 						-all $pathToParentDirectory"/Results/new_wholeGenome_50_nucs_TSvsRS" \
+# 						-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 						-term $pathToParentDirectory"/Alignments/Bacillus_subtilis_knownTerminators.bed" \
+# 						-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/new_"
+
+# printf "\n##########################################################"
+# printf '\n\t\t decision boundary drawn'
+# printf "\n##########################################################\n\n"
 
 # ###############################################################################################################################################
 
 # # looking for predictions up to 150 nucleotides downstream of genes 
 
-mkdir $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/"
+# mkdir $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/"
+# python $pathToParentDirectory"/Scripts/position.py" \
+# 		-pos $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/first500k_60_predictedTerminators_NO_genes.bed"\
+# 		-neg $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/first500k_60_predictedNegatives_NO_genes.bed"\
+# 		-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_"
 
-python $pathToParentDirectory"/Scripts/position.py" \
-		-pos $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/60_predictedTerminators_NO_genes.bed"\
-		-neg $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/60_predictedNegatives_NO_genes.bed"\
-		-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
-		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/"
+# python $pathToParentDirectory"/Scripts/position.py" \
+# 		-pos $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/first500k_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+# 		-neg $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/first500k_60_predictedNegatives_NO_knownTerminators_NO_genes.bed"\
+# 		-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_"
 
-printf "\n##########################################################"
-printf '\n\t distance to closest genes calculated'
-printf "\n##########################################################\n\n"
+# python $pathToParentDirectory"/Scripts/position.py" \
+# 		-pos $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+# 		-neg $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/60_predictedNegatives_NO_knownTerminators_NO_genes.bed"\
+# 		-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/"
 
-# ###############################################################################################################################################
+# python $pathToParentDirectory"/Scripts/position.py" \
+# 		-pos $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/new_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+# 		-neg $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/new_60_predictedNegatives_NO_knownTerminators_NO_genes.bed"\
+# 		-gene $pathToParentDirectory"/Genomes/GCF_000009045.1_ASM904v1_genomic.gff" \
+# 		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/new_"
 
-# # bedtools get fasta to get sequences and making reverse complements for - strand
+# printf "\n##########################################################"
+# printf '\n\t distance to closest genes calculated'
+# printf "\n##########################################################\n\n"
 
-bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
-		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedTerminators_NO_genes.bed"\
- 		-name | \
-cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
-		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedTerminators_NO_genes.fasta" 		
+#############################################################################################################################################
 
-bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
-		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedNegatives_NO_genes.bed"\
- 		-name | \
-cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
-		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedNegatives_NO_genes.fasta"
+# bedtools get fasta to get sequences and making reverse complements for - strand
 
-bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
-		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedTerminators_NO_genes.bed"\
- 		-name | \
-cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
-		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedTerminators_NO_genes.fasta" 		
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedTerminators_NO_knownTerminators_NO_genes.fasta" 		
 
-bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
-		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedNegatives_NO_genes.bed"\
- 		-name | \
-cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
-		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedNegatives_NO_genes.fasta" 
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedNegatives_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_120_predictedNegatives_NO_knownTerminators_NO_genes.fasta"
 
-printf "\n##########################################################"
-printf '\n\t\t fasta files generated'
-printf "\n##########################################################\n\n"
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.fasta" 		
 
-# ###############################################################################################################################################
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.fasta" 
+
+
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedTerminators_NO_genes.fasta" 		
+
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedNegatives_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedNegatives_NO_genes.fasta"
+
+
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.fasta" 		
+
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.fasta" 
+
+
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/new_Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/new_Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.fasta" 		
+
+# bedtools getfasta -fi $pathToParentDirectory"/Genomes/Bacillus_subtilis_UtoT.fasta" \
+# 		-bed $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/new_Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.bed"\
+#  		-name | \
+# cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
+# 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/new_Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.fasta" 
+
+
+# printf "\n##########################################################"
+# printf '\n\t\t fasta files generated'
+# printf "\n##########################################################\n\n"
+
+# # ###############################################################################################################################################
+
+# # BLAST results against known Terminators
+
+# mkdir $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/"
+# truncate id in fasta file -> too long for BLAST!
+# awk '{if(/^>/) {print substr($1,1,50)} else{print $1}}' $pathToParentDirectory"/knownTerminators/true_upper_UtoT.fa" > $pathToParentDirectory"/knownTerminators/true_upper_UtoT_truncatedID.fa"
+# awk '{if(/^>/) {print substr($1,1,50)} else{print $1}}' $pathToParentDirectory"/knownTerminators/knownTerminators.fa" > $pathToParentDirectory"/knownTerminators/knownTerminators_truncatedID.fa"
+# # #make database:
+# makeblastdb -in $pathToParentDirectory"/knownTerminators/true_upper_UtoT_truncatedID.fa" -dbtype nucl -parse_seqids -out ~/blastdb/known_terminators_db
+# makeblastdb -in $pathToParentDirectory"/knownTerminators/knownTerminators_truncatedID.fa" -dbtype nucl -parse_seqids -out ~/blastdb/new_known_terminators_db
+
+# # blast predicted Terminators against known Terminators and sort by descending Bitscore
+# blastn -query $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/first500k_Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.fasta" \
+# 		-db ~/blastdb/known_terminators_db \
+# 		-word_size 7 \
+# 		-outfmt 6 |
+# sort -k12 -rn > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/first500k_BLAST_60_predictedTerminators_NO_knownTerminators_NO_genes.tab"
+
+# # blast predicted Terminators against knwon Terminators and sort by descending Bitscore
+# blastn -query $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.fasta" \
+# 		-db ~/blastdb/known_terminators_db \
+# 		-word_size 7 \
+# 		-outfmt 6 |
+# sort -k12 -rn > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/BLAST_60_predictedTerminators_NO_knownTerminators_NO_genes.tab"
+
+
+
+
+# # blast predicted Terminators against knwon Terminators and sort by descending Bitscore
+blastn -query $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/new_Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.fasta" \
+		-db ~/blastdb/new_known_terminators_db \
+		-word_size 7 \
+		-outfmt 6 |
+sort -k12 -rn > $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/new_BLAST_60_predictedTerminators_NO_knownTerminators_NO_genes.tab"
+
+# printf "\n##########################################################"
+# printf '\n\t BLAST predicted against known Terminators'
+# printf "\n##########################################################\n\n"
+
+# # ###############################################################################################################################################
+
+# python $pathToParentDirectory"/Scripts/filterBLAST.py" -term  $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+# 		-blast $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/BLAST_60_predictedTerminators_NO_knownTerminators_NO_genes.tab"\
+# 		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/"
+
+# python $pathToParentDirectory"/Scripts/filterBLAST.py" -term  $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+# 		-blast $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/first500k_BLAST_60_predictedTerminators_NO_knownTerminators_NO_genes.tab"\
+# 		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/first500k_"
+
+python $pathToParentDirectory"/Scripts/filterBLAST.py" -term  $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/Distance/new_Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed"\
+		-blast $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/new_BLAST_60_predictedTerminators_NO_knownTerminators_NO_genes.tab"\
+		-o $pathToParentDirectory"/Results/PredictedPositivesAndNegatives/BLAST/new_"

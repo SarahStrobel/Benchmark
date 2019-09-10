@@ -40,7 +40,7 @@ def binarySearch (arr, l, r, x):
 
 #######################################################################
 #######################################################################
-# method for parsing boolean from command line flags
+# methods for checking parsed file types
 
 def str2bool(v):
     if isinstance(v, bool):
@@ -133,7 +133,7 @@ def subtractingNucs(geneLength, numberOfNucsToChopOffGenes):
 #######################################################################
 # parsing command line flags
 
-parser = argparse.ArgumentParser(description= 'Find terminators!' + '\n'
+parser = argparse.ArgumentParser(description= 'Get ratio of Maximum Term-Seq 5\' end nuc counts and avg./max RNA Seq coverage' + '\n'
 								'Usage:' + '\t' + 'ratioTermSeq.py <options> -gff -bed -ts -rs')
 
 #required files:
@@ -186,7 +186,7 @@ numberOfNucsInGenome = args.numberOfNucsInGenome
 numberOfNucsToChopOffGenes = args.numberOfNucsToChopOffGenes
 # numberOfNucsToSplitInto: divides the genome in parts of x nucs
 numberOfNucsToSplitInto = args.numberOfNucsToSplitInto
-#numberOfNucsToAvg: avg RNASeq count from the point of maxTScount to x nucs downstream
+#numberOfNucsToAvg: avg/max RNASeq count from the point of maxTScount to x nucs uptream
 numberOfNucsToAvg = args.numberOfNucsToAvg
 #average length of terminator
 avgLengthOfTerminator = 0
@@ -205,11 +205,10 @@ print 'calculate maximum RNA-Seq coverage:\t\t\t' + str(boolMax)
 #######################################################################
 terminatorLengths = []
 numberOfTerminators = 0
-
-numberOfRNIEpredictions = 0
-
 numberOfGenes = 0
 
+terminatorCoords = []
+geneCoords = []
 
 maxTSandMeanRNATerminators = []
 maxTSandMaxRNAWholeGenome = []
@@ -220,11 +219,6 @@ maxTSstartAndCount = []
 maxRSstartAndCount = []
 maxTSstartAndCountWholeGenome = []
 maxRSstartAndCountWholeGenome = []
-
-
-terminatorCoords = []
-geneCoords = []
-
 
 TScountsOverlappingTerminators = []
 TScountsOverlappingGenes = []
@@ -241,17 +235,15 @@ outfileTScountsOverlappingTerminators = outfile + '_TScountsOverlappingTerminato
 otufileTScountsOverlappingGenes = outfile + '_TScountsOverlappingGenes'
 
 
-
 #######################################################################
 #######################################################################
 
 with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSeqFile1, 'r') as ts, \
-		open(rnaSeqFile, 'r') as rs, open(termSeqFile2, 'r') as ts2, open(termSeqFile3, 'r') as ts3:
+		open(termSeqFile2, 'r') as ts2, open(termSeqFile3, 'r') as ts3, open(rnaSeqFile, 'r') as rs:
 
 	with open(outfileTSvsRS, 'w') as tsVsRs, open(outfileTScountsOverlappingTerminators, 'w') as tsOt, \
 			open(otufileTScountsOverlappingGenes, 'w') as tsOg:
 
-	
   
 #######################################################################
 #######################################################################
@@ -265,17 +257,17 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 		lines2TS = ts2.readlines()
 		lines3TS = ts3.readlines()
 
-		# print linesTS
-		
-
 		lengthGenome = len(linesRS)
-
-		# check if numbers in given span are in ascending order 
 		print 'lenght of genome:\t\t\t\t\t' + str(lengthGenome)
+
+		# check if numbers in given span are in ascending order 		
 		if numberOfNucsInGenome[0] > numberOfNucsInGenome[1]:
 			raise Exception('\nfirst number for slicing genome greater than second number')
+		# check if negative numbers
+		if numberOfNucsInGenome[0] < 0 or numberOfNucsInGenome[1] < 0:
+			raise Exception('\nnumbers for slicing genome must be greater than zero')
 
-		# check if given span is smaller than length of the whole genome
+		# check if given span is smaller than length of the whole genome and slicing into given spans
 		if numberOfNucsInGenome[0] < lengthGenome and numberOfNucsInGenome[1] <= lengthGenome:
 			linesTS = linesTS[numberOfNucsInGenome[0]:numberOfNucsInGenome[1]]
 			linesRS = linesRS[numberOfNucsInGenome[0]:numberOfNucsInGenome[1]]
@@ -293,9 +285,6 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 		linesRS2 = []
 
 
-
-
-
 #######################################################################
 #######################################################################
 	# read gene annotation gff file and take start and end coordinates in the span of"numberOfNucsInGenome = [from, to]
@@ -303,7 +292,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 	# if the gene is not big enough, decrease "numberOfNucsToChopOffGenes" recursively by 10 until it is
 
 	# gff: 1-based, closed [start, end] 
-	# from start to end, put all coords into a list to detect which points are overlapping known genes/CDS/RNAs by binary search
+	# from start to end, put all coords into a list to detect which points are overlapping known genes by binary search
 
 
 		for line in gff:
@@ -340,7 +329,6 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 						# put all gene coords between start and end into list:
 						for i in range (start, end+1): #half open!
 							geneCoords.append(i)
-
 
 
 		

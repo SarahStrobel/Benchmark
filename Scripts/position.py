@@ -47,21 +47,13 @@ predictedNegatives = args.predictedNegatives
 outpath = args.outpath
 
 
-# positionPredTermBed = outpath + 'Distance_predictedTerminators_NO_knownTerminators_NO_genes.bed'
-# positionPredTermBed120 = outpath + 'Distance_120_predictedTerminators_NO_knownTerminators_NO_genes.bed'
-# positionPredTermBed60 = outpath + 'Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed'
+positionPredTermBed = outpath + 'Distance_predictedTerminators_NO_knownTerminators_NO_genes.bed'
+positionPredTermBed120 = outpath + 'Distance_120_predictedTerminators_NO_knownTerminators_NO_genes.bed'
+positionPredTermBed60 = outpath + 'Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed'
 
-# positionPredNegBed = outpath + 'Distance_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-# positionPredNegBed120 = outpath + 'Distance_120_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-# positionPredNegBed60 = outpath + 'Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-
-positionPredTermBed = outpath + 'Distance_predictedTerminators_NO_genes.bed'
-positionPredTermBed120 = outpath + 'Distance_120_predictedTerminators_NO_genes.bed'
-positionPredTermBed60 = outpath + 'Distance_60_predictedTerminators_NO_genes.bed'
-
-positionPredNegBed = outpath + 'Distance_predictedNegatives_NO_genes.bed'
-positionPredNegBed120 = outpath + 'Distance_120_predictedNegatives_NO_genes.bed'
-positionPredNegBed60 = outpath + 'Distance_60_predictedNegatives_NO_genes.bed'
+positionPredNegBed = outpath + 'Distance_predictedNegatives_NO_knownTerminators_NO_genes.bed'
+positionPredNegBed120 = outpath + 'Distance_120_predictedNegatives_NO_knownTerminators_NO_genes.bed'
+positionPredNegBed60 = outpath + 'Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.bed'
 
 positionPlot = outpath + 'DistanceToGenes.png'
 
@@ -118,7 +110,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 #######################################################################
 #######################################################################
-# search closest gene (not overlapping) on opposite strand to predictedTerminators
+# search closest gene (not overlapping) on opposite strand to predicted Terminators
 
 	closestTerm = []
 
@@ -140,7 +132,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 
 
-# search closest gene (not overlapping) on opposite strand to predictedNegatives
+# search closest gene (not overlapping) on opposite strand to predicted Negatives
 
 	closestNeg = []
 
@@ -271,10 +263,9 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
 
 
-	print "predicted Terminators not overlapping genes, up to 150 nucs downstream of gene: " + str(numberOfTerminatorsUnder150)
-	print "predicted Negatives not overlapping genes, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150)
-	# print "predicted Terminators not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfTerminatorsUnder150)
-	# print "predicted Negatives not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150)
+
+	print "predicted Terminators not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfTerminatorsUnder150)
+	print "predicted Negatives not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150)
 
 	negbed.close()
 	negbed60.close()
@@ -289,23 +280,26 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 	npClosestTerm = np.array(sortedClosestTerm)
 	npClosestNeg = np.array(sortedClosestNeg)
 
-
 	xvalsPredTerm = npClosestTerm[:,0]
 	xvalsPredTerm = xvalsPredTerm.astype(np.float)
+
 	yvalsPredTerm = npClosestTerm[:,1]
 	yvalsPredTerm = yvalsPredTerm.astype(np.float)
+
 	distancePredTerm = npClosestTerm[:,3]
 
 	xvalsPredNeg = npClosestNeg[:,0]
 	xvalsPredNeg = xvalsPredNeg.astype(np.float)
+
 	yvalsPredNeg = npClosestNeg[:,1]
 	yvalsPredNeg = yvalsPredNeg.astype(np.float)
+
 	distancePredNeg = npClosestNeg[:,3]
 
 
 #######################################################################
 #######################################################################
-	#function for own decision boundary: 
+	#function for decision boundary: 
 
 	xII = np.linspace(0, 24, 12.5)
 	# m = slope, b = intercept 
@@ -351,7 +345,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 	plt.ylabel('Max. Term-Seq count')
 	plt.xlabel('Avg. RNA-Seq count')
-	plt.title('Predicted Terminators' + '\n' + '(not overl. genes)')
+	plt.title('Predicted Terminators' + '\n' + '(not overl. genes, not overl. known terminators)')
 
 
 	plt.legend()
@@ -377,7 +371,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 	plt.ylabel('Max. Term-Seq count')
 	plt.xlabel('Avg. RNA-Seq count')
-	plt.title('Predicted Negatives' + '\n' + '(not overl. genes)')
+	plt.title('Predicted Negatives' + '\n' + '(not overl. genes, not overl. known terminators)')
 
 
 	plt.legend()

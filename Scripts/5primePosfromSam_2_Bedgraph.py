@@ -4,19 +4,6 @@ import numpy as np
 import argparse
 import re
 from collections import Counter
-from collections import OrderedDict
-
-#######################################################################
-#######################################################################
-class OrderedCounter(Counter, OrderedDict):
-    'Counter that remembers the order elements are first encountered'
-
-    def __repr__(self):
-        return '%s(%r)' % (self.__class__.__name__, OrderedDict(self))
-
-    def __reduce__(self):
-        return self.__class__, (OrderedDict(self),)
-
 
 
 #######################################################################
@@ -46,7 +33,7 @@ lengthGenome = 4215606
 
 #######################################################################
 #######################################################################
-
+# read all samfiles in folder and count 5' end nucs
 for samFile in glob.glob(termSeqPath+'*.sam'):
 
 	experiment = samFile.split('/')[-1].split('.')[0]
@@ -69,7 +56,6 @@ for samFile in glob.glob(termSeqPath+'*.sam'):
 
 					end =  POS + len(SEQ)-1
 					strand = ''
-
 					matches = 0
 
 					# http://broadinstitute.github.io/picard/explain-flags.html
@@ -115,10 +101,10 @@ for samFile in glob.glob(termSeqPath+'*.sam'):
 
 #######################################################################
 #######################################################################
-
+		# write outfile in bedgraph format (can be viewed in a genome browser as a histogram)
 			for start in range(1,lengthGenome+1):
 				if start in newCoordDictWithStrands:
-					ofBEDGRAPH.write(str(chrom) + '\t' + str(start) + '\t' + str(start+1) + '\t' +str(newCoordDictWithStrands[start][0]) + '\t' + str(newCoordDictWithStrands[start][1]) + '\n')
+					ofBEDGRAPH.write(str(chrom) + '\t' + str(start) + '\t' + str(start+1) + '\t' + str(newCoordDictWithStrands[start][0]) + '\t' + str(newCoordDictWithStrands[start][1]) + '\n')
 				else:
 					ofBEDGRAPH.write(str(chrom) + '\t' + str(start) + '\t' + str(start+1) + '\t' + str(0) + '\t' + 'nostrand' + '\n')
 
