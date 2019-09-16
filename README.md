@@ -8,10 +8,19 @@ Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/maste
 ### Used Programs:<br/>
 
 * [git](https://git-scm.com/)<br/>
+<t/>version-control system for tracking changes in source code<br/>
 * [SRA-Toolkit](https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/)<br/>
+<t/>enables reading ("dumping") of sequencing files from the SRA database<br/>
+* [fastp (Python3 version)](https://github.com/OpenGene/fastp)<br/>
+<t/>all-in-one preprocessing for FastQ files<br/>
 * [Novoalign](http://www.novocraft.com/products/novoalign/)<br/>
+<t/>mapping of short reads onto a reference genome<br/>
 * [Samtools](http://www.htslib.org/download/)<br/>
+<t/>set of utilities for interacting with and post-processing short sequence read alignments<br/>
 * [Bedtools](https://bedtools.readthedocs.io/en/latest/index.html)<br/>
+<t/>tools for a wide-range of genomics analysis tasks<br/>
+* [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi)<br/>
+<t/>Basic Local Alignment Search Tool finds regions of local similarity between sequences<br/>
 
 
 ### Used Python3 packages:<br/>
@@ -44,13 +53,13 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 
 ### Additional Programs:<br/>
 
+* [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)<br/>
 * [Infernal](http://eddylab.org/infernal/)<br/>
 * [RNIE](https://github.com/ppgardne/RNIE)<br/>
 * [IGV](https://software.broadinstitute.org/software/igv/)<br/>
 * [RNAfold](http://rna.tbi.univie.ac.at/)<br/>
 * [mfold](http://unafold.rna.albany.edu/?q=mfold)<br/>
 * [Segemehl](https://www.bioinf.uni-leipzig.de/Software/segemehl/)<br/>
-* [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi)<br/>
 * [RNAmotif](http://casegroup.rutgers.edu/casegr-sh-2.5.html)<br/>
 
 
