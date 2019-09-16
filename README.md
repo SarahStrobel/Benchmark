@@ -11,7 +11,7 @@ Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/maste
 <t/>version-control system for tracking changes in source code<br/>
 * [SRA-Toolkit](https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/)<br/>
 <t/>enables reading ("dumping") of sequencing files from the SRA database<br/>
-* [fastp (Python3 version)](https://github.com/OpenGene/fastp)<br/>
+* [fastp](https://github.com/OpenGene/fastp)<br/>
 <t/>all-in-one preprocessing for FastQ files<br/>
 * [Novoalign](http://www.novocraft.com/products/novoalign/)<br/>
 <t/>mapping of short reads onto a reference genome<br/>

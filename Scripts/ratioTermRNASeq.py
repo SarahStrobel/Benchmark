@@ -148,9 +148,9 @@ parser.add_argument('-rs', dest='rnaSeqFile', help='input of RNA-Seq coverage in
 parser.add_argument('-o', dest='outfile', help='output path and filename prefix, default: /ratioTermSeq', nargs='?', default="ratioTermSeq")
 parser.add_argument('-max', dest='boolMax', help='calculate the maximum RNA-Seq coverage, default: False (calculate the mean RNA-Seq coverage)', type=str2bool, nargs='?', default=False)
 parser.add_argument('-g', dest='numberOfNucsInGenome', help='use only the nucleotides from and to these positions in genome (space separated list, example: 1 500000),\
-					 if the genome is smaller full genome will be used, default: 1 to 1,000,000', type=checkInt, default=[1,4215606],  nargs='+')
+					 if the genome is smaller full genome will be used, default: 1 to 1,000,000', type=checkInt, default=[],  nargs='+')
 parser.add_argument('-c', dest='numberOfNucsToChopOffGenes', help='number of nucleotides to cut off both ends of genes, \
-					if a gene is smaller size will be decremented by 10 until it works, default: 100', type=checkInt, nargs='?', default=100)
+					if a gene is smaller size will be decremented by 10 until it works, default: 0', type=checkInt, nargs='?', default=0)
 parser.add_argument('-s', dest='numberOfNucsToSplitInto', help='length of intervals to cut genome into, default: 50', type=checkInt, nargs='?', default=50)
 parser.add_argument('-a', dest='numberOfNucsToAvg', help='length of region in RNA-Seq data to average/max over, default: 50', type=checkInt, nargs='?', default=50)
 
@@ -194,12 +194,7 @@ avgLengthOfTerminator = 0
 outfile = outfile + '_' + str(numberOfNucsToAvg) + '_nucs'
 
 
-print '\nspan of nucleotides in genome: \t\t\t\t' + str(numberOfNucsInGenome[0]) + '-' + str(numberOfNucsInGenome[1])
-print 'number of nucleotides to cut off genes: \t\t' + str(numberOfNucsToChopOffGenes)
-print 'length of intervals to cut the genome into: \t\t' + str(numberOfNucsToSplitInto)
-print 'length of region in RNA-Seq to average/max over: \t' + str(numberOfNucsToAvg)
-print 'name of outfile:\t\t\t\t\t' + str(outfile)
-print 'calculate maximum RNA-Seq coverage:\t\t\t' + str(boolMax)
+
 
 #######################################################################
 #######################################################################
@@ -258,6 +253,19 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 		lines3TS = ts3.readlines()
 
 		lengthGenome = len(linesRS)
+
+		if not numberOfNucsInGenome:
+			numberOfNucsInGenome.append(0)
+			numberOfNucsInGenome.append(lengthGenome)
+
+
+
+		print '\nspan of nucleotides in genome: \t\t\t\t' + str(numberOfNucsInGenome[0]) + '-' + str(numberOfNucsInGenome[1])
+		print 'number of nucleotides to cut off genes: \t\t' + str(numberOfNucsToChopOffGenes)
+		print 'length of intervals to cut the genome into: \t\t' + str(numberOfNucsToSplitInto)
+		print 'length of region in RNA-Seq to average/max over: \t' + str(numberOfNucsToAvg)
+		print 'name of outfile:\t\t\t\t\t' + str(outfile)
+		print 'calculate maximum RNA-Seq coverage:\t\t\t' + str(boolMax)
 		print 'lenght of genome:\t\t\t\t\t' + str(lengthGenome)
 
 		# check if numbers in given span are in ascending order 		
@@ -423,7 +431,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 
 						# averaging/taking the minimum of the 3 replicates
 						avgTScount = np.mean([TScount, TScount2, TScount3])
-						minTScount = np.min([TScount, TScount2, TScount3])
+						# minTScount = np.min([TScount, TScount2, TScount3])
 
 						# print avgTScount
 
@@ -445,7 +453,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 
 
 				# list of all coords and Term-Seq counts at a terminator's maxTScount (outliers)
-				maxTSstartAndCount.append([maxTScoord,maxTScount])
+				# maxTSstartAndCount.append([maxTScoord,maxTScount])
 
 
 				########################################################
@@ -453,10 +461,38 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 				# taking the average/max RNA-seq coverage from the position of "maxTScoord" to "numberOfNucsToAvg" nucleotides downstream
 
 				rnaSeqCountTerminators = []
+				rnaSeqCountTerminators1 = []
+				rnaSeqCountTerminators2 = []
 
-				# slicing linesRS2 into spans of "numberOfNucsToAvg"
-				linesRS2 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+				RSCount = 0.0
 
+				# linesRS2 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+
+				#slicing linesRS into spans of "numberOfNucsToAvg" according to strand
+				if maxTSstrand == '-':
+					linesRS2 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+				if maxTSstrand == '+':
+					linesRS2 = linesRS[maxTScoord2 : maxTScoord2 + numberOfNucsToAvg]
+
+				# if there is no strand info, go 50 downstream/upstream and choose minimum of the two 
+				else:
+					linesRS21 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+					linesRS22 = linesRS[maxTScoord2 : maxTScoord2 + numberOfNucsToAvg]
+
+					for i in range(len(linesRS21)):
+						rnaSeqCountTerminators1.append(int(linesRS21[i].split()[-1]))
+					for i in range(len(linesRS22)):
+						rnaSeqCountTerminators2.append(int(linesRS22[i].split()[-1]))
+
+					if boolMax == False:	
+						RSCount = np.min([np.mean(rnaSeqCountTerminators1), np.mean(rnaSeqCountTerminators2)])
+					else:
+						RSCount = np.min([np.max(rnaSeqCountTerminators1), np.max(rnaSeqCountTerminators2)])
+
+
+
+
+				# append RNASeq counts of all positions between maxTScoord and "numberOfNucsToAvg" downstream/upstream
 				for i in range(len(linesRS2)):
 					rnaSeqCountTerminators.append(int(linesRS2[i].split()[-1]))
 
@@ -471,7 +507,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 				maxTSandMeanRNATerminators.append([maxTScount, RSCount])
 
 				# list of all coords and RNA-Seq coverages at a terminator's maxTScount (outliers)
-				maxRSstartAndCount.append([maxTScoord, RSCount, maxTScount])
+				# maxRSstartAndCount.append([maxTScoord, RSCount, maxTScount])
 
 
 
@@ -480,9 +516,9 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 
 
 		# print out stats for terminators and genes
-		print 'avg length of terminators:\t\t\t\t\t' + str(avgLengthOfTerminator)
+		print 'avg length of terminators:\t\t\t\t' + str(avgLengthOfTerminator)
 		print 'number of terminators in the nucs ' + str(numberOfNucsInGenome) + ':\t\t' + str(numberOfTerminators) + ' (' + str(len(terminatorCoords)) + ' terminator nucleotides)'
-		print 'number of genes in the nucs ' + str(numberOfNucsInGenome) + ':\t\t\t' + str(numberOfGenes) + ' (' + str(len(geneCoords)) + ' gene nucleotides)' 
+		print 'number of genes in the nucs ' + str(numberOfNucsInGenome) + ':\t\t' + str(numberOfGenes) + ' (' + str(len(geneCoords)) + ' gene nucleotides)' 
 
 
 
@@ -567,17 +603,57 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 
 
 		 	######################################################
-			# taking the RNA-seq max/average coverage from the position of maxTScoord to "numberOfNucsToAvg" nucs downstream
+			# taking the RNA-seq max/average coverage from the position of maxTScoord to "numberOfNucsToAvg" nucs downstream/upstream
 			
 			rnaSeqCountWholeGenome = []
+			rnaSeqCountWholeGenome1 = []
+			rnaSeqCountWholeGenome2 = []
 
-			# if the maxTScoord is too small, subtracting could lead to negative values
-			if maxTScoord2 - numberOfNucsToAvg < 0:
-				linesRS3 = linesRS[0 : maxTScoord2]
+			RSCountWholeGenome = 0.0
 
+			#old
+			# if maxTScoord2 - numberOfNucsToAvg < 0:
+			# 	linesRS3 = linesRS[0 : maxTScoord2]
+			# else:
+			# 	linesRS3 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+
+		 	#new
+			# slicing linesRS into spans of "numberOfNucsToAvg" according to strand
+			if maxTSstrand == '-':
+				# if the maxTScoord is too small, subtracting could lead to negative values
+				if maxTScoord2 - numberOfNucsToAvg < 0:
+					linesRS3 = linesRS[0 : maxTScoord2]
+				else:
+					linesRS3 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+			if maxTSstrand == '+':
+				# if the maxTScoord is too big, adding could lead to values bigger than genome length
+				if maxTScoord2 + numberOfNucsToAvg > lengthGenome:
+					linesRS3 = linesRS[maxTScoord2 : lengthGenome]
+				else:	
+					linesRS3 = linesRS[maxTScoord2 : maxTScoord2 + numberOfNucsToAvg]
+
+			# if there is no strand info, go 50 downstream/upstream and choose minimum of the two  
 			else:
-				linesRS3 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+				if maxTScoord2 - numberOfNucsToAvg < 0:
+					linesRS31 = linesRS[0 : maxTScoord2]				
+				else:
+					linesRS31 = linesRS[maxTScoord2 - numberOfNucsToAvg : maxTScoord2]
+				if maxTScoord2 + numberOfNucsToAvg > lengthGenome:
+					linesRS32 = linesRS[maxTScoord2 : lengthGenome]
+				else:
+					linesRS32 = linesRS[maxTScoord2 : numberOfNucsToAvg + maxTScoord2]
 
+				
+				for i in range(len(linesRS31)):
+					rnaSeqCountWholeGenome1.append(int(linesRS31[i].split()[-1]))
+				for i in range(len(linesRS32)):
+					rnaSeqCountWholeGenome2.append(int(linesRS32[i].split()[-1]))
+
+				if boolMax == False:	
+					RSCountWholeGenome = np.min([np.mean(rnaSeqCountWholeGenome1), np.mean(rnaSeqCountWholeGenome2)])
+				else:
+					RSCountWholeGenome = np.min([np.max(rnaSeqCountWholeGenome1), np.max(rnaSeqCountWholeGenome2)])
+				
 
 			for i in range(len(linesRS3)):
 				rnaSeqCountWholeGenome.append(int(linesRS3[i].split()[-1]))
@@ -668,9 +744,11 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 	plt.grid(True)
 	# adding +1 to all values --> log not - infinity
 	plt.scatter(npMaxTSandMeanRNATerminators[:,1]+1, npMaxTSandMeanRNATerminators[:,0]+1, s = 15, color = 'red')
-	plt.title("Term-Seq vs. RNA-Seq at known terminators \n(avg of " + str(numberOfNucsToAvg) + " nucleotide intervals)")
-	plt.ylabel("Max. Term-Seq count")
-	plt.xlabel("Avg. RNA-Seq count")
+	plt.title("Term-Seq vs. RNA-Seq at known terminators \n(avg of " + str(numberOfNucsToAvg) + " nucleotide intervals)", fontsize=14)
+	plt.ylabel("Max. Term-Seq count", fontsize=14)
+	plt.xlabel("Avg. RNA-Seq count", fontsize=14)
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
 
 	sub1.set_axisbelow(True)
 
@@ -693,9 +771,11 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, open(termSe
 
 	plt.legend()
 	plt.grid(True)
-	plt.title("Term-Seq vs. RNA-Seq \n(avg of " + str(numberOfNucsToAvg) + " nucleotide intervals)")
-	plt.ylabel("Max. Term-Seq count")
-	plt.xlabel("Avg. RNA-Seq count")
+	plt.title("Term-Seq vs. RNA-Seq \n(avg of " + str(numberOfNucsToAvg) + " nucleotide intervals)", fontsize=14)
+	# plt.ylabel("Max. Term-Seq count", fontsize=14)
+	plt.xlabel("Avg. RNA-Seq count", fontsize=14)
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
 
 	sub2.set_axisbelow(True)
 

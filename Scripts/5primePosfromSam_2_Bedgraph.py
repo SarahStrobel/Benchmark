@@ -74,6 +74,8 @@ for samFile in glob.glob(termSeqPath+'*.sam'):
 						Ms = re.findall(r'(\d+)M', CIGAR)
 						for match in Ms:
 							matches += int(match)
+						
+
 
 						if matches == 0:
 							matches = len(SEQ)

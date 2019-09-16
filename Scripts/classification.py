@@ -723,7 +723,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	    plt.scatter(xi, yi, c=colors[i], s= 12, label=str(labelsPredicted[i]), marker='x')
 
-	plt.ylim(0,8.5)
+	plt.ylim(0,10.5)
 	plt.xlim(0,12.5)
 	plt.xlabel('Avg. RNA-Seq count')
 	plt.ylabel('Max. Term-Seq count')
@@ -743,7 +743,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	plt.scatter(xvals[~mask], yvals[~mask], c='darkmagenta', s=12, label='predicted negatives', marker='x')
 	plt.scatter(xvals[mask], yvals[mask], c='darkgreen', s=12, label='predicted terminators', marker='x')
 
-	plt.ylim(0,8.5)
+	plt.ylim(0,10.5)
 	plt.xlim(0,12.5)
 	plt.xlabel('Avg. RNA-Seq count')
 	plt.ylabel('Max. Term-Seq count')
