@@ -18,6 +18,44 @@ predictedTerminators = args.predictedTerminators
 blastFile = args.blastFile
 outpath = args.outpath
 
+organism = ''
+chrom = ''
+chrom2 = ''
+plasmid = ''
+
+if "BS" in predictedTerminators:
+	organism = 'B.subtilis'
+	chrom = 'NC_000964.3/1-4215606'
+	chrom2 = 'gi|255767013|ref|NC_000964.3|'
+if "EF" in predictedTerminators:
+	organism = 'E.faecalis'
+	if 'Chromosome' in predictedTerminators:
+		chrom = "NC_004668.1"
+		chrom2 = chrom
+		plasmid = 'Chromosome'
+	if 'Plasmid1' in predictedTerminators:
+		chrom = "NC_004669.1"
+		chrom2 = chrom
+		plasmid = 'Plasmid1'
+	if 'Plasmid2' in predictedTerminators:
+		chrom = "NC_004671.1"
+		chrom2 = chrom
+		plasmid = 'Plasmid2'
+	if 'Plasmid3' in predictedTerminators:
+		chrom = "NC_004670.1"
+		chrom2 = chrom
+		plasmid = 'Plasmid3'
+if "LM" in predictedTerminators:
+	organism = 'L.monocytogenes'
+	chrom = "NC_003210.1"
+	chrom2 = chrom
+if 'SP' in predictedTerminators:
+	organism = 'S.pneumoniae'
+	chrom = "NC_003028.3"
+	chrom2 = chrom
+
+print '\n' + str(organism) + ' ' + str(plasmid)
+
 outfile = outpath + 'BLAST_60_predictedTerminators_NO_knownTerminators_NO_genes.bed'
 
 #######################################################################
@@ -50,5 +88,8 @@ print "Predicted Terminators Without Bitscores over 30: " + str(len(withoutOver3
 
 with open(outfile, 'w') as out:
 	for item in withoutOver30:
-		out.write('gi|255767013|ref|NC_000964.3|' + '\t' + str(item.split('_')[0]) + '\t' + str(int(item.split('_')[0])+1) + '\t' + str(item) +'\n')
+		coord = int(item.split()[-1].split('_')[0])
+		coord2 = coord + 1
+		# print coord
+		out.write(str(chrom) + '\t' + str(coord) + '\t' + str(coord2) + '\t' + str(item) +'\n')
 

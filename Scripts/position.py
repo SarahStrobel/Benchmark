@@ -67,6 +67,51 @@ stopCoordsPositiveStrand = []
 startCoordsNegativeStrand = []
 
 
+organism = ''
+chrom = ''
+chrom2 = ''
+plasmid = ''
+
+if "BS" in predictedTerminators:
+	organism = 'B.subtilis'
+	chrom = 'NC_000964.3/1-4215606'
+	chrom2 = 'gi|255767013|ref|NC_000964.3|'
+	lengthGenome = 4215607
+if "EF" in predictedTerminators:
+	organism = 'E.faecalis'
+	
+	if 'Chromosome' in predictedTerminators:
+		chrom = "NC_004668.1"
+		chrom2 = chrom
+		plasmid = 'Chromosome'
+		lengthGenome = 3218031
+	if 'Plasmid1' in predictedTerminators:
+		chrom = "NC_004669.1"
+		chrom2 = chrom
+		plasmid = 'Plasmid1'
+		lengthGenome = 66320
+	if 'Plasmid2' in predictedTerminators:
+		chrom = "NC_004671.1"
+		chrom2 = chrom
+		plasmid = 'Plasmid2'
+		lengthGenome = 57660
+	if 'Plasmid3' in predictedTerminators:
+		chrom = "NC_004670.1"
+		chrom2 = chrom
+		plasmid = 'Plasmid3'
+		lengthGenome = 17963
+if "LM" in predictedTerminators:
+	organism = 'L.monocytogenes'
+	chrom = "NC_003210.1"
+	chrom2 = chrom
+	lengthGenome = 2944528
+if 'SP' in predictedTerminators:
+	organism = 'S.pneumoniae'
+	chrom = "NC_003028.3"
+	chrom2 = chrom
+	lengthGenome = 2160842
+
+print '\n' + str(organism) + ' ' + str(plasmid)
 #######################################################################
 #######################################################################
 # read files, log transformed:
@@ -174,45 +219,45 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 		for item1 in sortedClosestTerm: #[x,y,coord,distance,strand]
 			if item1[3] <= 150:
 				numberOfTerminatorsUnder150+=1
-				termbed.write('gi|255767013|ref|NC_000964.3|' + '\t' + str(item1[2]) + '\t' + str(item1[2]+1) + '\t' + str(item1[3]) + ' predicted Terminators' + '\t' + str(item1[4]) + '\n')
+			termbed.write(chrom2 + '\t' + str(item1[2]) + '\t' + str(item1[2]+1) + '\t' + str(item1[3]) + ' predicted Terminators' + '\t' + str(item1[4]) + '\n')
 
-				if item1[2]-100 > 0 and item1[2]+100 <= 4215606: 
-					if item1[4] == '-':
-						termbed120.write('NC_000964.3/1-4215606' +'\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
-										+ str(item1[2]) \
-										 + '_'+ str(item1[3]) +'_'+ str(item1[4])+'\n')
+			if item1[2]-100 > 0 and item1[2]+100 <= lengthGenome: 
+				if item1[4] == '-':
+					termbed120.write(chrom +'\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
+									+ str(item1[2]) \
+									 + '_'+ str(item1[3]) +'_'+ str(item1[4])+'\n')
 
-					if item1[4] == '+':
-						termbed120.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
+				if item1[4] == '+':
+					termbed120.write(chrom + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
+									+ str(item1[2]) \
+									+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
 
-					if item1[4] == 'nostrand':
-						termbed120.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ '+' + '\n')
-						termbed120.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ '-' + '\n')
+				if item1[4] == 'nostrand':
+					termbed120.write(chrom + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
+									+ str(item1[2]) \
+									+'_'+ str(item1[3])+'_'+ '+' + '\n')
+					termbed120.write(chrom + '\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
+									+ str(item1[2]) \
+									+'_'+ str(item1[3])+'_'+ '-' + '\n')
 
-				if item1[2]-50 > 0 and item1[2]+50 <= 4215606: 
-					if item1[4] == '-':
-						termbed60.write('NC_000964.3/1-4215606' +'\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ str(item1[4])+'\n')
+			if item1[2]-50 > 0 and item1[2]+50 <= lengthGenome: 
+				if item1[4] == '-':
+					termbed60.write(chrom +'\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
+									+ str(item1[2]) \
+									+'_'+ str(item1[3])+'_'+ str(item1[4])+'\n')
 
-					if item1[4] == '+':
-						termbed60.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
+				if item1[4] == '+':
+					termbed60.write(chrom + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
+									+ str(item1[2]) \
+									+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
 
-					if item1[4] == 'nostrand':
-						termbed60.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ '+' + '\n')
-						termbed60.write('NC_000964.3/1-4215606' + '\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ '-' + '\n')
+				if item1[4] == 'nostrand':
+					termbed60.write(chrom + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
+									+ str(item1[2]) \
+									+'_'+ str(item1[3])+'_'+ '+' + '\n')
+					termbed60.write(chrom + '\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
+									+ str(item1[2]) \
+									+'_'+ str(item1[3])+'_'+ '-' + '\n')
 
 
 
@@ -221,46 +266,46 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 		for item2 in sortedClosestNeg:
 			if item2[3] <= 150:
 				numberOfNegativesUnder150+=1
-				negbed.write('gi|255767013|ref|NC_000964.3|' + '\t' + str(item2[2]) + '\t' + str(item2[2]+1) + '\t' + str(item2[3]) + ' predicted Negatives' + '\t' + str(item2[4]) +'\n')
+			negbed.write(chrom2 + '\t' + str(item2[2]) + '\t' + str(item2[2]+1) + '\t' + str(item2[3]) + ' predicted Negatives' + '\t' + str(item2[4]) +'\n')
 
 
-				if item2[2]-100 > 0 and item2[2]+100 <= 4215606: 
-					if item2[4] == '-':
-						negbed120.write('NC_000964.3/1-4215606' +'\t' + str(item2[2]-100) + '\t' + str(item2[2]+20) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										 + '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+'\n')
+			if item2[2]-100 > 0 and item2[2]+100 <= lengthGenome: 
+				if item2[4] == '-':
+					negbed120.write(chrom +'\t' + str(item2[2]-100) + '\t' + str(item2[2]+20) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									 + '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+'\n')
 
-					if item2[4] == '+':
-						negbed120.write('NC_000964.3/1-4215606' + '\t' + str(item2[2]-20) + '\t' + str(item2[2]+100) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+ '\n')
+				if item2[4] == '+':
+					negbed120.write(chrom + '\t' + str(item2[2]-20) + '\t' + str(item2[2]+100) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+ '\n')
 
-					if item2[4] == 'nostrand':
-						negbed120.write('NC_000964.3/1-4215606' + '\t' + str(item2[2]-20) + '\t' + str(item2[2]+100) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '+' + '\n')
-						negbed120.write('NC_000964.3/1-4215606' + '\t' + str(item2[2]-100) + '\t' + str(item2[2]+20) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
+				if item2[4] == 'nostrand':
+					negbed120.write(chrom + '\t' + str(item2[2]-20) + '\t' + str(item2[2]+100) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '+' + '\n')
+					negbed120.write(chrom + '\t' + str(item2[2]-100) + '\t' + str(item2[2]+20) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
 
-				if item2[2]-50 > 0 and item2[2]+50 <= 4215606: 
-					if item2[4] == '-':
-						negbed60.write('NC_000964.3/1-4215606' +'\t' + str(item2[2]-50) + '\t' + str(item2[2]+10) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										 + '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+'\n')
+			if item2[2]-50 > 0 and item2[2]+50 <= lengthGenome: 
+				if item2[4] == '-':
+					negbed60.write(chrom +'\t' + str(item2[2]-50) + '\t' + str(item2[2]+10) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									 + '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+'\n')
 
-					if item2[4] == '+':
-						negbed60.write('NC_000964.3/1-4215606' + '\t' + str(item2[2]-10) + '\t' + str(item2[2]+50) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+ '\n')
+				if item2[4] == '+':
+					negbed60.write(chrom + '\t' + str(item2[2]-10) + '\t' + str(item2[2]+50) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+ '\n')
 
-					if item2[4] == 'nostrand':
-						negbed60.write('NC_000964.3/1-4215606' + '\t' + str(item2[2]-10) + '\t' + str(item2[2]+50) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '+' + '\n')
-						negbed60.write('NC_000964.3/1-4215606' + '\t' + str(item2[2]-50) + '\t' + str(item2[2]+10) + '\t' \
-										+ 'NC_000964.3/1-4215606:'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
+				if item2[4] == 'nostrand':
+					negbed60.write(chrom + '\t' + str(item2[2]-10) + '\t' + str(item2[2]+50) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '+' + '\n')
+					negbed60.write(chrom + '\t' + str(item2[2]-50) + '\t' + str(item2[2]+10) + '\t' \
+									+ chrom + ':'+ str(item2[2]) \
+									+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
 
 
 
@@ -277,16 +322,17 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 #######################################################################
 #######################################################################
 
-	npClosestTerm = np.array(sortedClosestTerm)
+	if sortedClosestTerm:
+		npClosestTerm = np.array(sortedClosestTerm)
+		xvalsPredTerm = npClosestTerm[:,0]
+		xvalsPredTerm = xvalsPredTerm.astype(np.float)
+
+		yvalsPredTerm = npClosestTerm[:,1]
+		yvalsPredTerm = yvalsPredTerm.astype(np.float)
+
+		distancePredTerm = npClosestTerm[:,3]
+
 	npClosestNeg = np.array(sortedClosestNeg)
-
-	xvalsPredTerm = npClosestTerm[:,0]
-	xvalsPredTerm = xvalsPredTerm.astype(np.float)
-
-	yvalsPredTerm = npClosestTerm[:,1]
-	yvalsPredTerm = yvalsPredTerm.astype(np.float)
-
-	distancePredTerm = npClosestTerm[:,3]
 
 	xvalsPredNeg = npClosestNeg[:,0]
 	xvalsPredNeg = xvalsPredNeg.astype(np.float)
@@ -303,7 +349,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 	xII = np.linspace(0, 24, 12.5)
 	# m = slope, b = intercept 
-	m = 0.7
+	m = 0.8
 	b = 0.8
 	# hb = horizontal intercept, hstop = x value at which horizontal line stops 
 	hb = 2.5
@@ -323,35 +369,36 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 	plt.suptitle('Distance to closest gene')
 
 	plt.subplot(121)
-
+	
 	oldCM = plt.get_cmap('hsv',400)
 	newcolors = oldCM(np.linspace(0,1,400))
 	newcolor = np.array([0.143343, 0.522773, 0.556295, 1.])
 	newcolors[150:, :] = newcolor
 	cm = ListedColormap(newcolors)
 
-
 	plt.plot(xII, yII, c='black',linewidth=1.0)
 	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
 	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
 
-	data = plt.scatter(xvalsPredTerm, yvalsPredTerm, c=distancePredTerm, s=25, label='predicted terminators - distance to gene', marker='P', cmap=cm, vmin = 0, vmax=400)
+	if not plasmid == 'Plasmid3':
 
-	cbar = plt.colorbar(data)
-	cbar.ax.set_ylabel('distance to closest gene')
+		data = plt.scatter(xvalsPredTerm, yvalsPredTerm, c=distancePredTerm, s=25, label='predicted terminators - distance to gene', marker='P', cmap=cm, vmin = 0, vmax=400)
 
-	plt.ylim(0,10.5)
-	plt.xlim(0,12.5)
+		cbar = plt.colorbar(data)
+		cbar.ax.set_ylabel('distance to closest gene')
 
-	plt.ylabel('Max. Term-Seq count')
-	plt.xlabel('Avg. RNA-Seq count')
-	plt.title('Predicted Terminators' + '\n' + '(not overl. genes, not overl. known terminators)')
+		plt.ylim(0,10.5)
+		plt.xlim(0,12.5)
+
+		plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
+		plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
+		plt.title('Predicted Terminators' + '\n' + '(not overl. genes, not overl. known terminators)')
 
 
-	plt.legend()
-	ax = plt.gca()
-	legend = ax.get_legend()
-	legend.legendHandles[0].set_color(plt.cm.Greys(.8))
+		plt.legend()
+		ax = plt.gca()
+		legend = ax.get_legend()
+		legend.legendHandles[0].set_color(plt.cm.Greys(.8))
 
 
 	plt.subplot(122)
@@ -369,8 +416,8 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 	plt.ylim(0,10.5)
 	plt.xlim(0,12.5)
 
-	plt.ylabel('Max. Term-Seq count')
-	plt.xlabel('Avg. RNA-Seq count')
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
 	plt.title('Predicted Negatives' + '\n' + '(not overl. genes, not overl. known terminators)')
 
 
