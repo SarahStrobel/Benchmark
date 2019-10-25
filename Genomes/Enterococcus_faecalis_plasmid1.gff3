@@ -1,0 +1,387 @@
+##gff-version 3
+##sequence-region   pTEF1 1 66320
+#!genome-build European Nucleotide Archive ASM778v1
+#!genome-version ASM778v1
+#!genome-date 2014-05
+#!genome-build-accession GCA_000007785.1
+#!genebuild-last-updated 2014-05
+#pTEF1	European Nucleotide Archive	region	1	66320	.	.	.	#ID=region:pTEF1;Alias=AE016833.1;Is_circular=true
+###
+pTEF1	ena	gene	101	1111	.	+	.	ID=gene:EF_A0001;Name=repA-1;biotype=protein_coding;description=replication-associated protein RepA;gene_id=EF_A0001;logic_name=ena
+pTEF1	ena	mRNA	101	1111	.	+	.	ID=transcript:AAO83003;Parent=gene:EF_A0001;Name=repA-1-1;biotype=protein_coding;transcript_id=AAO83003
+pTEF1	ena	exon	101	1111	.	+	.	Parent=transcript:AAO83003;Name=AAO83003-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83003-1;rank=1
+pTEF1	ena	CDS	101	1111	.	+	0	ID=CDS:AAO83003;Parent=transcript:AAO83003;protein_id=AAO83003
+###
+pTEF1	ena	gene	1155	2321	.	+	.	ID=gene:EF_A0002;Name=traB-1;biotype=protein_coding;description=pheromone shutdown protein TraB;gene_id=EF_A0002;logic_name=ena
+pTEF1	ena	mRNA	1155	2321	.	+	.	ID=transcript:AAO83004;Parent=gene:EF_A0002;Name=traB-1-1;biotype=protein_coding;transcript_id=AAO83004
+pTEF1	ena	exon	1155	2321	.	+	.	Parent=transcript:AAO83004;Name=AAO83004-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83004-1;rank=1
+pTEF1	ena	CDS	1155	2321	.	+	0	ID=CDS:AAO83004;Parent=transcript:AAO83004;protein_id=AAO83004
+###
+pTEF1	ena	gene	2348	3979	.	+	.	ID=gene:EF_A0003;Name=traC-1;biotype=protein_coding;description=traC protein;gene_id=EF_A0003;logic_name=ena
+pTEF1	ena	mRNA	2348	3979	.	+	.	ID=transcript:AAO83005;Parent=gene:EF_A0003;Name=traC-1-1;biotype=protein_coding;transcript_id=AAO83005
+pTEF1	ena	exon	2348	3979	.	+	.	Parent=transcript:AAO83005;Name=AAO83005-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83005-1;rank=1
+pTEF1	ena	CDS	2348	3979	.	+	0	ID=CDS:AAO83005;Parent=transcript:AAO83005;protein_id=AAO83005
+###
+pTEF1	ena	gene	3980	4939	.	-	.	ID=gene:EF_A0004;Name=traA;biotype=protein_coding;description=traA protein;gene_id=EF_A0004;logic_name=ena
+pTEF1	ena	mRNA	3980	4939	.	-	.	ID=transcript:AAO83006;Parent=gene:EF_A0004;Name=traA-1;biotype=protein_coding;transcript_id=AAO83006
+pTEF1	ena	exon	3980	4939	.	-	.	Parent=transcript:AAO83006;Name=AAO83006-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83006-1;rank=1
+pTEF1	ena	CDS	3980	4939	.	-	0	ID=CDS:AAO83006;Parent=transcript:AAO83006;protein_id=AAO83006
+###
+pTEF1	ena	gene	5122	5190	.	+	.	ID=gene:EF_A00051;Name=iad;biotype=protein_coding;description=sex pheromone inhibitor determinant;gene_id=EF_A00051;logic_name=ena
+pTEF1	ena	mRNA	5122	5190	.	+	.	ID=transcript:AAO83007;Parent=gene:EF_A00051;Name=iad-1;biotype=protein_coding;transcript_id=AAO83007
+pTEF1	ena	exon	5122	5190	.	+	.	Parent=transcript:AAO83007;Name=AAO83007-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83007-1;rank=1
+pTEF1	ena	CDS	5122	5190	.	+	0	ID=CDS:AAO83007;Parent=transcript:AAO83007;protein_id=AAO83007
+###
+pTEF1	Rfam	gene	5306	5415	.	+	.	ID=gene:EBG00001182624;Name=Anti-Q_RNA;biotype=antisense;gene_id=EBG00001182624;logic_name=rfam_genes
+pTEF1	Rfam	transcript	5306	5415	.	+	.	ID=transcript:EBT00001759948;Parent=gene:EBG00001182624;Name=Anti-Q_RNA;biotype=antisense;transcript_id=EBT00001759948
+pTEF1	Rfam	exon	5306	5415	.	+	.	Parent=transcript:EBT00001759948;Name=EBG00001182624-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=EBG00001182624-1;rank=1
+###
+pTEF1	ena	gene	5439	6125	.	+	.	ID=gene:EF_A0006;biotype=protein_coding;description=IS1216%2C transposase;gene_id=EF_A0006;logic_name=ena
+pTEF1	ena	mRNA	5439	6125	.	+	.	ID=transcript:AAO83008;Parent=gene:EF_A0006;biotype=protein_coding;transcript_id=AAO83008
+pTEF1	ena	exon	5439	6125	.	+	.	Parent=transcript:AAO83008;Name=AAO83008-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83008-1;rank=1
+pTEF1	ena	CDS	5439	6125	.	+	0	ID=CDS:AAO83008;Parent=transcript:AAO83008;protein_id=AAO83008
+###
+pTEF1	ena	gene	6333	7070	.	+	.	ID=gene:EF_A0007;biotype=protein_coding;description=ribosomal RNA adenine dimethylase family protein;gene_id=EF_A0007;logic_name=ena
+pTEF1	ena	mRNA	6333	7070	.	+	.	ID=transcript:AAO83009;Parent=gene:EF_A0007;biotype=protein_coding;transcript_id=AAO83009
+pTEF1	ena	exon	6333	7070	.	+	.	Parent=transcript:AAO83009;Name=AAO83009-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83009-1;rank=1
+pTEF1	ena	CDS	6333	7070	.	+	0	ID=CDS:AAO83009;Parent=transcript:AAO83009;protein_id=AAO83009
+###
+pTEF1	ena_gene	biological_region	7432	7560	.	+	.	external_name=EF_A0008%3B This region contains a match to at least one other gene that is not full length%2Cand is not the result of a sequencing artifact%3B plasmid copy control protein%2C truncation%3B similar to GB:X15653%2C SP:P13051%2C PID:1296803%2C and PID:37599%3B identified ...;logic_name=ena_gene
+pTEF1	ena	gene	7583	8269	.	-	.	ID=gene:EF_A0009;biotype=protein_coding;description=IS1216%2C transposase;gene_id=EF_A0009;logic_name=ena
+pTEF1	ena	mRNA	7583	8269	.	-	.	ID=transcript:AAO83010;Parent=gene:EF_A0009;biotype=protein_coding;transcript_id=AAO83010
+pTEF1	ena	exon	7583	8269	.	-	.	Parent=transcript:AAO83010;Name=AAO83010-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83010-1;rank=1
+pTEF1	ena	CDS	7583	8269	.	-	0	ID=CDS:AAO83010;Parent=transcript:AAO83010;protein_id=AAO83010
+###
+pTEF1	ena	gene	8712	9035	.	+	.	ID=gene:EF_A0010;biotype=protein_coding;description=multidrug resistance protein;gene_id=EF_A0010;logic_name=ena
+pTEF1	ena	mRNA	8712	9035	.	+	.	ID=transcript:AAO83011;Parent=gene:EF_A0010;biotype=protein_coding;transcript_id=AAO83011
+pTEF1	ena	exon	8712	9035	.	+	.	Parent=transcript:AAO83011;Name=AAO83011-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83011-1;rank=1
+pTEF1	ena	CDS	8712	9035	.	+	0	ID=CDS:AAO83011;Parent=transcript:AAO83011;protein_id=AAO83011
+###
+pTEF1	ena	gene	9848	10735	.	-	.	ID=gene:EF_A0012;biotype=protein_coding;description=replication protein;gene_id=EF_A0012;logic_name=ena
+pTEF1	ena	mRNA	9848	10735	.	-	.	ID=transcript:AAO83012;Parent=gene:EF_A0012;biotype=protein_coding;transcript_id=AAO83012
+pTEF1	ena	exon	9848	10735	.	-	.	Parent=transcript:AAO83012;Name=AAO83012-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83012-1;rank=1
+pTEF1	ena	CDS	9848	10735	.	-	0	ID=CDS:AAO83012;Parent=transcript:AAO83012;protein_id=AAO83012
+###
+pTEF1	ena	gene	10846	11532	.	-	.	ID=gene:EF_A0013;biotype=protein_coding;description=IS1216%2C transposase;gene_id=EF_A0013;logic_name=ena
+pTEF1	ena	mRNA	10846	11532	.	-	.	ID=transcript:AAO83013;Parent=gene:EF_A0013;biotype=protein_coding;transcript_id=AAO83013
+pTEF1	ena	exon	10846	11532	.	-	.	Parent=transcript:AAO83013;Name=AAO83013-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83013-1;rank=1
+pTEF1	ena	CDS	10846	11532	.	-	0	ID=CDS:AAO83013;Parent=transcript:AAO83013;protein_id=AAO83013
+###
+pTEF1	ena	gene	11564	12055	.	-	.	ID=gene:EF_A0014;biotype=protein_coding;description=drug resistance transporter%2C putative;gene_id=EF_A0014;logic_name=ena
+pTEF1	ena	mRNA	11564	12055	.	-	.	ID=transcript:AAO83014;Parent=gene:EF_A0014;biotype=protein_coding;transcript_id=AAO83014
+pTEF1	ena	exon	11564	12055	.	-	.	Parent=transcript:AAO83014;Name=AAO83014-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83014-1;rank=1
+pTEF1	ena	CDS	11564	12055	.	-	0	ID=CDS:AAO83014;Parent=transcript:AAO83014;protein_id=AAO83014
+###
+pTEF1	ena	gene	12099	12233	.	-	.	ID=gene:EF_A0015;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0015;logic_name=ena
+pTEF1	ena	mRNA	12099	12233	.	-	.	ID=transcript:AAO83015;Parent=gene:EF_A0015;biotype=protein_coding;transcript_id=AAO83015
+pTEF1	ena	exon	12099	12233	.	-	.	Parent=transcript:AAO83015;Name=AAO83015-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83015-1;rank=1
+pTEF1	ena	CDS	12099	12233	.	-	0	ID=CDS:AAO83015;Parent=transcript:AAO83015;protein_id=AAO83015
+###
+pTEF1	ena	gene	12615	13304	.	-	.	ID=gene:EF_A0016;biotype=protein_coding;description=transposase%2C IS6 family;gene_id=EF_A0016;logic_name=ena
+pTEF1	ena	mRNA	12615	13304	.	-	.	ID=transcript:AAO83016;Parent=gene:EF_A0016;biotype=protein_coding;transcript_id=AAO83016
+pTEF1	ena	exon	12615	13304	.	-	.	Parent=transcript:AAO83016;Name=AAO83016-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83016-1;rank=1
+pTEF1	ena	CDS	12615	13304	.	-	0	ID=CDS:AAO83016;Parent=transcript:AAO83016;protein_id=AAO83016
+###
+pTEF1	ena	gene	13423	13665	.	+	.	ID=gene:EF_A0017;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0017;logic_name=ena
+pTEF1	ena	mRNA	13423	13665	.	+	.	ID=transcript:AAO83017;Parent=gene:EF_A0017;biotype=protein_coding;transcript_id=AAO83017
+pTEF1	ena	exon	13423	13665	.	+	.	Parent=transcript:AAO83017;Name=AAO83017-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83017-1;rank=1
+pTEF1	ena	CDS	13423	13665	.	+	0	ID=CDS:AAO83017;Parent=transcript:AAO83017;protein_id=AAO83017
+###
+pTEF1	Rfam	gene	13445	13624	.	-	.	ID=gene:EBG00001182623;Name=rli28;biotype=sRNA;gene_id=EBG00001182623;logic_name=rfam_genes
+pTEF1	Rfam	transcript	13445	13624	.	-	.	ID=transcript:EBT00001759942;Parent=gene:EBG00001182623;Name=rli28;biotype=sRNA;transcript_id=EBT00001759942
+pTEF1	Rfam	exon	13445	13624	.	-	.	Parent=transcript:EBT00001759942;Name=EBG00001182623-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=EBG00001182623-1;rank=1
+###
+pTEF1	ena	gene	13884	14360	.	-	.	ID=gene:EF_A0019;Name=ssb-4;biotype=protein_coding;description=single-strand binding protein;gene_id=EF_A0019;logic_name=ena
+pTEF1	ena	mRNA	13884	14360	.	-	.	ID=transcript:AAO83018;Parent=gene:EF_A0019;Name=ssb-4-1;biotype=protein_coding;transcript_id=AAO83018
+pTEF1	ena	exon	13884	14360	.	-	.	Parent=transcript:AAO83018;Name=AAO83018-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83018-1;rank=1
+pTEF1	ena	CDS	13884	14360	.	-	0	ID=CDS:AAO83018;Parent=transcript:AAO83018;protein_id=AAO83018
+###
+pTEF1	ena_gene	biological_region	14500	15471	.	-	.	external_name=EF_A0020%3B This region contains a match to at least one other gene that is not full length%2Cand is not the result of a sequencing artifact%3B conserved hypothetical protein%2C truncation%3B similar to GP:18104277%2C and SP:Q925W4%3B identified by sequence similari...;logic_name=ena_gene
+pTEF1	ena	gene	15830	16585	.	-	.	ID=gene:EF_A0021;biotype=protein_coding;description=conserved domain protein;gene_id=EF_A0021;logic_name=ena
+pTEF1	ena	mRNA	15830	16585	.	-	.	ID=transcript:AAO83019;Parent=gene:EF_A0021;biotype=protein_coding;transcript_id=AAO83019
+pTEF1	ena	exon	15830	16585	.	-	.	Parent=transcript:AAO83019;Name=AAO83019-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83019-1;rank=1
+pTEF1	ena	CDS	15830	16585	.	-	0	ID=CDS:AAO83019;Parent=transcript:AAO83019;protein_id=AAO83019
+###
+pTEF1	ena	gene	16747	17013	.	-	.	ID=gene:EF_A0022;biotype=protein_coding;description=conserved domain protein;gene_id=EF_A0022;logic_name=ena
+pTEF1	ena	mRNA	16747	17013	.	-	.	ID=transcript:AAO83020;Parent=gene:EF_A0022;biotype=protein_coding;transcript_id=AAO83020
+pTEF1	ena	exon	16747	17013	.	-	.	Parent=transcript:AAO83020;Name=AAO83020-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83020-1;rank=1
+pTEF1	ena	CDS	16747	17013	.	-	0	ID=CDS:AAO83020;Parent=transcript:AAO83020;protein_id=AAO83020
+###
+pTEF1	ena	gene	17620	18108	.	-	.	ID=gene:EF_A0024;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0024;logic_name=ena
+pTEF1	ena	mRNA	17620	18108	.	-	.	ID=transcript:AAO83021;Parent=gene:EF_A0024;biotype=protein_coding;transcript_id=AAO83021
+pTEF1	ena	exon	17620	18108	.	-	.	Parent=transcript:AAO83021;Name=AAO83021-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83021-1;rank=1
+pTEF1	ena	CDS	17620	18108	.	-	0	ID=CDS:AAO83021;Parent=transcript:AAO83021;protein_id=AAO83021
+###
+pTEF1	ena	gene	18114	18899	.	-	.	ID=gene:EF_A0025;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0025;logic_name=ena
+pTEF1	ena	mRNA	18114	18899	.	-	.	ID=transcript:AAO83022;Parent=gene:EF_A0025;biotype=protein_coding;transcript_id=AAO83022
+pTEF1	ena	exon	18114	18899	.	-	.	Parent=transcript:AAO83022;Name=AAO83022-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83022-1;rank=1
+pTEF1	ena	CDS	18114	18899	.	-	0	ID=CDS:AAO83022;Parent=transcript:AAO83022;protein_id=AAO83022
+###
+pTEF1	ena	gene	18896	19057	.	-	.	ID=gene:EF_A0026;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0026;logic_name=ena
+pTEF1	ena	mRNA	18896	19057	.	-	.	ID=transcript:AAO83023;Parent=gene:EF_A0026;biotype=protein_coding;transcript_id=AAO83023
+pTEF1	ena	exon	18896	19057	.	-	.	Parent=transcript:AAO83023;Name=AAO83023-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83023-1;rank=1
+pTEF1	ena	CDS	18896	19057	.	-	0	ID=CDS:AAO83023;Parent=transcript:AAO83023;protein_id=AAO83023
+###
+pTEF1	ena	gene	19389	19628	.	-	.	ID=gene:EF_A0028;biotype=protein_coding;description=conserved domain protein;gene_id=EF_A0028;logic_name=ena
+pTEF1	ena	mRNA	19389	19628	.	-	.	ID=transcript:AAO83024;Parent=gene:EF_A0028;biotype=protein_coding;transcript_id=AAO83024
+pTEF1	ena	exon	19389	19628	.	-	.	Parent=transcript:AAO83024;Name=AAO83024-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83024-1;rank=1
+pTEF1	ena	CDS	19389	19628	.	-	0	ID=CDS:AAO83024;Parent=transcript:AAO83024;protein_id=AAO83024
+###
+pTEF1	ena	gene	19600	19743	.	+	.	ID=gene:EF_A0029;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0029;logic_name=ena
+pTEF1	ena	mRNA	19600	19743	.	+	.	ID=transcript:AAO83025;Parent=gene:EF_A0029;biotype=protein_coding;transcript_id=AAO83025
+pTEF1	ena	exon	19600	19743	.	+	.	Parent=transcript:AAO83025;Name=AAO83025-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83025-1;rank=1
+pTEF1	ena	CDS	19600	19743	.	+	0	ID=CDS:AAO83025;Parent=transcript:AAO83025;protein_id=AAO83025
+###
+pTEF1	ena	gene	19757	21970	.	-	.	ID=gene:EF_A0030;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0030;logic_name=ena
+pTEF1	ena	mRNA	19757	21970	.	-	.	ID=transcript:AAO83026;Parent=gene:EF_A0030;biotype=protein_coding;transcript_id=AAO83026
+pTEF1	ena	exon	19757	21970	.	-	.	Parent=transcript:AAO83026;Name=AAO83026-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83026-1;rank=1
+pTEF1	ena	CDS	19757	21970	.	-	0	ID=CDS:AAO83026;Parent=transcript:AAO83026;protein_id=AAO83026
+###
+pTEF1	ena	gene	21957	24302	.	-	.	ID=gene:EF_A0031;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0031;logic_name=ena
+pTEF1	ena	mRNA	21957	24302	.	-	.	ID=transcript:AAO83027;Parent=gene:EF_A0031;biotype=protein_coding;transcript_id=AAO83027
+pTEF1	ena	exon	21957	24302	.	-	.	Parent=transcript:AAO83027;Name=AAO83027-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83027-1;rank=1
+pTEF1	ena	CDS	21957	24302	.	-	0	ID=CDS:AAO83027;Parent=transcript:AAO83027;protein_id=AAO83027
+###
+pTEF1	ena	gene	24320	24661	.	-	.	ID=gene:EF_A0032;biotype=protein_coding;description=lipoprotein%2C putative;gene_id=EF_A0032;logic_name=ena
+pTEF1	ena	mRNA	24320	24661	.	-	.	ID=transcript:AAO83028;Parent=gene:EF_A0032;biotype=protein_coding;transcript_id=AAO83028
+pTEF1	ena	exon	24320	24661	.	-	.	Parent=transcript:AAO83028;Name=AAO83028-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83028-1;rank=1
+pTEF1	ena	CDS	24320	24661	.	-	0	ID=CDS:AAO83028;Parent=transcript:AAO83028;protein_id=AAO83028
+###
+pTEF1	ena	gene	24672	27164	.	-	.	ID=gene:EF_A0033;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0033;logic_name=ena
+pTEF1	ena	mRNA	24672	27164	.	-	.	ID=transcript:AAO83029;Parent=gene:EF_A0033;biotype=protein_coding;transcript_id=AAO83029
+pTEF1	ena	exon	24672	27164	.	-	.	Parent=transcript:AAO83029;Name=AAO83029-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83029-1;rank=1
+pTEF1	ena	CDS	24672	27164	.	-	0	ID=CDS:AAO83029;Parent=transcript:AAO83029;protein_id=AAO83029
+###
+pTEF1	ena	gene	27269	27727	.	-	.	ID=gene:EF_A0034;Name=ssb-5;biotype=protein_coding;description=single-strand binding protein;gene_id=EF_A0034;logic_name=ena
+pTEF1	ena	mRNA	27269	27727	.	-	.	ID=transcript:AAO83030;Parent=gene:EF_A0034;Name=ssb-5-1;biotype=protein_coding;transcript_id=AAO83030
+pTEF1	ena	exon	27269	27727	.	-	.	Parent=transcript:AAO83030;Name=AAO83030-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83030-1;rank=1
+pTEF1	ena	CDS	27269	27727	.	-	0	ID=CDS:AAO83030;Parent=transcript:AAO83030;protein_id=AAO83030
+###
+pTEF1	ena	gene	27884	28285	.	-	.	ID=gene:EF_A0035;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0035;logic_name=ena
+pTEF1	ena	mRNA	27884	28285	.	-	.	ID=transcript:AAO83031;Parent=gene:EF_A0035;biotype=protein_coding;transcript_id=AAO83031
+pTEF1	ena	exon	27884	28285	.	-	.	Parent=transcript:AAO83031;Name=AAO83031-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83031-1;rank=1
+pTEF1	ena	CDS	27884	28285	.	-	0	ID=CDS:AAO83031;Parent=transcript:AAO83031;protein_id=AAO83031
+###
+pTEF1	ena	gene	28273	28548	.	-	.	ID=gene:EF_A0036;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0036;logic_name=ena
+pTEF1	ena	mRNA	28273	28548	.	-	.	ID=transcript:AAO83032;Parent=gene:EF_A0036;biotype=protein_coding;transcript_id=AAO83032
+pTEF1	ena	exon	28273	28548	.	-	.	Parent=transcript:AAO83032;Name=AAO83032-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83032-1;rank=1
+pTEF1	ena	CDS	28273	28548	.	-	0	ID=CDS:AAO83032;Parent=transcript:AAO83032;protein_id=AAO83032
+###
+pTEF1	ena	gene	28538	29572	.	-	.	ID=gene:EF_A0037;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0037;logic_name=ena
+pTEF1	ena	mRNA	28538	29572	.	-	.	ID=transcript:AAO83033;Parent=gene:EF_A0037;biotype=protein_coding;transcript_id=AAO83033
+pTEF1	ena	exon	28538	29572	.	-	.	Parent=transcript:AAO83033;Name=AAO83033-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83033-1;rank=1
+pTEF1	ena	CDS	28538	29572	.	-	0	ID=CDS:AAO83033;Parent=transcript:AAO83033;protein_id=AAO83033
+###
+pTEF1	ena	gene	29565	29879	.	-	.	ID=gene:EF_A0038;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0038;logic_name=ena
+pTEF1	ena	mRNA	29565	29879	.	-	.	ID=transcript:AAO83034;Parent=gene:EF_A0038;biotype=protein_coding;transcript_id=AAO83034
+pTEF1	ena	exon	29565	29879	.	-	.	Parent=transcript:AAO83034;Name=AAO83034-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83034-1;rank=1
+pTEF1	ena	CDS	29565	29879	.	-	0	ID=CDS:AAO83034;Parent=transcript:AAO83034;protein_id=AAO83034
+###
+pTEF1	ena	gene	29879	30295	.	-	.	ID=gene:EF_A0039;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0039;logic_name=ena
+pTEF1	ena	mRNA	29879	30295	.	-	.	ID=transcript:AAO83035;Parent=gene:EF_A0039;biotype=protein_coding;transcript_id=AAO83035
+pTEF1	ena	exon	29879	30295	.	-	.	Parent=transcript:AAO83035;Name=AAO83035-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83035-1;rank=1
+pTEF1	ena	CDS	29879	30295	.	-	0	ID=CDS:AAO83035;Parent=transcript:AAO83035;protein_id=AAO83035
+###
+pTEF1	ena	gene	30279	30896	.	-	.	ID=gene:EF_A0040;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0040;logic_name=ena
+pTEF1	ena	mRNA	30279	30896	.	-	.	ID=transcript:AAO83036;Parent=gene:EF_A0040;biotype=protein_coding;transcript_id=AAO83036
+pTEF1	ena	exon	30279	30896	.	-	.	Parent=transcript:AAO83036;Name=AAO83036-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83036-1;rank=1
+pTEF1	ena	CDS	30279	30896	.	-	0	ID=CDS:AAO83036;Parent=transcript:AAO83036;protein_id=AAO83036
+###
+pTEF1	ena	gene	30899	32170	.	-	.	ID=gene:EF_A0041;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0041;logic_name=ena
+pTEF1	ena	mRNA	30899	32170	.	-	.	ID=transcript:AAO83037;Parent=gene:EF_A0041;biotype=protein_coding;transcript_id=AAO83037
+pTEF1	ena	exon	30899	32170	.	-	.	Parent=transcript:AAO83037;Name=AAO83037-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83037-1;rank=1
+pTEF1	ena	CDS	30899	32170	.	-	0	ID=CDS:AAO83037;Parent=transcript:AAO83037;protein_id=AAO83037
+###
+pTEF1	ena	gene	32196	33056	.	-	.	ID=gene:EF_A0042;biotype=protein_coding;description=cell wall surface anchor signal protein;gene_id=EF_A0042;logic_name=ena
+pTEF1	ena	mRNA	32196	33056	.	-	.	ID=transcript:AAO83038;Parent=gene:EF_A0042;biotype=protein_coding;transcript_id=AAO83038
+pTEF1	ena	exon	32196	33056	.	-	.	Parent=transcript:AAO83038;Name=AAO83038-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83038-1;rank=1
+pTEF1	ena	CDS	32196	33056	.	-	0	ID=CDS:AAO83038;Parent=transcript:AAO83038;protein_id=AAO83038
+###
+pTEF1	ena	gene	33076	33954	.	-	.	ID=gene:EF_A0043;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0043;logic_name=ena
+pTEF1	ena	mRNA	33076	33954	.	-	.	ID=transcript:AAO83039;Parent=gene:EF_A0043;biotype=protein_coding;transcript_id=AAO83039
+pTEF1	ena	exon	33076	33954	.	-	.	Parent=transcript:AAO83039;Name=AAO83039-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83039-1;rank=1
+pTEF1	ena	CDS	33076	33954	.	-	0	ID=CDS:AAO83039;Parent=transcript:AAO83039;protein_id=AAO83039
+###
+pTEF1	ena	gene	33965	34225	.	-	.	ID=gene:EF_A0044;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0044;logic_name=ena
+pTEF1	ena	mRNA	33965	34225	.	-	.	ID=transcript:AAO83040;Parent=gene:EF_A0044;biotype=protein_coding;transcript_id=AAO83040
+pTEF1	ena	exon	33965	34225	.	-	.	Parent=transcript:AAO83040;Name=AAO83040-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83040-1;rank=1
+pTEF1	ena	CDS	33965	34225	.	-	0	ID=CDS:AAO83040;Parent=transcript:AAO83040;protein_id=AAO83040
+###
+pTEF1	ena	gene	34294	34680	.	-	.	ID=gene:EF_A0045;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0045;logic_name=ena
+pTEF1	ena	mRNA	34294	34680	.	-	.	ID=transcript:AAO83041;Parent=gene:EF_A0045;biotype=protein_coding;transcript_id=AAO83041
+pTEF1	ena	exon	34294	34680	.	-	.	Parent=transcript:AAO83041;Name=AAO83041-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83041-1;rank=1
+pTEF1	ena	CDS	34294	34680	.	-	0	ID=CDS:AAO83041;Parent=transcript:AAO83041;protein_id=AAO83041
+###
+pTEF1	ena	gene	34702	35055	.	-	.	ID=gene:EF_A0046;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0046;logic_name=ena
+pTEF1	ena	mRNA	34702	35055	.	-	.	ID=transcript:AAO83042;Parent=gene:EF_A0046;biotype=protein_coding;transcript_id=AAO83042
+pTEF1	ena	exon	34702	35055	.	-	.	Parent=transcript:AAO83042;Name=AAO83042-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83042-1;rank=1
+pTEF1	ena	CDS	34702	35055	.	-	0	ID=CDS:AAO83042;Parent=transcript:AAO83042;protein_id=AAO83042
+###
+pTEF1	ena	gene	35117	39007	.	-	.	ID=gene:EF_A0047;Name=asa1;biotype=protein_coding;description=aggregation substance Asa1;gene_id=EF_A0047;logic_name=ena
+pTEF1	ena	mRNA	35117	39007	.	-	.	ID=transcript:AAO83043;Parent=gene:EF_A0047;Name=asa1-1;biotype=protein_coding;transcript_id=AAO83043
+pTEF1	ena	exon	35117	39007	.	-	.	Parent=transcript:AAO83043;Name=AAO83043-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83043-1;rank=1
+pTEF1	ena	CDS	35117	39007	.	-	0	ID=CDS:AAO83043;Parent=transcript:AAO83043;protein_id=AAO83043
+###
+pTEF1	ena	gene	39314	39649	.	-	.	ID=gene:EF_A0048;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0048;logic_name=ena
+pTEF1	ena	mRNA	39314	39649	.	-	.	ID=transcript:AAO83044;Parent=gene:EF_A0048;biotype=protein_coding;transcript_id=AAO83044
+pTEF1	ena	exon	39314	39649	.	-	.	Parent=transcript:AAO83044;Name=AAO83044-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83044-1;rank=1
+pTEF1	ena	CDS	39314	39649	.	-	0	ID=CDS:AAO83044;Parent=transcript:AAO83044;protein_id=AAO83044
+###
+pTEF1	ena	gene	39878	39970	.	-	.	ID=gene:EF_A0050;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0050;logic_name=ena
+pTEF1	ena	mRNA	39878	39970	.	-	.	ID=transcript:AAO83045;Parent=gene:EF_A0050;biotype=protein_coding;transcript_id=AAO83045
+pTEF1	ena	exon	39878	39970	.	-	.	Parent=transcript:AAO83045;Name=AAO83045-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83045-1;rank=1
+pTEF1	ena	CDS	39878	39970	.	-	0	ID=CDS:AAO83045;Parent=transcript:AAO83045;protein_id=AAO83045
+###
+pTEF1	ena	gene	39989	40174	.	-	.	ID=gene:EF_A0051;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0051;logic_name=ena
+pTEF1	ena	mRNA	39989	40174	.	-	.	ID=transcript:AAO83046;Parent=gene:EF_A0051;biotype=protein_coding;transcript_id=AAO83046
+pTEF1	ena	exon	39989	40174	.	-	.	Parent=transcript:AAO83046;Name=AAO83046-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83046-1;rank=1
+pTEF1	ena	CDS	39989	40174	.	-	0	ID=CDS:AAO83046;Parent=transcript:AAO83046;protein_id=AAO83046
+###
+pTEF1	ena	gene	40246	42918	.	-	.	ID=gene:EF_A0052;Name=sea1;biotype=protein_coding;description=surface exclusion protein Sea1;gene_id=EF_A0052;logic_name=ena
+pTEF1	ena	mRNA	40246	42918	.	-	.	ID=transcript:AAO83047;Parent=gene:EF_A0052;Name=sea1-1;biotype=protein_coding;transcript_id=AAO83047
+pTEF1	ena	exon	40246	42918	.	-	.	Parent=transcript:AAO83047;Name=AAO83047-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83047-1;rank=1
+pTEF1	ena	CDS	40246	42918	.	-	0	ID=CDS:AAO83047;Parent=transcript:AAO83047;protein_id=AAO83047
+###
+pTEF1	ena	gene	42929	43234	.	-	.	ID=gene:EF_A0053;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0053;logic_name=ena
+pTEF1	ena	mRNA	42929	43234	.	-	.	ID=transcript:AAO83048;Parent=gene:EF_A0053;biotype=protein_coding;transcript_id=AAO83048
+pTEF1	ena	exon	42929	43234	.	-	.	Parent=transcript:AAO83048;Name=AAO83048-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83048-1;rank=1
+pTEF1	ena	CDS	42929	43234	.	-	0	ID=CDS:AAO83048;Parent=transcript:AAO83048;protein_id=AAO83048
+###
+pTEF1	ena	gene	43816	44172	.	-	.	ID=gene:EF_A0054;Name=traE1;biotype=protein_coding;description=regulatory protein TraE1;gene_id=EF_A0054;logic_name=ena
+pTEF1	ena	mRNA	43816	44172	.	-	.	ID=transcript:AAO83049;Parent=gene:EF_A0054;Name=traE1-1;biotype=protein_coding;transcript_id=AAO83049
+pTEF1	ena	exon	43816	44172	.	-	.	Parent=transcript:AAO83049;Name=AAO83049-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83049-1;rank=1
+pTEF1	ena	CDS	43816	44172	.	-	0	ID=CDS:AAO83049;Parent=transcript:AAO83049;protein_id=AAO83049
+###
+pTEF1	Rfam	gene	44522	44623	.	-	.	ID=gene:EBG00001182622;Name=Anti-Q_RNA;biotype=antisense;gene_id=EBG00001182622;logic_name=rfam_genes
+pTEF1	Rfam	transcript	44522	44623	.	-	.	ID=transcript:EBT00001759945;Parent=gene:EBG00001182622;Name=Anti-Q_RNA;biotype=antisense;transcript_id=EBT00001759945
+pTEF1	Rfam	exon	44522	44623	.	-	.	Parent=transcript:EBT00001759945;Name=EBG00001182622-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=EBG00001182622-1;rank=1
+###
+pTEF1	ena	gene	44622	45308	.	-	.	ID=gene:EF_A0056;biotype=protein_coding;description=IS1216%2C transposase;gene_id=EF_A0056;logic_name=ena
+pTEF1	ena	mRNA	44622	45308	.	-	.	ID=transcript:AAO83050;Parent=gene:EF_A0056;biotype=protein_coding;transcript_id=AAO83050
+pTEF1	ena	exon	44622	45308	.	-	.	Parent=transcript:AAO83050;Name=AAO83050-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83050-1;rank=1
+pTEF1	ena	CDS	44622	45308	.	-	0	ID=CDS:AAO83050;Parent=transcript:AAO83050;protein_id=AAO83050
+###
+pTEF1	ena	gene	45387	45527	.	+	.	ID=gene:EF_A0057;Name=copS;biotype=protein_coding;description=copS protein;gene_id=EF_A0057;logic_name=ena
+pTEF1	ena	mRNA	45387	45527	.	+	.	ID=transcript:AAO83051;Parent=gene:EF_A0057;Name=copS-1;biotype=protein_coding;transcript_id=AAO83051
+pTEF1	ena	exon	45387	45527	.	+	.	Parent=transcript:AAO83051;Name=AAO83051-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83051-1;rank=1
+pTEF1	ena	CDS	45387	45527	.	+	0	ID=CDS:AAO83051;Parent=transcript:AAO83051;protein_id=AAO83051
+###
+pTEF1	Rfam	ncRNA_gene	45634	45764	.	+	.	ID=gene:EBG00001182621;Name=Plasmid_RNAIII;biotype=ncRNA;gene_id=EBG00001182621;logic_name=rfam_genes
+pTEF1	Rfam	transcript	45634	45764	.	+	.	ID=transcript:EBT00001759946;Parent=gene:EBG00001182621;Name=Plasmid_RNAIII;biotype=ncRNA;transcript_id=EBT00001759946
+pTEF1	Rfam	exon	45634	45764	.	+	.	Parent=transcript:EBT00001759946;Name=EBG00001182621-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=EBG00001182621-1;rank=1
+###
+pTEF1	ena	gene	45922	47412	.	+	.	ID=gene:EF_A0058;Name=repE;biotype=protein_coding;description=repE protein;gene_id=EF_A0058;logic_name=ena
+pTEF1	ena	mRNA	45922	47412	.	+	.	ID=transcript:AAO83052;Parent=gene:EF_A0058;Name=repE-1;biotype=protein_coding;transcript_id=AAO83052
+pTEF1	ena	exon	45922	47412	.	+	.	Parent=transcript:AAO83052;Name=AAO83052-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83052-1;rank=1
+pTEF1	ena	CDS	45922	47412	.	+	0	ID=CDS:AAO83052;Parent=transcript:AAO83052;protein_id=AAO83052
+###
+pTEF1	ena	gene	47519	48691	.	+	.	ID=gene:EF_A0059;biotype=protein_coding;description=IS256%2C transposase;gene_id=EF_A0059;logic_name=ena
+pTEF1	ena	mRNA	47519	48691	.	+	.	ID=transcript:AAO83053;Parent=gene:EF_A0059;biotype=protein_coding;transcript_id=AAO83053
+pTEF1	ena	exon	47519	48691	.	+	.	Parent=transcript:AAO83053;Name=AAO83053-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83053-1;rank=1
+pTEF1	ena	CDS	47519	48691	.	+	0	ID=CDS:AAO83053;Parent=transcript:AAO83053;protein_id=AAO83053
+###
+pTEF1	ena	gene	48748	49140	.	+	.	ID=gene:EF_A0060;biotype=protein_coding;description=acetyltransferase%2C GNAT family;gene_id=EF_A0060;logic_name=ena
+pTEF1	ena	mRNA	48748	49140	.	+	.	ID=transcript:AAO83054;Parent=gene:EF_A0060;biotype=protein_coding;transcript_id=AAO83054
+pTEF1	ena	exon	48748	49140	.	+	.	Parent=transcript:AAO83054;Name=AAO83054-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83054-1;rank=1
+pTEF1	ena	CDS	48748	49140	.	+	0	ID=CDS:AAO83054;Parent=transcript:AAO83054;protein_id=AAO83054
+###
+pTEF1	ena	gene	49141	50580	.	+	.	ID=gene:EF_A0061;biotype=protein_coding;description=6'-aminoglycoside N-acetyltransferase;gene_id=EF_A0061;logic_name=ena
+pTEF1	ena	mRNA	49141	50580	.	+	.	ID=transcript:AAO83055;Parent=gene:EF_A0061;biotype=protein_coding;transcript_id=AAO83055
+pTEF1	ena	exon	49141	50580	.	+	.	Parent=transcript:AAO83055;Name=AAO83055-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83055-1;rank=1
+pTEF1	ena	CDS	49141	50580	.	+	0	ID=CDS:AAO83055;Parent=transcript:AAO83055;protein_id=AAO83055
+###
+pTEF1	ena	gene	50710	51882	.	-	.	ID=gene:EF_A0062;biotype=protein_coding;description=IS256%2C transposase;gene_id=EF_A0062;logic_name=ena
+pTEF1	ena	mRNA	50710	51882	.	-	.	ID=transcript:AAO83056;Parent=gene:EF_A0062;biotype=protein_coding;transcript_id=AAO83056
+pTEF1	ena	exon	50710	51882	.	-	.	Parent=transcript:AAO83056;Name=AAO83056-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83056-1;rank=1
+pTEF1	ena	CDS	50710	51882	.	-	0	ID=CDS:AAO83056;Parent=transcript:AAO83056;protein_id=AAO83056
+###
+pTEF1	ena	gene	52023	52709	.	-	.	ID=gene:EF_A0063;biotype=protein_coding;description=IS1216%2C transposase;gene_id=EF_A0063;logic_name=ena
+pTEF1	ena	mRNA	52023	52709	.	-	.	ID=transcript:AAO83057;Parent=gene:EF_A0063;biotype=protein_coding;transcript_id=AAO83057
+pTEF1	ena	exon	52023	52709	.	-	.	Parent=transcript:AAO83057;Name=AAO83057-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83057-1;rank=1
+pTEF1	ena	CDS	52023	52709	.	-	0	ID=CDS:AAO83057;Parent=transcript:AAO83057;protein_id=AAO83057
+###
+pTEF1	ena	gene	52964	53308	.	+	.	ID=gene:EF_A0065;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0065;logic_name=ena
+pTEF1	ena	mRNA	52964	53308	.	+	.	ID=transcript:AAO83058;Parent=gene:EF_A0065;biotype=protein_coding;transcript_id=AAO83058
+pTEF1	ena	exon	52964	53308	.	+	.	Parent=transcript:AAO83058;Name=AAO83058-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83058-1;rank=1
+pTEF1	ena	CDS	52964	53308	.	+	0	ID=CDS:AAO83058;Parent=transcript:AAO83058;protein_id=AAO83058
+###
+pTEF1	ena	gene	53298	53567	.	+	.	ID=gene:EF_A0066;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0066;logic_name=ena
+pTEF1	ena	mRNA	53298	53567	.	+	.	ID=transcript:AAO83059;Parent=gene:EF_A0066;biotype=protein_coding;transcript_id=AAO83059
+pTEF1	ena	exon	53298	53567	.	+	.	Parent=transcript:AAO83059;Name=AAO83059-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83059-1;rank=1
+pTEF1	ena	CDS	53298	53567	.	+	0	ID=CDS:AAO83059;Parent=transcript:AAO83059;protein_id=AAO83059
+###
+pTEF1	ena	gene	53800	55731	.	-	.	ID=gene:EF_A0067;biotype=protein_coding;description=PTS system%2C IIABC components;gene_id=EF_A0067;logic_name=ena
+pTEF1	ena	mRNA	53800	55731	.	-	.	ID=transcript:AAO83060;Parent=gene:EF_A0067;biotype=protein_coding;transcript_id=AAO83060
+pTEF1	ena	exon	53800	55731	.	-	.	Parent=transcript:AAO83060;Name=AAO83060-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83060-1;rank=1
+pTEF1	ena	CDS	53800	55731	.	-	0	ID=CDS:AAO83060;Parent=transcript:AAO83060;protein_id=AAO83060
+###
+pTEF1	ena	gene	55922	57361	.	+	.	ID=gene:EF_A0069;Name=scrB-2;biotype=protein_coding;description=sucrose-6-phosphate hydrolase;gene_id=EF_A0069;logic_name=ena
+pTEF1	ena	mRNA	55922	57361	.	+	.	ID=transcript:AAO83061;Parent=gene:EF_A0069;Name=scrB-2-1;biotype=protein_coding;transcript_id=AAO83061
+pTEF1	ena	exon	55922	57361	.	+	.	Parent=transcript:AAO83061;Name=AAO83061-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83061-1;rank=1
+pTEF1	ena	CDS	55922	57361	.	+	0	ID=CDS:AAO83061;Parent=transcript:AAO83061;protein_id=AAO83061
+###
+pTEF1	ena	gene	57363	58325	.	+	.	ID=gene:EF_A0070;Name=scrR-2;biotype=protein_coding;description=sucrose operon repressor ScrR;gene_id=EF_A0070;logic_name=ena
+pTEF1	ena	mRNA	57363	58325	.	+	.	ID=transcript:AAO83062;Parent=gene:EF_A0070;Name=scrR-2-1;biotype=protein_coding;transcript_id=AAO83062
+pTEF1	ena	exon	57363	58325	.	+	.	Parent=transcript:AAO83062;Name=AAO83062-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83062-1;rank=1
+pTEF1	ena	CDS	57363	58325	.	+	0	ID=CDS:AAO83062;Parent=transcript:AAO83062;protein_id=AAO83062
+###
+pTEF1	ena	gene	58390	58752	.	-	.	ID=gene:EF_A0071;biotype=protein_coding;description=PemK family protein;gene_id=EF_A0071;logic_name=ena
+pTEF1	ena	mRNA	58390	58752	.	-	.	ID=transcript:AAO83063;Parent=gene:EF_A0071;biotype=protein_coding;transcript_id=AAO83063
+pTEF1	ena	exon	58390	58752	.	-	.	Parent=transcript:AAO83063;Name=AAO83063-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83063-1;rank=1
+pTEF1	ena	CDS	58390	58752	.	-	0	ID=CDS:AAO83063;Parent=transcript:AAO83063;protein_id=AAO83063
+###
+pTEF1	ena	gene	58746	59009	.	-	.	ID=gene:EF_A0072;biotype=protein_coding;description=PemI family protein;gene_id=EF_A0072;logic_name=ena
+pTEF1	ena	mRNA	58746	59009	.	-	.	ID=transcript:AAO83064;Parent=gene:EF_A0072;biotype=protein_coding;transcript_id=AAO83064
+pTEF1	ena	exon	58746	59009	.	-	.	Parent=transcript:AAO83064;Name=AAO83064-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83064-1;rank=1
+pTEF1	ena	CDS	58746	59009	.	-	0	ID=CDS:AAO83064;Parent=transcript:AAO83064;protein_id=AAO83064
+###
+pTEF1	ena	gene	59210	59806	.	+	.	ID=gene:EF_A0073;biotype=protein_coding;description=site-specific recombinase%2C resolvase family;gene_id=EF_A0073;logic_name=ena
+pTEF1	ena	mRNA	59210	59806	.	+	.	ID=transcript:AAO83065;Parent=gene:EF_A0073;biotype=protein_coding;transcript_id=AAO83065
+pTEF1	ena	exon	59210	59806	.	+	.	Parent=transcript:AAO83065;Name=AAO83065-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83065-1;rank=1
+pTEF1	ena	CDS	59210	59806	.	+	0	ID=CDS:AAO83065;Parent=transcript:AAO83065;protein_id=AAO83065
+###
+pTEF1	ena	gene	59823	60110	.	+	.	ID=gene:EF_A0074;biotype=protein_coding;description=conserved domain protein;gene_id=EF_A0074;logic_name=ena
+pTEF1	ena	mRNA	59823	60110	.	+	.	ID=transcript:AAO83066;Parent=gene:EF_A0074;biotype=protein_coding;transcript_id=AAO83066
+pTEF1	ena	exon	59823	60110	.	+	.	Parent=transcript:AAO83066;Name=AAO83066-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83066-1;rank=1
+pTEF1	ena	CDS	59823	60110	.	+	0	ID=CDS:AAO83066;Parent=transcript:AAO83066;protein_id=AAO83066
+###
+pTEF1	ena	gene	60350	60598	.	+	.	ID=gene:EF_A0075;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0075;logic_name=ena
+pTEF1	ena	mRNA	60350	60598	.	+	.	ID=transcript:AAO83067;Parent=gene:EF_A0075;biotype=protein_coding;transcript_id=AAO83067
+pTEF1	ena	exon	60350	60598	.	+	.	Parent=transcript:AAO83067;Name=AAO83067-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83067-1;rank=1
+pTEF1	ena	CDS	60350	60598	.	+	0	ID=CDS:AAO83067;Parent=transcript:AAO83067;protein_id=AAO83067
+###
+pTEF1	ena	gene	60610	60912	.	+	.	ID=gene:EF_A0076;biotype=protein_coding;description=hypothetical protein;gene_id=EF_A0076;logic_name=ena
+pTEF1	ena	mRNA	60610	60912	.	+	.	ID=transcript:AAO83068;Parent=gene:EF_A0076;biotype=protein_coding;transcript_id=AAO83068
+pTEF1	ena	exon	60610	60912	.	+	.	Parent=transcript:AAO83068;Name=AAO83068-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83068-1;rank=1
+pTEF1	ena	CDS	60610	60912	.	+	0	ID=CDS:AAO83068;Parent=transcript:AAO83068;protein_id=AAO83068
+###
+pTEF1	ena	gene	61339	62667	.	+	.	ID=gene:EF_A0078;biotype=protein_coding;description=ImpB/MucB/SamB family protein;gene_id=EF_A0078;logic_name=ena
+pTEF1	ena	mRNA	61339	62667	.	+	.	ID=transcript:AAO83069;Parent=gene:EF_A0078;biotype=protein_coding;transcript_id=AAO83069
+pTEF1	ena	exon	61339	62667	.	+	.	Parent=transcript:AAO83069;Name=AAO83069-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83069-1;rank=1
+pTEF1	ena	CDS	61339	62667	.	+	0	ID=CDS:AAO83069;Parent=transcript:AAO83069;protein_id=AAO83069
+###
+pTEF1	ena	gene	62664	63014	.	+	.	ID=gene:EF_A0079;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0079;logic_name=ena
+pTEF1	ena	mRNA	62664	63014	.	+	.	ID=transcript:AAO83070;Parent=gene:EF_A0079;biotype=protein_coding;transcript_id=AAO83070
+pTEF1	ena	exon	62664	63014	.	+	.	Parent=transcript:AAO83070;Name=AAO83070-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83070-1;rank=1
+pTEF1	ena	CDS	62664	63014	.	+	0	ID=CDS:AAO83070;Parent=transcript:AAO83070;protein_id=AAO83070
+###
+pTEF1	ena	gene	63001	63183	.	+	.	ID=gene:EF_A0080;biotype=protein_coding;description=transcriptional regulator%2C UvrC family;gene_id=EF_A0080;logic_name=ena
+pTEF1	ena	mRNA	63001	63183	.	+	.	ID=transcript:AAO83071;Parent=gene:EF_A0080;biotype=protein_coding;transcript_id=AAO83071
+pTEF1	ena	exon	63001	63183	.	+	.	Parent=transcript:AAO83071;Name=AAO83071-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83071-1;rank=1
+pTEF1	ena	CDS	63001	63183	.	+	0	ID=CDS:AAO83071;Parent=transcript:AAO83071;protein_id=AAO83071
+###
+pTEF1	ena	gene	63714	64175	.	+	.	ID=gene:EF_A0081;biotype=protein_coding;description=conserved hypothetical protein;gene_id=EF_A0081;logic_name=ena
+pTEF1	ena	mRNA	63714	64175	.	+	.	ID=transcript:AAO83072;Parent=gene:EF_A0081;biotype=protein_coding;transcript_id=AAO83072
+pTEF1	ena	exon	63714	64175	.	+	.	Parent=transcript:AAO83072;Name=AAO83072-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83072-1;rank=1
+pTEF1	ena	CDS	63714	64175	.	+	0	ID=CDS:AAO83072;Parent=transcript:AAO83072;protein_id=AAO83072
+###
+pTEF1	ena	gene	64740	65111	.	-	.	ID=gene:EF_A0082;Name=repC;biotype=protein_coding;description=replication-associated protein RepC;gene_id=EF_A0082;logic_name=ena
+pTEF1	ena	mRNA	64740	65111	.	-	.	ID=transcript:AAO83073;Parent=gene:EF_A0082;Name=repC-1;biotype=protein_coding;transcript_id=AAO83073
+pTEF1	ena	exon	64740	65111	.	-	.	Parent=transcript:AAO83073;Name=AAO83073-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83073-1;rank=1
+pTEF1	ena	CDS	64740	65111	.	-	0	ID=CDS:AAO83073;Parent=transcript:AAO83073;protein_id=AAO83073
+###
+pTEF1	ena	gene	65104	65949	.	-	.	ID=gene:EF_A0083;Name=repB-1;biotype=protein_coding;description=replication-associated protein RepB;gene_id=EF_A0083;logic_name=ena
+pTEF1	ena	mRNA	65104	65949	.	-	.	ID=transcript:AAO83074;Parent=gene:EF_A0083;Name=repB-1-1;biotype=protein_coding;transcript_id=AAO83074
+pTEF1	ena	exon	65104	65949	.	-	.	Parent=transcript:AAO83074;Name=AAO83074-1;constitutive=1;ensembl_end_phase=0;ensembl_phase=0;exon_id=AAO83074-1;rank=1
+pTEF1	ena	CDS	65104	65949	.	-	0	ID=CDS:AAO83074;Parent=transcript:AAO83074;protein_id=AAO83074
+###
