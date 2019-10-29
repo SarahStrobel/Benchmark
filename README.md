@@ -64,6 +64,7 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 ### Additional Programs:<br/>
 
 * [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)<br/>
+* [BAMQC](https://github.com/s-andrews/BamQC)<br/>
 * [IGV](https://software.broadinstitute.org/software/igv/)<br/>
 * [RNAfold](http://rna.tbi.univie.ac.at/)<br/>
 * [mfold](http://unafold.rna.albany.edu/?q=mfold)<br/>
