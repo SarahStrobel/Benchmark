@@ -21,6 +21,10 @@ Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/maste
 <t/>tools for a wide-range of genomics analysis tasks<br/>
 * [BLAST](https://blast.ncbi.nlm.nih.gov/Blast.cgi)<br/>
 <t/>Basic Local Alignment Search Tool finds regions of local similarity between sequences<br/>
+* [Infernal](http://eddylab.org/infernal/)<br/>
+<t/>Infers RNA Alignment using covariance models (CMs)<br/>
+* [RNIE](https://github.com/ppgardne/RNIE)<br/>
+<t/>Terminator prediction software<br/>
 
 
 ### Used Python3 packages:<br/>
@@ -45,17 +49,21 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 
 
 
-### RNA-Seq / Term-Seq Data (Dar et al., 2016):<br/>
+### B.subtilis, E.faecalis and L.monocytogenes RNA-Seq / Term-Seq Data (Dar et al., 2016):<br/>
 * [Paper](https://www.ncbi.nlm.nih.gov/pubmed/27120414)<br/>
 * [fastq files](https://www.ncbi.nlm.nih.gov/sra?term=ERP014057)<br/>
+
+
+
+### S.pneumoniae Term-Seq Data (Warrier et al., 2018):<br/>
+* [Paper](https://www.ncbi.nlm.nih.gov/pubmed/30517198)<br/>
+* [fastq files](https://www.ncbi.nlm.nih.gov/sra/?term=SRP136114)<br/>
 
 
 
 ### Additional Programs:<br/>
 
 * [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)<br/>
-* [Infernal](http://eddylab.org/infernal/)<br/>
-* [RNIE](https://github.com/ppgardne/RNIE)<br/>
 * [IGV](https://software.broadinstitute.org/software/igv/)<br/>
 * [RNAfold](http://rna.tbi.univie.ac.at/)<br/>
 * [mfold](http://unafold.rna.albany.edu/?q=mfold)<br/>
