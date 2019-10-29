@@ -1,14 +1,24 @@
 # remove all predicted Terminators with bitscores higher than 30
 
 import argparse
+import os.path
+#######################################################################
+#######################################################################
+# methods for checking parsed file types
 
+def checkBedFormat(v):
+	b = os.path.splitext(v)[1][1:].lower()
+	if b != 'bed':
+		raise argparse.ArgumentTypeError('bed format file type expected')
+	else:
+		return v
 #######################################################################
 #######################################################################
-parser = argparse.ArgumentParser(description= 'Look for predictions up to 150 nucleotides downstream of genes' + '\n'
-								'Usage:' + '\t' + 'position.py <options> -pos -neg -all -gene -term -o')
+parser = argparse.ArgumentParser(description= 'Filter predicted positives with BLAST bitscores over 30' + '\n'
+								'Usage:' + '\t' + 'filterBLAST.py <options> -term -blast -o')
 
 #required files:
-parser.add_argument('-term', dest='predictedTerminators', help='input predicted Terminators', required=True)
+parser.add_argument('-term', dest='predictedTerminators', help='input predicted Terminators', type=checkBedFormat, required=True)
 parser.add_argument('-blast', dest='blastFile', help='input BLAST', required=True)
 parser.add_argument('-o', dest='outpath', help='output path and filename prefix', required=True)
 
@@ -29,19 +39,19 @@ if "BS" in predictedTerminators:
 	chrom2 = 'gi|255767013|ref|NC_000964.3|'
 if "EF" in predictedTerminators:
 	organism = 'E.faecalis'
-	if 'Chromosome' in predictedTerminators:
+	if 'chrom' in predictedTerminators:
 		chrom = "NC_004668.1"
 		chrom2 = chrom
 		plasmid = 'Chromosome'
-	if 'Plasmid1' in predictedTerminators:
+	if 'pl1' in predictedTerminators:
 		chrom = "NC_004669.1"
 		chrom2 = chrom
 		plasmid = 'Plasmid1'
-	if 'Plasmid2' in predictedTerminators:
+	if 'pl2' in predictedTerminators:
 		chrom = "NC_004671.1"
 		chrom2 = chrom
 		plasmid = 'Plasmid2'
-	if 'Plasmid3' in predictedTerminators:
+	if 'pl3' in predictedTerminators:
 		chrom = "NC_004670.1"
 		chrom2 = chrom
 		plasmid = 'Plasmid3'
@@ -49,10 +59,10 @@ if "LM" in predictedTerminators:
 	organism = 'L.monocytogenes'
 	chrom = "NC_003210.1"
 	chrom2 = chrom
-if 'SP' in predictedTerminators:
-	organism = 'S.pneumoniae'
-	chrom = "NC_003028.3"
-	chrom2 = chrom
+# if 'SP' in predictedTerminators:
+# 	organism = 'S.pneumoniae'
+# 	chrom = "NC_003028.3"
+# 	chrom2 = chrom
 
 print '\n' + str(organism) + ' ' + str(plasmid)
 

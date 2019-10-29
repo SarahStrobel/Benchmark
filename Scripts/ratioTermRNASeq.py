@@ -171,45 +171,46 @@ if not (len(termSeqFileList) == 3 or len(termSeqFileList) == 4):
 
 
 termSeqFileList = [item for sublist in termSeqFileList for item in sublist]
-
-
 termSeqPath = os.path.dirname(termSeqFileList[1]) + '/'
-
+# print termSeqPath
 
 rnaSeqFile = args.rnaSeqFile
+rnaSeqPath = os.path.dirname(rnaSeqFile) + '/'
+# print rnaSeqPath
+
 outfile = args.outfile
 boolMax = args.boolMax
 
 
 
-####################################################################################################################
+# ####################################################################################################################
 bsubTermSeqFiles = []
 
-experiments = (termSeqPath + '*ERX1304415*', termSeqPath + '*ERX1320300*', termSeqPath + '*ERX1320301*')
+experiments = (termSeqPath + '*ERX1304415*.bedgraph', termSeqPath + '*ERX1320300*.bedgraph', termSeqPath + '*ERX1320301*.bedgraph')
 for experiment in experiments:
 	bsubTermSeqFiles.append(glob.glob(experiment))
 
 bsubTermSeqFiles = [item for sublist in bsubTermSeqFiles for item in sublist]
 
-bsubRNASeqFile = "/scr/k70san3/stsarah/Novoalign_Alignments/RNA_Seq/BS/filtererd_trim_sorted_ERX1320302_genomeCoverageBed.bedgraph"
+bsubRNASeqFile = rnaSeqPath + "sorted_filtered_trimmed_ERX1320302_Bacillus_subtilis_genomeCoverageBed.bedgraph"
 
 
 lmonTermSeqFiles = []
 
-experiments = (termSeqPath + '*ERR1248436*', termSeqPath + '*ERR1248437*', termSeqPath + '*ERR1248438*')
+experiments = (termSeqPath + '*ERR1248436*.bedgraph', termSeqPath + '*ERR1248437*.bedgraph', termSeqPath + '*ERR1248438*.bedgraph')
 for experiment in experiments:
 	lmonTermSeqFiles.append(glob.glob(experiment))
 
 lmonTermSeqFiles = [item for sublist in lmonTermSeqFiles for item in sublist]
 
 
-spneuTermSeqFiles = []
+# spneuTermSeqFiles = []
 
-experiments = (termSeqPath + '*SRR7160964*', termSeqPath + '*SRR7160965*', termSeqPath + '*SRR7160966*', termSeqPath + '*SRR7160967*')
-for experiment in experiments:
-	spneuTermSeqFiles.append(glob.glob(experiment))
+# experiments = (termSeqPath + '*SRR7160964*', termSeqPath + '*SRR7160965*', termSeqPath + '*SRR7160966*', termSeqPath + '*SRR7160967*')
+# for experiment in experiments:
+# 	spneuTermSeqFiles.append(glob.glob(experiment))
 
-spneuTermSeqFiles = [item for sublist in spneuTermSeqFiles for item in sublist]
+# spneuTermSeqFiles = [item for sublist in spneuTermSeqFiles for item in sublist]
 
 
 efaecTermSeqFiles = []
@@ -230,11 +231,8 @@ for bedgraphFile in glob.glob(termSeqPath + '*_plasmid3.bedgraph'):
 
 
 
-
-
-
 efaecRNASeqFiles = []
-for file in glob.glob('/scr/k70san3/stsarah/Novoalign_Alignments/RNA_Seq/EF/chromosome_and_plasmids/*ERR1248404*.bedgraph'):
+for file in glob.glob(rnaSeqPath + 'sorted_filtered_trimmed_ERR1248404*.bedgraph'):
 	efaecRNASeqFiles.append(str(file))
 
 
@@ -245,22 +243,22 @@ organism = ''
 chrom = ''
 plasmid = ''
 
-if 'BS' in rnaSeqFile:
+if 'Bacillus' in rnaSeqFile:
 	organism = 'B.subtilis'
 	chrom = 'NC_000964.3'
 	plasmid = 'chromosome'
 
-if 'LM' in rnaSeqFile:
+if 'Listeria' in rnaSeqFile:
 	organism = 'L.monocytogenes'
 	chrom = "NC_003210.1"
 	plasmid = 'chromosome'
 
-if 'SP' in rnaSeqFile:
-	organism = 'S.pneumoniae'
-	chrom = "NC_003210.1"
-	plasmid = 'chromosome'
+# if 'SP' in rnaSeqFile:
+# 	organism = 'S.pneumoniae'
+# 	chrom = "NC_003210.1"
+# 	plasmid = 'chromosome'
 
-if 'EF' in rnaSeqFile:
+if 'Enterococcus' in rnaSeqFile:
 	organism = 'E.faecalis'
 	if '_chromosome' in rnaSeqFile:
 		chrom = "NC_004668.1"
@@ -369,18 +367,18 @@ if organism == 'B.subtilis':
 	uniqueReadsRS = uniqueReadsRSBS
 
 
-if organism == 'S.pneumoniae':
-	spneuFilesTS = [open(i, 'r') for i in spneuTermSeqFiles]
-	spneuFileRS = open(rnaSeqFile, 'r')
+# if organism == 'S.pneumoniae':
+# 	spneuFilesTS = [open(i, 'r') for i in spneuTermSeqFiles]
+# 	spneuFileRS = open(rnaSeqFile, 'r')
 
-	for file in spneuFilesTS:
-		headerTS = file.readline()
+# 	for file in spneuFilesTS:
+# 		headerTS = file.readline()
 
-		uniqueReads = int(headerTS.split('"')[1])
-		uniqueReadsTSCombined += uniqueReads
+# 		uniqueReads = int(headerTS.split('"')[1])
+# 		uniqueReadsTSCombined += uniqueReads
 
-	headerRS = spneuFileRS.readline()
-	uniqueReadsRS = int(headerRS.split('"')[1])
+# 	headerRS = spneuFileRS.readline()
+# 	uniqueReadsRS = int(headerRS.split('"')[1])
 
 
 
@@ -916,9 +914,6 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 		
 		
 
-
-
-
 		
 
 		# maxTS and max RNA or avg RNA counts for whole genome
@@ -1051,7 +1046,8 @@ if organism == 'B.subtilis':
 
 
 
-if organism == 'E.faecalis' or organism == 'L.monocytogenes' or organism == 'S.pneumoniae':
+# if organism == 'E.faecalis' or organism == 'L.monocytogenes' or organism == 'S.pneumoniae':
+else:
 
 	with open(outfileTSvsRS, 'w') as tsVsRs, \
 		open(outfileTScountsOverlappingGenes, 'w') as tsOg:
@@ -1134,11 +1130,13 @@ if organism == 'E.faecalis' or organism == 'L.monocytogenes' or organism == 'S.p
 
 
 
-# gff.close()
-# bed.close()
-# ts.close()
-# rs.close()
-# tsVsRs.close()
-# tsOt.close()
-# tsOg.close()
+gff.close()
+bed.close()
+ts.close()
+rs.close()
+tsVsRs.close()
+tsOt.close()
+tsOg.close()
+RNIEtsOg.close()
+RNIEtsVsRs.close()
 

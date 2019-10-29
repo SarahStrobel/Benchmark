@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description= 'Count 5\' end nuc positions' + '\
 								'Usage:' + '\t' + '5primePosfromSam_2_Bedgraph.py <options> -termSeq -o')
 
 #required files:
-parser.add_argument('-rnaSeq', dest='rnaSeqFile', help='input of aligned RNA-Seq coverage file in bedgraph format', required=True)
+# parser.add_argument('-rnaSeq', dest='rnaSeqFile', help='input of aligned RNA-Seq coverage file in bedgraph format', required=True)
 parser.add_argument('-termSeq', dest='termSeqPath', help='path to input of aligned Term-Seq alignement file in sam format', required=True)
 parser.add_argument('-o', dest='outfile', help='output path and filename prefix', required=True)
 
@@ -25,45 +25,16 @@ outfile = args.outfile
 termSeqPath = args.termSeqPath
 
 
-rnaSeqFile = args.rnaSeqFile
-rna = open(rnaSeqFile, 'r')
-lengthGenome = len(rna.readlines())
+# rnaSeqFile = args.rnaSeqFile
+# rna = open(rnaSeqFile, 'r')
+# lengthGenome = len(rna.readlines())
 
-organism = ''
-chrom = ''
-chrom2 = ''
-plasmid = ''
 
-if "BS" in rnaSeqFile:
-	organism = 'B.subtilis'
-	chrom = 'NC_000964.3/1-4215606'
-	chrom2 = 'gi|255767013|ref|NC_000964.3|'
-if "EF" in rnaSeqFile:
-	organism = 'E.faecalis'
-	if 'Chromosome' in rnaSeqFile:
-		chrom = "NC_004668.1"
-		chrom2 = chrom
-		plasmid = 'Chromosome'
-	if 'Plasmid1' in rnaSeqFile:
-		chrom = "NC_004669.1"
-		chrom2 = chrom
-		plasmid = 'Plasmid1'
-	if 'Plasmid2' in rnaSeqFile:
-		chrom = "NC_004671.1"
-		chrom2 = chrom
-		plasmid = 'Plasmid2'
-	if 'Plasmid3' in rnaSeqFile:
-		chrom = "NC_004670.1"
-		chrom2 = chrom
-		plasmid = 'Plasmid3'
-if "LM" in rnaSeqFile:
-	organism = 'L.monocytogenes'
-	chrom = "NC_003210.1"
-	chrom2 = chrom
-if 'SP' in rnaSeqFile:
-	organism = 'S.pneumoniae'
-	chrom = "NC_003028.3"
-	chrom2 = chrom
+# if 'SP' in rnaSeqFile:
+# 	organism = 'S.pneumoniae'
+# 	chrom = "NC_003028.3"
+# 	chrom2 = chrom
+# 	lengthGenome = 
 
 
 
@@ -73,15 +44,53 @@ if 'SP' in rnaSeqFile:
 
 
 for samFile in glob.glob(termSeqPath + '*.sam'):
+	organism = ''
+	chrom = ''
+	chrom2 = ''
+	plasmid = ''
+	lengthGenome = 0
+
+	if "Bacillus" in samFile:
+		organism = 'Bacillus_subtilis'
+		chrom = 'NC_000964.3/1-4215606'
+		chrom2 = 'gi|255767013|ref|NC_000964.3|'
+		lengthGenome = 4215606
+	if "Enterococcus" in samFile:
+		organism = 'Enterococcus_faecalis'
+		if 'chromosome' in samFile:
+			chrom = "NC_004668.1"
+			chrom2 = chrom
+			plasmid = 'chromosome'
+			lengthGenome = 3218031
+		if 'plasmid1' in samFile:
+			chrom = "NC_004669.1"
+			chrom2 = chrom
+			plasmid = 'plasmid1'
+			lengthGenome = 66320
+		if 'plasmid2' in samFile:
+			chrom = "NC_004671.1"
+			chrom2 = chrom
+			plasmid = 'plasmid2'
+			lengthGenome = 57660
+		if 'plasmid3' in samFile:
+			chrom = "NC_004670.1"
+			chrom2 = chrom
+			plasmid = 'plasmid3'
+			lengthGenome = 17963
+	if "Listeria" in samFile:
+		organism = 'Listeria_monocytogenes'
+		chrom = "NC_003210.1"
+		chrom2 = chrom
+		lengthGenome = 2944528
 
 	experiment = samFile.split('/')[-1].split('.')[0].split('_')[2]
 
 	print experiment
 
-	if organism == 'E.faecalis':
-		outfile = outfile + experiment + '_' + plasmid
+	if organism == 'Enterococcus_faecalis':
+		outfile = outfile + experiment + '_' + organism + '_' + plasmid
 	else:
-		outfile = outfile + experiment
+		outfile = outfile + experiment + '_' + organism
 
 	print '\n' + str(organism) + ' ' + str(plasmid)
 	print 'genome length: ' + str(lengthGenome)
