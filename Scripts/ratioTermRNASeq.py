@@ -170,7 +170,7 @@ if not (len(termSeqFileList) == 3 or len(termSeqFileList) == 4):
 	raise Exception('\n 3 or 4 replicates')
 
 
-termSeqFileList = [item for sublist in termSeqFileList for item in sublist]
+termSeqFileList = [item for sublist in termSeqFileList for item in sublist] #flatten list
 termSeqPath = os.path.dirname(termSeqFileList[1]) + '/'
 # print termSeqPath
 
@@ -294,6 +294,7 @@ numberOfNucsToSplitInto = args.numberOfNucsToSplitInto
 numberOfNucsToAvg = args.numberOfNucsToAvg
 #average length of terminator
 avgLengthOfTerminator = 0
+maxLengthOfTerminator = 0
 
 outfile = outfile + '_' + str(numberOfNucsToAvg) + '_nucs'
 
@@ -566,6 +567,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 				terminatorLengths.append(lengthTerminator)
 
 				avgLengthOfTerminator = np.mean(terminatorLengths)
+				maxLengthOfTerminator = np.max(terminatorLengths)
 
 
 				# put all coords between startTerminator and endTerminator into list:SS			
@@ -725,6 +727,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 
 
 		# print out stats for terminators and genes
+		print 'max lenght of terminators:\t\t\t\t' + str(maxLengthOfTerminator)
 		print 'avg length of terminators:\t\t\t\t' + str(avgLengthOfTerminator)
 		print 'number of terminators in the nucs ' + str(numberOfNucsInGenome) + ':\t\t' + str(numberOfTerminators) + ' (' + str(len(terminatorCoords)) + ' terminator nucleotides)'
 
@@ -1137,6 +1140,5 @@ rs.close()
 tsVsRs.close()
 tsOt.close()
 tsOg.close()
-RNIEtsOg.close()
-RNIEtsVsRs.close()
+
 

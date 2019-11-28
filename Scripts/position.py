@@ -4,6 +4,7 @@
 
 
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 from bisect import bisect_left
 from matplotlib.colors import ListedColormap
@@ -27,6 +28,15 @@ def checkBedFormat(v):
 		raise argparse.ArgumentTypeError('bed format file type expected')
 	else:
 		return v
+
+def checkInt(v):
+	v = int(v)
+	if v < 0:
+		raise argparse.ArgumentTypeError('positive Integer value expected')
+	if isinstance(v, int):
+		return v
+	else:
+		raise argparse.ArgumentTypeError('Integer value expected')
 #######################################################################
 #######################################################################
 # https://stackoverflow.com/questions/12141150/from-list-of-integers-get-number-closest-to-a-given-value
@@ -56,6 +66,7 @@ parser.add_argument('-pos', dest='predictedTerminators', help='input predicted T
 parser.add_argument('-neg', dest='predictedNegatives', help='input predicted Negatives', type=checkBedFormat, required=True)
 parser.add_argument('-gff', dest='geneAnnotationFile', help='input gene annotation file', type=checkGffFormat, required=True)
 parser.add_argument('-o', dest='outpath', help='output path and filename prefix', required=True)
+parser.add_argument('-l', dest='lengthTerminator', help='length of terminator, default:120', type=checkInt, nargs='?', default=120)
 
 args = parser.parse_args()
 
@@ -63,15 +74,22 @@ geneAnnotationFile = args.geneAnnotationFile
 predictedTerminators = args.predictedTerminators
 predictedNegatives = args.predictedNegatives
 outpath = args.outpath
+lengthTerminator = args.lengthTerminator
+
+l1 = lengthTerminator * 0.16666666666666664
+l2 = lengthTerminator - l1
+
+l1 =  int(math.ceil(l1))
+l2 = int(math.ceil(l2))
 
 
 positionPredTermBed = outpath + 'Distance_predictedTerminators_NO_knownTerminators_NO_genes.bed'
-positionPredTermBed120 = outpath + 'Distance_120_predictedTerminators_NO_knownTerminators_NO_genes.bed'
-positionPredTermBed60 = outpath + 'Distance_60_predictedTerminators_NO_knownTerminators_NO_genes.bed'
+positionPredTermBedLong = outpath + 'Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.bed'
+
 
 positionPredNegBed = outpath + 'Distance_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-positionPredNegBed120 = outpath + 'Distance_120_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-positionPredNegBed60 = outpath + 'Distance_60_predictedNegatives_NO_knownTerminators_NO_genes.bed'
+positionPredNegBedLong = outpath + 'Distance_predictedNegatives_NO_knownTerminators_NO_genes_long.bed'
+
 
 positionPlot = outpath + 'DistanceToGenes.png'
 
@@ -230,8 +248,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 	#write original coords and distance to closest gene to bed files
 
 	with open(positionPredTermBed, 'w') as termbed, open(positionPredNegBed, 'w') as negbed,\
-		open(positionPredTermBed120, 'w') as termbed120, open(positionPredNegBed120, 'w') as negbed120,\
-		open(positionPredTermBed60, 'w') as termbed60, open(positionPredNegBed60, 'w') as negbed60:
+		open(positionPredTermBedLong, 'w') as termbedLong, open(positionPredNegBedLong, 'w') as negbedLong:
 
 		for item1 in sortedClosestTerm: #[x,y,coord,distance,strand]
 			if item1[3] <= 150:
@@ -239,45 +256,24 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 				termbed.write(chrom2 + '\t' + str(item1[2]) + '\t' + str(item1[2]+1) + '\t' + str(item1[3]) + ' predicted Terminators' + '\t' + str(item1[4]) + '\n')
 
-				if item1[2]-100 > 0 and item1[2]+100 <= lengthGenome: 
+				if item1[2]-l2 > 0 and item1[2]+l2 <= lengthGenome: 
 					if item1[4] == '-':
-						termbed120.write(chrom +'\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
+						termbedLong.write(chrom +'\t' + str(item1[2]-l2) + '\t' + str(item1[2]+l1) + '\t' \
 										+ str(item1[2]) \
 										 + '_'+ str(item1[3]) +'_'+ str(item1[4])+'\n')
 
 					if item1[4] == '+':
-						termbed120.write(chrom + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
+						termbedLong.write(chrom + '\t' + str(item1[2]-l1) + '\t' + str(item1[2]+l2) + '\t' \
 										+ str(item1[2]) \
 										+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
 
 					if item1[4] == 'nostrand':
-						termbed120.write(chrom + '\t' + str(item1[2]-20) + '\t' + str(item1[2]+100) + '\t' \
+						termbedLong.write(chrom + '\t' + str(item1[2]-l1) + '\t' + str(item1[2]+l2) + '\t' \
 										+ str(item1[2]) \
 										+'_'+ str(item1[3])+'_'+ '+' + '\n')
-						termbed120.write(chrom + '\t' + str(item1[2]-100) + '\t' + str(item1[2]+20) + '\t' \
+						termbedLong.write(chrom + '\t' + str(item1[2]-l2) + '\t' + str(item1[2]+l1) + '\t' \
 										+ str(item1[2]) \
 										+'_'+ str(item1[3])+'_'+ '-' + '\n')
-
-				if item1[2]-50 > 0 and item1[2]+50 <= lengthGenome: 
-					if item1[4] == '-':
-						termbed60.write(chrom +'\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ str(item1[4])+'\n')
-
-					if item1[4] == '+':
-						termbed60.write(chrom + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ str(item1[4])+ '\n')
-
-					if item1[4] == 'nostrand':
-						termbed60.write(chrom + '\t' + str(item1[2]-10) + '\t' + str(item1[2]+50) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ '+' + '\n')
-						termbed60.write(chrom + '\t' + str(item1[2]-50) + '\t' + str(item1[2]+10) + '\t' \
-										+ str(item1[2]) \
-										+'_'+ str(item1[3])+'_'+ '-' + '\n')
-
-
 
 
 
@@ -288,43 +284,25 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 				negbed.write(chrom2 + '\t' + str(item2[2]) + '\t' + str(item2[2]+1) + '\t' + str(item2[3]) + ' predicted Negatives' + '\t' + str(item2[4]) +'\n')
 
 
-				if item2[2]-100 > 0 and item2[2]+100 <= lengthGenome: 
+				if item2[2]-l2 > 0 and item2[2]+l2 <= lengthGenome: 
 					if item2[4] == '-':
-						negbed120.write(chrom +'\t' + str(item2[2]-100) + '\t' + str(item2[2]+20) + '\t' \
+						negbedLong.write(chrom +'\t' + str(item2[2]-l2) + '\t' + str(item2[2]+l1) + '\t' \
 										+ chrom + ':'+ str(item2[2]) \
 										 + '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+'\n')
 
 					if item2[4] == '+':
-						negbed120.write(chrom + '\t' + str(item2[2]-20) + '\t' + str(item2[2]+100) + '\t' \
+						negbedLong.write(chrom + '\t' + str(item2[2]-l1) + '\t' + str(item2[2]+l2) + '\t' \
 										+ chrom + ':'+ str(item2[2]) \
 										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+ '\n')
 
 					if item2[4] == 'nostrand':
-						negbed120.write(chrom + '\t' + str(item2[2]-20) + '\t' + str(item2[2]+100) + '\t' \
+						negbedLong.write(chrom + '\t' + str(item2[2]-l1) + '\t' + str(item2[2]+l2) + '\t' \
 										+ chrom + ':'+ str(item2[2]) \
 										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '+' + '\n')
-						negbed120.write(chrom + '\t' + str(item2[2]-100) + '\t' + str(item2[2]+20) + '\t' \
+						negbedLong.write(chrom + '\t' + str(item2[2]-l2) + '\t' + str(item2[2]+l1) + '\t' \
 										+ chrom + ':'+ str(item2[2]) \
 										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
 
-				if item2[2]-50 > 0 and item2[2]+50 <= lengthGenome: 
-					if item2[4] == '-':
-						negbed60.write(chrom +'\t' + str(item2[2]-50) + '\t' + str(item2[2]+10) + '\t' \
-										+ chrom + ':'+ str(item2[2]) \
-										 + '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+'\n')
-
-					if item2[4] == '+':
-						negbed60.write(chrom + '\t' + str(item2[2]-10) + '\t' + str(item2[2]+50) + '\t' \
-										+ chrom + ':'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ str(item2[4])+ '\n')
-
-					if item2[4] == 'nostrand':
-						negbed60.write(chrom + '\t' + str(item2[2]-10) + '\t' + str(item2[2]+50) + '\t' \
-										+ chrom + ':'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '+' + '\n')
-						negbed60.write(chrom + '\t' + str(item2[2]-50) + '\t' + str(item2[2]+10) + '\t' \
-										+ chrom + ':'+ str(item2[2]) \
-										+ '_' + str(item2[0]) + '_' + str(item2[1]) +'_'+ str(item2[3])+'_'+ '-' + '\n')
 
 
 
@@ -332,11 +310,9 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 	print "predicted Negatives not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150)
 
 	negbed.close()
-	negbed60.close()
-	negbed120.close()
+	negbedLong.close()
 	termbed.close()
-	termbed60.close()
-	termbed120.close()
+	termbedLong.close()
 
 #######################################################################
 #######################################################################

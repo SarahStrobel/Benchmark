@@ -1,4 +1,5 @@
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 import argparse
 import os.path
@@ -21,6 +22,15 @@ def checkBedFormat(v):
 		raise argparse.ArgumentTypeError('bed format file type expected')
 	else:
 		return v
+
+def checkInt(v):
+	v = int(v)
+	if v < 0:
+		raise argparse.ArgumentTypeError('positive Integer value expected')
+	if isinstance(v, int):
+		return v
+	else:
+		raise argparse.ArgumentTypeError('Integer value expected')
 
 #######################################################################
 #######################################################################
@@ -121,7 +131,7 @@ def performance(classesTest, classesPredicted):
 #######################################################################
 
 parser = argparse.ArgumentParser(description= 'Set boundary for classification into predicted Terminators and predicted Negatives' + '\n'
-								'Usage:' + '\t' + 'classifcation.py <options> -pos -neg -all -gff -term -o')
+								'Usage:' + '\t' + 'classifcation.py <options> -pos -neg -all -gff -term -o -l')
 
 #required files:
 parser.add_argument('-pos', dest='positivesFile', help='input of Term-Seq counts overlapping known Terminators/counts with RNIE scores > 20.0', required=True)
@@ -129,6 +139,7 @@ parser.add_argument('-neg', dest='negativesFile', help='input of Term-Seq counts
 parser.add_argument('-all', dest='allPointsFile', help='input of max. Term-Seq vs. avg. RNA-Seq counts', required=True)
 parser.add_argument('-gff', dest='geneAnnotationFile', help='input gene annotation file', type=checkGffFormat, required=True)
 parser.add_argument('-o', dest='outpath', help='output path and filename prefix', required=True)
+parser.add_argument('-l', dest='lengthTerminator', help='length of terminator, default:120', type=checkInt, nargs='?', default=120)
 
 #optional (only B.subtilis)
 parser.add_argument('-term', dest='knownTerminators', help='input known Terminators', type=checkBedFormat)
@@ -140,6 +151,13 @@ negativesFile = args.negativesFile
 allPointsFile = args.allPointsFile
 geneAnnotationFile = args.geneAnnotationFile
 outpath = args.outpath
+lengthTerminator = args.lengthTerminator
+
+l1 = lengthTerminator * 0.16666666666666664
+l2 = lengthTerminator - l1
+
+l1 =  int(math.ceil(l1))
+l2 = int(math.ceil(l2))
 
 
 
@@ -149,6 +167,7 @@ organismBrev = ''
 chrom = ''
 chrom2 = ''
 plasmid = ''
+lengthGenome = 0
 
 if 'BS' in positivesFile:
 	knownTerminators = args.knownTerminators
@@ -156,6 +175,7 @@ if 'BS' in positivesFile:
 	organismBrev = 'BS'
 	chrom = 'NC_000964.3/1-4215606'
 	chrom2 = 'gi|255767013|ref|NC_000964.3|'
+	lengthGenome = 4215606
 if 'EF' in positivesFile:
 	organism = 'E.faecalis'
 	if 'chrom' in positivesFile:
@@ -163,26 +183,31 @@ if 'EF' in positivesFile:
 		chrom2 = chrom
 		organismBrev = 'EF_chrom'
 		plasmid = ' chromosome'
+		lengthGenome = 3218031
 	if 'pl1' in positivesFile:
 		chrom = "NC_004669.1"
 		chrom2 = chrom
 		organismBrev = 'EF_pl1'
 		plasmid = ' plasmid 1'
+		lengthGenome = 66320
 	if 'pl2' in positivesFile:
 		chrom = "NC_004671.1"
 		chrom2 = chrom
 		organismBrev = 'EF_pl2'
 		plasmid = ' plasmid 2'
+		lengthGenome = 57660
 	if 'pl3' in positivesFile:
 		chrom = "NC_004670.1"
 		chrom2 = chrom
 		organismBrev = 'EF_pl3'
 		plasmid = ' plasmid 3'
+		lengthGenome = 17963
 if 'LM' in positivesFile:
 	organism = 'L.monocytogenes'
 	organismBrev = 'LM'
 	chrom = "NC_003210.1"
 	chrom2 = chrom
+	lengthGenome = 2160842
 # if 'SP' in positivesFile:
 # 	organism = 'S.pneumoniae'
 # 	organismBrev = 'SP'
@@ -193,25 +218,19 @@ if 'LM' in positivesFile:
 print organism + plasmid
 print chrom
 
+# outfiles for plots
 outfileG1 = outpath + 'gradStudentsAlgo_traintest_' + organismBrev
 outfileG2 = outpath + 'gradStudentsAlgo_allPoints_' + organismBrev
 
 
-# outfiles for predicted terminators bed (e.g. for IGV regions manager)/rnie bed (length 120 and 60 nt)
+# outfiles for predicted terminators bed (e.g. for IGV regions manager)/rnie bed (lengthTerminator)
 allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesBed = outpath + organismBrev + '_predictedTerminators_NO_knownTerminators_NO_genes.bed'
-allPointsPredictedTerminatorsNOgenesBed = outpath + organismBrev + '_predictedTerminators_NO_genes.bed'
-allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesRNIE = outpath + organismBrev + '_120_predictedTerminators_NO_knownTerminators_NO_genes.bed'
-allPointsPredictedTerminatorsNOgenesRNIE = outpath + organismBrev + '_120_predictedTerminators_NO_genes.bed'
-allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesRNIE2 = outpath + organismBrev + '_60_predictedTerminators_NO_knownTerminators_NO_genes.bed'
-allPointsPredictedTerminatorsNOgenesRNIE2 = outpath + organismBrev + '_60_predictedTerminators_NO_genes.bed'
+allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesLong = outpath + organismBrev + '_predictedTerminators_NO_knownTerminators_NO_genes_long.bed'
 
 # outfiles for predicted negatives bed/rnie bed
 allPointsPredictedNegativesNOknownTerminatorsNOgenesBed = outpath + organismBrev + '_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-allPointsPredictedNegativesNOgenesBed = outpath + organismBrev + '_predictedNegatives_NO_genes.bed'
-allPointsPredictedNegativesNOknownTerminatorsNOgenesRNIE = outpath + organismBrev + '_120_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-allPointsPredictedNegativesNOgenesRNIE = outpath + organismBrev + '_120_predictedNegatives_NO_genes.bed'
-allPointsPredictedNegativesNOknownTerminatorsNOgenesRNIE2 = outpath + organismBrev + '_60_predictedNegatives_NO_knownTerminators_NO_genes.bed'
-allPointsPredictedNegativesNOgenesRNIE2 = outpath + organismBrev + '_60_predictedNegatives_NO_genes.bed'
+allPointsPredictedNegativesNOknownTerminatorsNOgenesLong = outpath + organismBrev + '_predictedNegatives_NO_knownTerminators_NO_genes_long.bed'
+
 
 # outfile for false Positives
 fpBed = outpath + organismBrev + '_falsePositives.bed'
@@ -287,9 +306,10 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 
 
-	overlapsBoth = set(testPositivesCoords) & set(testNegativesCoords)
+	# overlapsBoth = set(testPositivesCoords) & set(testNegativesCoords)
 
-	print 'known terminators/positives overlapping genes: ' + str(overlapsBoth)
+	# print 'known terminators overlapping genes: ' + str(overlapsBoth)
+
 #######################################################################
 #######################################################################
 
@@ -399,7 +419,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 #######################################################################
 #######################################################################
-# binary search: looking for predicted positves from test data (all points) that overlap or don't overlap known terminators or genes in test data
+# binary search: looking for predicted terminators/negatives that overlap or don't overlap known terminators or genes in test data
 
 
 	predictedTerminatorsAllPointsNOTOverlappingTest = []
@@ -419,299 +439,158 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	predictedNegativesAllPointsOverlappingGenesTest = []
 	predictedNegativesAllPointsOverlappingTerminatorsTest = []
 
+	
+	outfilesPredictedTerminators = [allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesBed, allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesLong,
+									fpBed]
 
-	with open(allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesBed, 'w') as aPpTnOkTnOgBed, open(allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesRNIE, 'w') as aPpTnOkTnOgRNIE, \
-			open(allPointsPredictedTerminatorsNOgenesBed, 'w') as aPpTnOkTbed, open(allPointsPredictedTerminatorsNOgenesRNIE, 'w')as aPpTnOkTrnie, \
-			open(fpBed, 'w') as fBed,\
-			open(allPointsPredictedTerminatorsNOknwonTerminatorsNOgenesRNIE2, 'w') as aPpTnOkTnOgRNIE2, \
-			open(allPointsPredictedTerminatorsNOgenesRNIE2, 'w')as aPpTnOkTrnie2:
+	outfilesPredictedNegatives = [allPointsPredictedNegativesNOknownTerminatorsNOgenesBed, allPointsPredictedNegativesNOknownTerminatorsNOgenesLong]
 
 
-		for posTest in predictedTerminatorsAllPointsDataTest:
+
+	outfilePredTerm = [open(i, 'w') for i in outfilesPredictedTerminators]
+	outfilePredNeg = [open(i, 'w') for i in outfilesPredictedNegatives]
+
+
+	for posTest in predictedTerminatorsAllPointsDataTest:
 			
-			# check if coord of predicted terminator overlaps with known terminators (resultPos1) of genes (resultPos2) via binary search
-			# resultPos1 = binarySearch(testPositivesCoords, 0, len(testPositivesCoords)-1, posTest[2])
-			resultPos1 = binarySearch(terminatorCoords, 0, len(terminatorCoords)-1, posTest[2])
-			# resultPos2 = binarySearch(testNegativesCoords, 0, len(testNegativesCoords)-1, posTest[2])
-			resultPos2 = binarySearch(geneCoords, 0, len(geneCoords)-1, posTest[2])
-
-
-			# bed file and rnie bed file with predicted terminators not overl. genes, not overl. known terminators
-			if resultPos1 == -1 and resultPos2 == -1:
-				predictedTerminatorsAllPointsNOTOverlappingTest.append([posTest[0],posTest[1]])
-
-				# write to bed: all points predicted Terminators Not overlapping genes or known terminators (in test data)
-				aPpTnOkTnOgBed.write(chrom2 + '\t' + str(posTest[2]) + '\t' + str(posTest[2]+1) \
-								+ '\t' + 'predicted Terminator (not overl. genes and known terminators)' + '\n')
-
-
-				# make 'artificial' terminators for RNIE
-				# if read on negative strand: artificial terminator coords: write 70 upstream and 20 downstream from TS coord 
-				# if read on positive strand: artificial terminator coords: write 20 upstream and 70 downstream from TS coord
-				# if no strand: create both  
-				# to bed format --> bedtools getFasta
-
-				# write to bed: chrom tab coord-100/coord-20 tab coord+20/coord+100 tab name(chrom:originalTScoord_x_y_strand)
-
-				if posTest[2]-100 > 0 and posTest[2]+100 <= 4215606: 
-					if posTest[3] == '-':
-						aPpTnOkTnOgRNIE.write(chrom +'\t' + str(posTest[2]-100) + '\t' + str(posTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
-
-					if posTest[3] == '+':
-						aPpTnOkTnOgRNIE.write(chrom +'\t' + str(posTest[2]-20) + '\t' + str(posTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
-					if posTest[3] == 'nostrand':
-						aPpTnOkTrnie.write(chrom + '\t' + str(posTest[2]-20) + '\t' + str(posTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										+ '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '+' + '\n')
-						aPpTnOkTrnie.write(chrom +'\t' + str(posTest[2]-100) + '\t' + str(posTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '-' +'\n')
-
-				# write to bed: chrom tab coord-50/coord-10 tab coord+10/coord+50 tab name(chrom:originalTScoord_x_y_strand)		
-				if posTest[2]-50 > 0 and posTest[2]+50 <= 4215606: 
-					if posTest[3] == '-':
-						aPpTnOkTnOgRNIE2.write(chrom +'\t' + str(posTest[2]-50) + '\t' + str(posTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
-
-					if posTest[3] == '+':
-						aPpTnOkTnOgRNIE2.write(chrom +'\t' + str(posTest[2]-10) + '\t' + str(posTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
-					if posTest[3] == 'nostrand':
-						aPpTnOkTrnie2.write(chrom + '\t' + str(posTest[2]-10) + '\t' + str(posTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										+ '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '+' + '\n')
-						aPpTnOkTrnie2.write(chrom +'\t' + str(posTest[2]-50) + '\t' + str(posTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '-' +'\n')
-
-
-			else:
-				predictedTerminatorsAllPointsOverlappingTest.append([posTest[0],posTest[1]])
-
-			
-			# bed file with false positives
-			if resultPos2 != -1:
-				fBed.write(chrom2 + '\t' + str(posTest[2]) + '\t' + str(posTest[2]+1) + '\t' + 'false positives' +'\n')
-
-
-			# bed file with predicted terminators not overl. genes alone / overlapping genes alone
-			if resultPos2 == -1:
-				predictedTerminatorsAllPointsNOTOverlappingGenesTest.append([posTest[0],posTest[1]])
-
-				aPpTnOkTbed.write(chrom2 + '\t' + str(posTest[2]) + '\t' + str(posTest[2]+1) \
-								+ '\t' + 'predicted Terminator (not overl. genes)' + '\n')
-
-				if posTest[2]-100 > 0 and posTest[2]+100 <= 4215606:
-					if posTest[3] == '-':
-						aPpTnOkTrnie.write(chrom +'\t' + str(posTest[2]-100) + '\t' + str(posTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
-
-					if posTest[3] == '+':
-						aPpTnOkTrnie.write(chrom + '\t' + str(posTest[2]-20) + '\t' + str(posTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										+ '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+ '\n')
-
-					if posTest[3] == 'nostrand':
-						aPpTnOkTrnie.write(chrom + '\t' + str(posTest[2]-20) + '\t' + str(posTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										+ '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '+' + '\n')
-						aPpTnOkTrnie.write(chrom +'\t' + str(posTest[2]-100) + '\t' + str(posTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '-' +'\n')
-
-
-				if posTest[2]-50 > 0 and posTest[2]+50 <= 4215606:
-					if posTest[3] == '-':
-						aPpTnOkTrnie2.write(chrom +'\t' + str(posTest[2]-50) + '\t' + str(posTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
-
-					if posTest[3] == '+':
-						aPpTnOkTrnie2.write(chrom + '\t' + str(posTest[2]-10) + '\t' + str(posTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										+ '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+ '\n')
-
-					if posTest[3] == 'nostrand':
-						aPpTnOkTrnie2.write(chrom + '\t' + str(posTest[2]-10) + '\t' + str(posTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										+ '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '+' + '\n')
-						aPpTnOkTrnie2.write(chrom +'\t' + str(posTest[2]-50) + '\t' + str(posTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(posTest[2]) \
-										 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '-' +'\n')
-
-			else:
-				predictedTerminatorsAllPointsOverlappingGenesTest.append([posTest[0],posTest[1]])
-
-
-
-			# predicted terminators not overl. known terminators alone / overlapping known terminators alone
-			if resultPos1 == -1:
-				predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest.append([posTest[0],posTest[1]])
-
-			else:
-				predictedTerminatorsAllPointsOverlappingTerminatorsTest.append([posTest[0],posTest[1]])
-
-
-
-
-	with open(allPointsPredictedNegativesNOknownTerminatorsNOgenesBed, 'w') as aPpNnOkTnOgBed, open(allPointsPredictedNegativesNOknownTerminatorsNOgenesRNIE, 'w') as aPpNnOkTnOgRNIE,\
-			open(allPointsPredictedNegativesNOgenesBed, 'w') as aPpNnOkTbed,  open(allPointsPredictedNegativesNOgenesRNIE, 'w') as aPpNnOkTrnie, \
-			open(allPointsPredictedNegativesNOknownTerminatorsNOgenesRNIE2, 'w') as aPpNnOkTnOgRNIE2,\
-			open(allPointsPredictedNegativesNOgenesRNIE2, 'w') as aPpNnOkTrnie2:
-
-		for negTest in predictedNegativesAllPointsDataTest:
-
-			# resultNeg1 = binarySearch(testPositivesCoords, 0, len(testPositivesCoords)-1, negTest[2])
-			resultNeg1 = binarySearch(terminatorCoords, 0, len(terminatorCoords)-1, negTest[2])
-			# resultNeg2 = binarySearch(testNegativesCoords, 0, len(testNegativesCoords)-1, negTest[2])
-			resultNeg2 = binarySearch(geneCoords, 0, len(geneCoords)-1, negTest[2])
-
-			# bed file and rnie bed file with predicted negatives not overl. genes, not overl. known terminators
-			if resultNeg1 == -1 and resultNeg2 ==-1:
-				predictedNegativesAllPointsNOTOverlappingTest.append([negTest[0],negTest[1]])
-
-				aPpNnOkTnOgBed.write(chrom2 + '\t' + str(negTest[2]) + '\t' + str(negTest[2]+1) \
-									+ '\t' + 'predicted negative (not overl. genes and known terminators)' + '\n')
-
+		# check if coord of predicted terminator overlaps with known terminators (resultPos1) of genes (resultPos2) via binary search
+		resultPos1 = binarySearch(terminatorCoords, 0, len(terminatorCoords)-1, posTest[2])
+		resultPos2 = binarySearch(geneCoords, 0, len(geneCoords)-1, posTest[2])
+		
+
+		# bed files with predicted terminators/predicted negatives not overl. genes, not overl. known terminators
+		if resultPos1 == -1 and resultPos2 == -1:
+			predictedTerminatorsAllPointsNOTOverlappingTest.append([posTest[0],posTest[1]])
+
+			outfilePredTerm[0].write(chrom2 + '\t' + str(posTest[2]) + '\t' + str(posTest[2]+1) \
+							+ '\t' + 'predicted Terminator (not overl. genes and known terminators)' + '\n')
+
+			# make artificial terminators of 'lengthTerminator'
+			# if read on negative strand: artificial terminator coords: write 'l2' upstream and 'l1' downstream from TS coord 
+			# if read on positive strand: artificial terminator coords: write 'l1' upstream and 'l2' downstream from TS coord
+			# if no strand: create both  
+			# bed format --> bedtools getFasta
+
+			if posTest[2]-l2 > 0 and posTest[2]+l1 <= lengthGenome: 
+				if posTest[3] == '-':
+					outfilePredTerm[1].write(chrom +'\t' + str(posTest[2]-l2) + '\t' + str(posTest[2]+l1) + '\t' \
+									+ chrom + ':'+ str(posTest[2]) \
+									 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
 
-				if negTest[2]-100 > 0 and negTest[2]+100 <= 4215606: 
-					if negTest[3] == '-':
-						aPpNnOkTnOgRNIE.write(chrom +'\t' + str(negTest[2]-100) + '\t' + str(negTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										 + '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+'\n')
+				if posTest[3] == '+':
+					outfilePredTerm[1].write(chrom +'\t' + str(posTest[2]-l1) + '\t' + str(posTest[2]+l2) + '\t' \
+									+ chrom + ':'+ str(posTest[2]) \
+									 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ str(posTest[3])+'\n')
+				if posTest[3] == 'nostrand':
+					outfilePredTerm[1].write(chrom + '\t' + str(posTest[2]-l1) + '\t' + str(posTest[2]+l2) + '\t' \
+									+ chrom + ':'+ str(posTest[2]) \
+									+ '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '+' + '\n')
+					outfilePredTerm[1].write(chrom +'\t' + str(posTest[2]-l2) + '\t' + str(posTest[2]+l1) + '\t' \
+									+ chrom + ':'+ str(posTest[2]) \
+									 + '_' + str(posTest[0]) + '_' + str(posTest[1]) +'_'+ '-' +'\n')
 
-					if negTest[3] == '+':
-						aPpNnOkTnOgRNIE.write(chrom + '\t' + str(negTest[2]-20) + '\t' + str(negTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+ '\n')
+		else:
+			predictedTerminatorsAllPointsOverlappingTest.append([posTest[0],posTest[1]])
 
-					if negTest[3] == 'nostrand':
-						aPpNnOkTnOgRNIE.write(chrom + '\t' + str(negTest[2]-20) + '\t' + str(negTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '+' + '\n')
-						aPpNnOkTnOgRNIE.write(chrom + '\t' + str(negTest[2]-100) + '\t' + str(negTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '-' + '\n')
+		# bed file with false positives
+		if resultPos2 != -1:
+			outfilePredTerm[2].write(chrom2 + '\t' + str(posTest[2]) + '\t' + str(posTest[2]+1) + '\t' + 'false positives' +'\n')
 
-				if negTest[2]-50 > 0 and negTest[2]+50 <= 4215606: 
-					if negTest[3] == '-':
-						aPpNnOkTnOgRNIE2.write(chrom +'\t' + str(negTest[2]-50) + '\t' + str(negTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										 + '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+'\n')
 
-					if negTest[3] == '+':
-						aPpNnOkTnOgRNIE2.write(chrom + '\t' + str(negTest[2]-10) + '\t' + str(negTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+ '\n')
+		# predicted terminators not overl. genes
+		if resultPos2 == -1:
+			predictedTerminatorsAllPointsNOTOverlappingGenesTest.append([posTest[0],posTest[1]])
 
-					if negTest[3] == 'nostrand':
-						aPpNnOkTnOgRNIE2.write(chrom + '\t' + str(negTest[2]-10) + '\t' + str(negTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '+' + '\n')
-						aPpNnOkTnOgRNIE2.write(chrom + '\t' + str(negTest[2]-50) + '\t' + str(negTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '-' + '\n')
+		# predicted terminators overl. genes
+		else:
+			predictedTerminatorsAllPointsOverlappingGenesTest.append([posTest[0],posTest[1]])
 
-			else:
-				predictedNegativesAllPointsOverlappingTest.append([negTest[0],negTest[1]])
 
-			# bed file with predicted negatives not overl. genes alone / overlapping genes alone
-			if resultNeg2 == -1:
-				predictedNegativesAllPointsNOTOverlappingGenesTest.append([negTest[0],negTest[1]])
+		# predicted terminators not overl. known terminators
+		if resultPos1 == -1:
+			predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest.append([posTest[0],posTest[1]])
 
-				aPpNnOkTbed.write(chrom2 + '\t' + str(negTest[2]) + '\t' + str(negTest[2]+1) \
-									+ '\t' + 'predicted negative (not overl. genes)' + '\n')
-				if negTest[2]-100 > 0 and negTest[2]+100 <= 4215606:
-					if negTest[3] == '-':
-						aPpNnOkTrnie.write(chrom +'\t' + str(negTest[2]-100) + '\t' + str(negTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										 + '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+'\n')
+		# predicted terminators overl. known terminators
+		else:
+			predictedTerminatorsAllPointsOverlappingTerminatorsTest.append([posTest[0],posTest[1]])
 
-					if negTest[3] == '+':
-						aPpNnOkTrnie.write(chrom + '\t' + str(negTest[2]-20) + '\t' + str(negTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+ '\n')
 
-					if negTest[3] == 'nostrand':
-						aPpNnOkTrnie.write(chrom + '\t' + str(negTest[2]-20) + '\t' + str(negTest[2]+100) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '+' + '\n')
-						aPpNnOkTrnie.write(chrom + '\t' + str(negTest[2]-100) + '\t' + str(negTest[2]+20) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '-' + '\n')
 
-				if negTest[2]-50 > 0 and negTest[2]+50 <= 4215606:
-					if negTest[3] == '-':
-						aPpNnOkTrnie2.write(chrom +'\t' + str(negTest[2]-50) + '\t' + str(negTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										 + '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+'\n')
 
-					if negTest[3] == '+':
-						aPpNnOkTrnie2.write(chrom + '\t' + str(negTest[2]-10) + '\t' + str(negTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+ '\n')
+	for negTest in predictedNegativesAllPointsDataTest:
 
-					if negTest[3] == 'nostrand':
-						aPpNnOkTrnie2.write(chrom + '\t' + str(negTest[2]-10) + '\t' + str(negTest[2]+50) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '+' + '\n')
-						aPpNnOkTrnie2.write(chrom + '\t' + str(negTest[2]-50) + '\t' + str(negTest[2]+10) + '\t' \
-										+ chrom + ':'+ str(negTest[2]) \
-										+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '-' + '\n')
+		
+		resultNeg1 = binarySearch(terminatorCoords, 0, len(terminatorCoords)-1, negTest[2])
+		resultNeg2 = binarySearch(geneCoords, 0, len(geneCoords)-1, negTest[2])
 
-			else:
-				predictedNegativesAllPointsOverlappingGenesTest.append([negTest[0],negTest[1]])
+		if resultNeg1 == -1 and resultNeg2 ==-1:
+			predictedNegativesAllPointsNOTOverlappingTest.append([negTest[0],negTest[1]])
 
+			outfilePredNeg[0].write(chrom2 + '\t' + str(negTest[2]) + '\t' + str(negTest[2]+1) \
+								+ '\t' + 'predicted negative (not overl. genes and known terminators)' + '\n')
 
-			# predicted negatives not overl. known terminators alone / overlapping knwon terminators alone
-			if resultNeg1 == -1:
-				predictedNegativesAllPointsNOTOverlappingTerminatorsTest.append([negTest[0],negTest[1]])
-			else:
-				predictedNegativesAllPointsOverlappingTerminatorsTest.append([negTest[0],negTest[1]])
+			if negTest[2]-l2 > 0 and negTest[2]+l1 <= lengthGenome: 
+				if negTest[3] == '-':
+					outfilePredNeg[1].write(chrom +'\t' + str(negTest[2]-l2) + '\t' + str(negTest[2]+l1) + '\t' \
+									+ chrom + ':'+ str(negTest[2]) \
+									 + '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+'\n')
 
+				if negTest[3] == '+':
+					outfilePredNeg[1].write(chrom +'\t' + str(negTest[2]-l1) + '\t' + str(negTest[2]+l2) + '\t' \
+									+ chrom + ':'+ str(negTest[2]) \
+									 + '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ str(negTest[3])+'\n')
+				if negTest[3] == 'nostrand':
+					outfilePredNeg[1].write(chrom + '\t' + str(negTest[2]-l1) + '\t' + str(negTest[2]+l2) + '\t' \
+									+ chrom + ':'+ str(negTest[2]) \
+									+ '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '+' + '\n')
+					outfilePredNeg[1].write(chrom +'\t' + str(negTest[2]-l2) + '\t' + str(negTest[2]+l1) + '\t' \
+									+ chrom + ':'+ str(negTest[2]) \
+									 + '_' + str(negTest[0]) + '_' + str(negTest[1]) +'_'+ '-' +'\n')
+		else:
+			predictedNegativesAllPointsOverlappingTest.append([negTest[0],negTest[1]])
 
+		# predicted negatives not overl. genes
+		if resultNeg2 == -1:
+			predictedNegativesAllPointsNOTOverlappingGenesTest.append([negTest[0],negTest[1]])
 
+		# predicted negatives overl. genes
+		else:
+			predictedNegativesAllPointsOverlappingGenesTest.append([negTest[0],negTest[1]])
 
 
-		npPredictedTerminatorsAllPointsNOTOverlappingTest = np.array(predictedTerminatorsAllPointsNOTOverlappingTest)
-		npPredictedTerminatorsAllPointsOverlappingTest = np.array(predictedTerminatorsAllPointsOverlappingTest)
+		# predicted negatives not overl. known terminators 
+		if resultNeg1 == -1:
+			predictedNegativesAllPointsNOTOverlappingTerminatorsTest.append([negTest[0],negTest[1]])
 
+		# predicted negatives overl. known terminators
+		else:
+			predictedNegativesAllPointsOverlappingTerminatorsTest.append([negTest[0],negTest[1]])
 
-		print '\npredicted Terminators: ' + str(len(predictedTerminatorsAllPointsDataTest))
-		print 'predicted Terminators NOT overlapping genes, NOT overlapping known terminators: ' + str(len(npPredictedTerminatorsAllPointsNOTOverlappingTest))
-		print 'predicted Terminators NOT overlapping genes: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingGenesTest))
-		print 'predicted Terminators NOT overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest))
+	
+	npPredictedTerminatorsAllPointsNOTOverlappingTest = np.array(predictedTerminatorsAllPointsNOTOverlappingTest)
+	npPredictedTerminatorsAllPointsOverlappingTest = np.array(predictedTerminatorsAllPointsOverlappingTest)
 
-		print 'predicted Terminators overlapping genes: ' + str(len(predictedTerminatorsAllPointsOverlappingGenesTest))
-		print 'predicted Terminators overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsOverlappingTerminatorsTest))
 
 
-		print '\npredicted Negatives: ' + str(len(predictedNegativesAllPointsDataTest))
-		print 'predicted Negatives NOT overlapping genes, NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTest))
-		print 'predicted Negatives NOT overlapping genes: ' + str(len(predictedNegativesAllPointsNOTOverlappingGenesTest))
-		print 'predicted Negatives NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTerminatorsTest))
+	print '\npredicted Terminators: ' + str(len(predictedTerminatorsAllPointsDataTest))
+	print 'predicted Terminators NOT overlapping genes, NOT overlapping known terminators: ' + str(len(npPredictedTerminatorsAllPointsNOTOverlappingTest))
+	print 'predicted Terminators NOT overlapping genes: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingGenesTest))
+	print 'predicted Terminators NOT overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest))
 
-		print 'predicted Negatives overlapping genes: ' + str(len(predictedNegativesAllPointsOverlappingGenesTest))
-		print 'predicted Negatives overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTerminatorsTest))
+	print 'predicted Terminators overlapping genes: ' + str(len(predictedTerminatorsAllPointsOverlappingGenesTest))
+	print 'predicted Terminators overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsOverlappingTerminatorsTest))
 
 
-	aPpNnOkTnOgBed.close()
-	aPpNnOkTnOgRNIE.close()
-	aPpNnOkTbed.close()
-	aPpNnOkTrnie.close()	
+	print '\npredicted Negatives: ' + str(len(predictedNegativesAllPointsDataTest))
+	print 'predicted Negatives NOT overlapping genes, NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTest))
+	print 'predicted Negatives NOT overlapping genes: ' + str(len(predictedNegativesAllPointsNOTOverlappingGenesTest))
+	print 'predicted Negatives NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTerminatorsTest))
 
-	aPpTnOkTnOgBed.close()
-	aPpTnOkTnOgRNIE.close()
-	fBed.close()
-	aPpTnOkTbed.close()
-	aPpTnOkTrnie.close()
+	print 'predicted Negatives overlapping genes: ' + str(len(predictedNegativesAllPointsOverlappingGenesTest))
+	print 'predicted Negatives overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTerminatorsTest))
+
+
+
 
 
 #######################################################################
@@ -735,7 +614,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	
 
 
-	plt.figure(figsize=(12,12),dpi=120)
+	fig = plt.figure(figsize=(12,12),dpi=120)
 
 	plt.suptitle('Own Decision boundary, PPV: ' + str(ppvG) + ', intercept (b): ' + str(b) + ', slope (m): ' + str(m))
 
@@ -744,16 +623,17 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 #####################################################################################
 
 
-	plt.subplot(221)
+	ax = fig.add_subplot(2,2,1)
+	ax.text(-0.1, 1.1, 'A', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
 
 	classes = yTest
 
 	unique = list(set(classes))
-	colors = ['darkmagenta', 'darkgreen']
+	colors = ['rebeccapurple', '#EE6C00']
 
 	labelsPredicted = ['overlapping genes', 'RNIE score > 20.0']
 	if organism == 'B.subtilis':
@@ -765,7 +645,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	    plt.scatter(xi, yi, c=colors[i], s= 12, label=str(labelsPredicted[i]), marker='x')
 
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
 	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
@@ -775,17 +655,18 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 #####################################################################################
 
 
-	plt.subplot(222)
+	ax = fig.add_subplot(2,2,2)
+	ax.text(-0.1, 1.1, 'B', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
 
 
-	plt.scatter(xvals[~mask], yvals[~mask], c='darkmagenta', s=12, label='predicted negatives', marker='x')
-	plt.scatter(xvals[mask], yvals[mask], c='darkgreen', s=12, label='predicted terminators', marker='x')
+	plt.scatter(xvals[~mask], yvals[~mask], c='#8E5BE9', s=12, label='predicted negatives', marker='x')
+	plt.scatter(xvals[mask], yvals[mask], c='#FFA913', s=12, label='predicted positives', marker='x')
 
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
 	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
@@ -798,17 +679,18 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 #####################################################################################
 
 
-	plt.subplot(223)
+	ax = fig.add_subplot(2,2,3)
+	ax.text(-0.1, 1.1, 'C', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
 
 	masknew = classes==0
 	classesNew = classes[masknew]
 	XtestNew = Xtest[masknew]
 	unique = list(set(classesNew))
-	colors = ['darkmagenta']
+	colors = ['rebeccapurple']
 
 	labelsPredicted = ['overlapping genes']
 	if organism == 'B.subtilis':
@@ -820,7 +702,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	    plt.scatter(xi, yi, c=colors[i], s= 12, label=str(labelsPredicted[i]), marker='x')
 
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
 	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
@@ -830,18 +712,19 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 #####################################################################################
 
 
-	plt.subplot(224)
+	ax = fig.add_subplot(2,2,4)
+	ax.text(-0.1, 1.1, 'D', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
 
 	masknew = classes==1
 	classesNew = classes[masknew]
 	XtestNew = Xtest[masknew]
 
 	unique = list(set(classesNew))
-	colors = ['darkgreen']
+	colors = ['#EE6C00']
 
 	labelsPredicted = ['RNIE score > 20.0']
 	if organism == 'B.subtilis':
@@ -853,7 +736,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	    plt.scatter(xi, yi, c=colors[i], s= 12, label=str(labelsPredicted[i]), marker='x')
 
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
 	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
@@ -867,20 +750,27 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 ####################################################################################
 ####################################################################################
 
-	plt.figure(figsize=(12,12),dpi=120)
+	fig2 = plt.figure(figsize=(12,12),dpi=120)
 	plt.suptitle('Own Decision boundary, PPV: ' + str(ppvG) + ', intercept (b): ' + str(b) + ', slope (m): ' + str(m))
 
+	unique = list(set(classes))
+	colors = ['rebeccapurple', '#EE6C00']
+
+	labelsPredicted = ['overlapping genes', 'RNIE score > 20.0']
+	if organism == 'B.subtilis':
+		labelsPredicted = ['overlapping genes', 'overlapping terminators']
 
 	#plot known classes, predicted classes
-	plt.subplot(221)
+	ax = fig2.add_subplot(2,2,1)
+	ax.text(-0.1, 1.1, 'A', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
 
 
-	plt.scatter(xvalsAllPoints[~maskII], yvalsAllPoints[~maskII], c='magenta', s=12, label='predicted negatives', marker='+')
-	plt.scatter(xvalsAllPoints[maskII], yvalsAllPoints[maskII], c='#5AB91C', s=12, label='predicted terminators', marker='+')
+	plt.scatter(xvalsAllPoints[~maskII], yvalsAllPoints[~maskII], c='#8E5BE9', s=12, label='predicted negatives', marker='+')
+	plt.scatter(xvalsAllPoints[maskII], yvalsAllPoints[maskII], c='#FFA913', s=12, label='predicted positives', marker='+')
 
 
 	for i, u in enumerate(unique):
@@ -890,7 +780,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	    plt.scatter(xi, yi, c=colors[i], s= 12, label=str(labelsPredicted[i]), marker='x')
 
 
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 
 	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
@@ -902,18 +792,16 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 ################################################################################
 	#plot known classes, predicted classes, overlapping known classes (red crosses)
 
-	plt.subplot(223)
+	ax = fig2.add_subplot(2,2,3)
+	ax.text(-0.1, 1.1, 'B', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
 
 
-	for i, u in enumerate(unique):
-	    xi = [Xtest[:,0][j] for j  in range(len(Xtest[:,0])) if classes[j] == u]
-	    yi = [Xtest[:,1][j] for j  in range(len(Xtest[:,0])) if classes[j] == u]
-
-	    plt.scatter(xi, yi, c=colors[i], s= 12, marker='x')
+	plt.scatter(xvalsAllPoints[~maskII], yvalsAllPoints[~maskII], c='#8E5BE9', s=12, label='predicted negatives', marker='+')
+	plt.scatter(xvalsAllPoints[maskII], yvalsAllPoints[maskII], c='#FFA913', s=12, label='predicted positives', marker='+')
 
 
 
@@ -922,7 +810,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	else:
 		plt.scatter(0,0, c='red',s=11, label='overlapping', marker ='+' )
 
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 
 	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
@@ -934,23 +822,23 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 ##############################################################################
 	#plot known classes, predicted classes, NOT overlapping known classes (red crosses)
 
-	plt.subplot(224)
+	ax = fig2.add_subplot(2,2,4)
+	ax.text(-0.1, 1.1, 'C', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
 
 
-	for i, u in enumerate(unique):
-	    xi = [Xtest[:,0][j] for j  in range(len(Xtest[:,0])) if classes[j] == u]
-	    yi = [Xtest[:,1][j] for j  in range(len(Xtest[:,0])) if classes[j] == u]
+	plt.scatter(xvalsAllPoints[~maskII], yvalsAllPoints[~maskII], c='#8E5BE9', s=12, label='predicted negatives', marker='+')
+	plt.scatter(xvalsAllPoints[maskII], yvalsAllPoints[maskII], c='#FFA913', s=12, label='predicted positives', marker='+')
 
-	    plt.scatter(xi, yi, c=colors[i], s= 12, marker='x')
+	if not npPredictedTerminatorsAllPointsNOTOverlappingTest.size == 0:
+		plt.scatter(npPredictedTerminatorsAllPointsNOTOverlappingTest[:,0],npPredictedTerminatorsAllPointsNOTOverlappingTest[:,1], c='red',s=11, label='not overlapping', marker ='+')
+	else:
+		plt.scatter(0,0, c='red',s=11, label='not overlapping', marker ='+' )
 
-	plt.scatter(npPredictedTerminatorsAllPointsNOTOverlappingTest[:,0],npPredictedTerminatorsAllPointsNOTOverlappingTest[:,1], c='red',s=11, label='not overlapping', marker ='+')
-
-
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 
 	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
