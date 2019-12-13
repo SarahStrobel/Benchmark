@@ -1,3 +1,7 @@
+# draws decision boundary to classify points in 'predicted terminators' and 'predicted negatives'
+# prints out tn, fn, tp, fp, tpr, fpr and ppv
+# writes files with 'artificial terminators' of certain length (default 100) both not overlapping known terminators and genes
+
 import numpy as np
 import math
 import matplotlib.pyplot as plt
@@ -131,7 +135,8 @@ def performance(classesTest, classesPredicted):
 #######################################################################
 
 parser = argparse.ArgumentParser(description= 'Set boundary for classification into predicted Terminators and predicted Negatives' + '\n'
-								'Usage:' + '\t' + 'classifcation.py <options> -pos -neg -all -gff -term -o -l')
+								'Usage:' + '\t' + 'classifcation.py <options> -pos -neg -all -gff -o'  + '\n'
+								'optional:' + '\t' + '-l -term')
 
 #required files:
 parser.add_argument('-pos', dest='positivesFile', help='input of Term-Seq counts overlapping known Terminators/counts with RNIE scores > 20.0', required=True)
@@ -139,9 +144,10 @@ parser.add_argument('-neg', dest='negativesFile', help='input of Term-Seq counts
 parser.add_argument('-all', dest='allPointsFile', help='input of max. Term-Seq vs. avg. RNA-Seq counts', required=True)
 parser.add_argument('-gff', dest='geneAnnotationFile', help='input gene annotation file', type=checkGffFormat, required=True)
 parser.add_argument('-o', dest='outpath', help='output path and filename prefix', required=True)
-parser.add_argument('-l', dest='lengthTerminator', help='length of terminator, default:120', type=checkInt, nargs='?', default=120)
+#optional
+parser.add_argument('-l', dest='lengthTerminator', help='length of artifical terminator, default:100', type=checkInt, nargs='?', default=100)
 
-#optional (only B.subtilis)
+#optional (only relevant for B.subtilis)
 parser.add_argument('-term', dest='knownTerminators', help='input known Terminators', type=checkBedFormat)
 
 args = parser.parse_args()
@@ -157,8 +163,7 @@ l1 = lengthTerminator * 0.16666666666666664
 l2 = lengthTerminator - l1
 
 l1 =  int(math.ceil(l1))
-l2 = int(math.ceil(l2))
-
+l2 = int(math.floor(l2))
 
 
 
@@ -207,13 +212,13 @@ if 'LM' in positivesFile:
 	organismBrev = 'LM'
 	chrom = "NC_003210.1"
 	chrom2 = chrom
+	lengthGenome = 2944528
+if 'SP' in positivesFile:
+	organism = 'S.pneumoniae'
+	organismBrev = 'SP'
+	chrom = "NC_003028.3"
+	chrom2 = chrom
 	lengthGenome = 2160842
-# if 'SP' in positivesFile:
-# 	organism = 'S.pneumoniae'
-# 	organismBrev = 'SP'
-# 	chrom = "NC_003028.3"
-# 	chrom2 = chrom
-
 
 print organism + plasmid
 print chrom
@@ -304,8 +309,6 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 					geneCoords.append(i)
 
 
-
-
 	# overlapsBoth = set(testPositivesCoords) & set(testNegativesCoords)
 
 	# print 'known terminators overlapping genes: ' + str(overlapsBoth)
@@ -364,7 +367,6 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	# masks for classifying test data into positives/negatives in plots
 	mask = ((yvals > yIII) & (yvals > hb))
 	maskII = ((yvalsAllPoints > yIV) & (yvalsAllPoints > hb))
-
 
 
 #######################################################################
@@ -458,18 +460,17 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 		resultPos2 = binarySearch(geneCoords, 0, len(geneCoords)-1, posTest[2])
 		
 
-		# bed files with predicted terminators/predicted negatives not overl. genes, not overl. known terminators
+		# bed files with predicted terminators not overl. genes, not overl. known terminators
 		if resultPos1 == -1 and resultPos2 == -1:
 			predictedTerminatorsAllPointsNOTOverlappingTest.append([posTest[0],posTest[1]])
 
 			outfilePredTerm[0].write(chrom2 + '\t' + str(posTest[2]) + '\t' + str(posTest[2]+1) \
-							+ '\t' + 'predicted Terminator (not overl. genes and known terminators)' + '\n')
+							+ '\t' + 'predicted terminator (not overl. genes and known terminators)' + '\n')
 
 			# make artificial terminators of 'lengthTerminator'
-			# if read on negative strand: artificial terminator coords: write 'l2' upstream and 'l1' downstream from TS coord 
-			# if read on positive strand: artificial terminator coords: write 'l1' upstream and 'l2' downstream from TS coord
+			# if read on negative strand: artificial terminator coords: 'l2' upstream and 'l1' downstream from TS coord 
+			# if read on positive strand: artificial terminator coords: 'l1' upstream and 'l2' downstream from TS coord
 			# if no strand: create both  
-			# bed format --> bedtools getFasta
 
 			if posTest[2]-l2 > 0 and posTest[2]+l1 <= lengthGenome: 
 				if posTest[3] == '-':
@@ -516,10 +517,9 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 
 
-
+	# bed files with predicted negatives not overl. genes, not overl. known terminators
 	for negTest in predictedNegativesAllPointsDataTest:
-
-		
+	
 		resultNeg1 = binarySearch(terminatorCoords, 0, len(terminatorCoords)-1, negTest[2])
 		resultNeg2 = binarySearch(geneCoords, 0, len(geneCoords)-1, negTest[2])
 
@@ -592,7 +592,6 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 
 
-
 #######################################################################
 #######################################################################
 	# print table for precision(PPV), recall(TPR), false positives rate (FPR), TP, FP, TN, FN 
@@ -616,7 +615,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	fig = plt.figure(figsize=(12,12),dpi=120)
 
-	plt.suptitle('Own Decision boundary, PPV: ' + str(ppvG) + ', intercept (b): ' + str(b) + ', slope (m): ' + str(m))
+	# plt.suptitle('Own Decision boundary, PPV: ' + str(ppvG) + ', intercept (b): ' + str(b) + ', slope (m): ' + str(m))
 
 
 
@@ -647,10 +646,13 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
-	plt.title('known classes')
-	plt.legend()	
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
+
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
+	plt.title('known classes', fontsize=14)
+	plt.legend(prop={'size': 14})
 
 #####################################################################################
 
@@ -668,10 +670,13 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
-	plt.title('predicted classes')
-	plt.legend()
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
+
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
+	plt.title('predicted classes', fontsize=14)
+	plt.legend(prop={'size': 14})
 
 
 
@@ -704,10 +709,13 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
-	plt.title('known classes')
-	plt.legend()
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
+
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
+	plt.title('known classes', fontsize=14)
+	plt.legend(prop={'size': 14})
 
 #####################################################################################
 
@@ -717,7 +725,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
 	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1], color='orange', alpha=0.5)
 
 	masknew = classes==1
 	classesNew = classes[masknew]
@@ -738,10 +746,13 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
-	plt.title('known classes')
-	plt.legend()
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
+
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
+	plt.title('known classes', fontsize=14)
+	plt.legend(prop={'size': 14})
 
 	plt.savefig(outfileG1,dpi=300)
 
@@ -751,7 +762,6 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 ####################################################################################
 
 	fig2 = plt.figure(figsize=(12,12),dpi=120)
-	plt.suptitle('Own Decision boundary, PPV: ' + str(ppvG) + ', intercept (b): ' + str(b) + ', slope (m): ' + str(m))
 
 	unique = list(set(classes))
 	colors = ['rebeccapurple', '#EE6C00']
@@ -782,48 +792,20 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
 
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
 
-
-	plt.legend(bbox_to_anchor=(1.04,0.5), loc='center left')
+	plt.legend(prop={'size': 14})
+	# plt.legend(bbox_to_anchor=(1.04,0.5), loc='center left', prop={'size': 14})
 
 ################################################################################
 	#plot known classes, predicted classes, overlapping known classes (red crosses)
 
-	ax = fig2.add_subplot(2,2,3)
+	ax = fig2.add_subplot(2,2,2)
 	ax.text(-0.1, 1.1, 'B', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
-
-	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
-
-
-	plt.scatter(xvalsAllPoints[~maskII], yvalsAllPoints[~maskII], c='#8E5BE9', s=12, label='predicted negatives', marker='+')
-	plt.scatter(xvalsAllPoints[maskII], yvalsAllPoints[maskII], c='#FFA913', s=12, label='predicted positives', marker='+')
-
-
-
-	if not npPredictedTerminatorsAllPointsOverlappingTest.size == 0:
-		plt.scatter(npPredictedTerminatorsAllPointsOverlappingTest[:,0],npPredictedTerminatorsAllPointsOverlappingTest[:,1], c='red',s=11, label='overlapping', marker ='+')
-	else:
-		plt.scatter(0,0, c='red',s=11, label='overlapping', marker ='+' )
-
-	plt.ylim(0,12.5)
-	plt.xlim(0,12.5)
-
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
-
-
-	plt.legend()
-
-##############################################################################
-	#plot known classes, predicted classes, NOT overlapping known classes (red crosses)
-
-	ax = fig2.add_subplot(2,2,4)
-	ax.text(-0.1, 1.1, 'C', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
 	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
@@ -840,13 +822,48 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
+	plt.xticks(fontsize=14)
+	plt.yticks(fontsize=14)
 
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
 
 
-	plt.legend()
+	plt.legend(prop={'size': 14})
 
 	plt.savefig(outfileG2,dpi=300)
+
+
+##############################################################################
+	#plot known classes, predicted classes, NOT overlapping known classes (red crosses)
+
+	# ax = fig2.add_subplot(2,2,4)
+	# ax.text(-0.1, 1.1, 'C', transform=ax.transAxes, fontsize=16, fontweight='bold', va='top', ha='right')
+
+	# plt.plot(xII, yII, c='black',linewidth=1.0)
+	# plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	# plt.fill_between(xII, yII, plt.ylim()[1],  color='orange', alpha=0.5)
+
+
+	# plt.scatter(xvalsAllPoints[~maskII], yvalsAllPoints[~maskII], c='#8E5BE9', s=12, label='predicted negatives', marker='+')
+	# plt.scatter(xvalsAllPoints[maskII], yvalsAllPoints[maskII], c='#FFA913', s=12, label='predicted positives', marker='+')
+
+	# if not npPredictedTerminatorsAllPointsNOTOverlappingTest.size == 0:
+	# 	plt.scatter(npPredictedTerminatorsAllPointsNOTOverlappingTest[:,0],npPredictedTerminatorsAllPointsNOTOverlappingTest[:,1], c='red',s=11, label='not overlapping', marker ='+')
+	# else:
+	# 	plt.scatter(0,0, c='red',s=11, label='not overlapping', marker ='+' )
+
+	# plt.ylim(0,12.5)
+	# plt.xlim(0,12.5)
+	# plt.xticks(fontsize=14)
+	# plt.yticks(fontsize=14)
+
+	# plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	# plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
+
+
+	# plt.legend(prop={'size': 14})
+
+	# plt.savefig(outfileG2,dpi=300)
 
 

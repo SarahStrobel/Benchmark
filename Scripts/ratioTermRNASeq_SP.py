@@ -185,7 +185,10 @@ l1 = lengthTerminator * 0.16666666666666664
 l2 = lengthTerminator - l1
 
 l1 =  int(math.ceil(l1))
-l2 = int(math.ceil(l2))
+l2 = int(math.floor(l2))
+
+# print l1
+# print l2
 
 # ####################################################################################################################
 bsubTermSeqFiles = []
@@ -399,7 +402,7 @@ if organism == 'E.faecalis':
 		uniqueReadsRS += int(headerRS.split('"')[1])
 
 if organism == 'S.pneumoniae':
-	print 'pneu'
+	print orgnaism
 	spneuFilesTS = [open(i, 'r') for i in spneuTermSeqFiles]
 	spneuFileRS = open(rnaSeqFile, 'r')
 

@@ -82,8 +82,7 @@ l1 = lengthTerminator * 0.16666666666666664
 l2 = lengthTerminator - l1
 
 l1 =  int(math.ceil(l1))
-l2 = int(math.ceil(l2))
-
+l2 = int(math.floor(l2))
 
 positionPredTermBed = outpath + 'Distance_predictedTerminators_NO_knownTerminators_NO_genes.bed'
 positionPredTermBedLong = outpath + 'Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.bed'
