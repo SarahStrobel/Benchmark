@@ -13,7 +13,7 @@ Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/maste
 <t/>enables reading ("dumping") of sequencing files from the SRA database<br/>
 * [fastp-0.20.0](https://github.com/OpenGene/fastp)<br/>
 <t/>all-in-one preprocessing for FastQ files<br/>
-* [Novoalign-V3.02.07.Linus3.0](http://www.novocraft.com/products/novoalign/)<br/>
+* [Novoalign-V3.02.07.Linux3.0](http://www.novocraft.com/products/novoalign/)<br/>
 <t/>mapping of short reads onto a reference genome<br/>
 * [Samtools-1.9](http://www.htslib.org/download/)<br/>
 <t/>set of utilities for interacting with and post-processing short sequence read alignments<br/>
@@ -67,8 +67,8 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 
 ### Additional Programs:<br/>
 
-* [FASTQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)<br/>
-* [BAMQC](https://github.com/s-andrews/BamQC)<br/>
+* [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)<br/>
+* [BamQC](https://github.com/s-andrews/BamQC)<br/>
 * [IGV](https://software.broadinstitute.org/software/igv/)<br/>
 * [RNAfold](http://rna.tbi.univie.ac.at/)<br/>
 * [mfold](http://unafold.rna.albany.edu/?q=mfold)<br/>
