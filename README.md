@@ -1,7 +1,6 @@
 # Benchmark for terminator prediction using RNA-Seq and Term-Seq data
 
 
-
 Download [Termi script](https://github.com/SarahStrobel/Benchmark/blob/master/Termi.sh) and run with `sh Termi.sh` <br/>
 Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Termi_Benchmark.sh) and run with `sh Termi_Benchmark.sh` <br/>
 
@@ -29,10 +28,12 @@ Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/maste
 <t/>Terminator prediction software<br/>
 * [RNAmotif-3.1.1](http://casegroup.rutgers.edu/casegr-sh-2.5.html)<br/>
 <t/>Terminator prediction software<br/>
-* [iTermPseKNC](http://lin-group.cn/server/iTerm-PseKNC/download.php)<br/>
+* [iTerm-PseKNC](http://lin-group.cn/server/iTerm-PseKNC/download.php)<br/>
 <t/>Terminator prediction software<br/>
+* [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)<br/>
+<t/>Integrated software for support vector classification<br/>
 
-### Used Python3 packages:<br/>
+### Used Python2 packages:<br/>
 
 `pip install packagename`<br/>
 will be installed to /usr/bin/ on Linux or in your Python installation on Windows<br/>
@@ -40,19 +41,34 @@ will be installed to /usr/bin/ on Linux or in your Python installation on Window
 `pip install packagename --user`<br/>
 will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Windows<br/>
 
-* [argparse](https://docs.python.org/3/library/argparse.html)<br/>
-* [bisect](https://docs.python.org/3.0/library/bisect.html)<br/>
-* [collections](https://docs.python.org/3/library/collections.html)<br/>
-* [glob](https://docs.python.org/3/library/glob.html)<br/>
-* [math](https://docs.python.org/3/library/math.html)<br/>
+* [argparse](https://docs.python.org/2/library/argparse.html)<br/>
+* [bisect](https://docs.python.org/2/library/bisect.html)<br/>
+* [collections](https://docs.python.org/2/library/collections.html)<br/>
+* [glob](https://docs.python.org/2/library/glob.html)<br/>
+* [itertools](https://docs.python.org/2/library/itertools.html)<br/>
+* [math](https://docs.python.org/2/library/math.html)<br/>
 * [matplotlib](https://matplotlib.org/)<br/>
 * [numpy](https://numpy.org/)<br/>
-* [operator](https://docs.python.org/3/library/operator.html)<br/>
-* [os](https://docs.python.org/3/library/os.html)<br/>
-* [re](https://docs.python.org/3/library/re.html)<br/>
-* [sys](https://docs.python.org/3/library/sys.html)<br/>
+* [operator](https://docs.python.org/2/library/operator.html)<br/>
+* [os](https://docs.python.org/2/library/os.html)<br/>
+* [re](https://docs.python.org/2/library/re.html)<br/>
+* [sys](https://docs.python.org/2/library/sys.html)<br/>
 * [tabulate](https://pypi.org/project/tabulate/)<br/>
 
+### Python3 packages used by iTerm-PseKNC_modified.py:<br/>
+
+`pip3 install packagename`<br/>
+will be installed to /usr/bin/ on Linux or in your Python installation on Windows<br/>
+<br/>
+`pip3 install packagename --user`<br/>
+will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Windows<br/>
+
+* [itertools](https://docs.python.org/3/library/itertools.html)<br/>
+* [numpy](https://numpy.org/)<br/>
+* [os](https://docs.python.org/3/library/os.html)<br/>
+* [pandas](https://pandas.pydata.org/)<br/>
+* [subprocess](https://docs.python.org/3/library/subprocess.html)<br/>
+* [sys](https://docs.python.org/3/library/sys.html)<br/>
 
 ### B.subtilis, E.faecalis and L.monocytogenes RNA-Seq / Term-Seq Data (Dar et al., 2016):<br/>
 * [Paper](https://www.ncbi.nlm.nih.gov/pubmed/27120414)<br/>
