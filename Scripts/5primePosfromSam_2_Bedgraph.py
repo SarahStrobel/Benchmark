@@ -82,6 +82,11 @@ for samFile in glob.glob(termSeqPath + '*.sam'):
 		chrom = "NC_003210.1"
 		chrom2 = chrom
 		lengthGenome = 2944528
+	if "Streptococcus" in samFile:
+		organism = 'Streptocoocus_pneumoniae'
+		chrom = "NC_003028.3"
+		chrom2 = chrom
+		lengthGenome = 2160842
 
 	experiment = samFile.split('/')[-1].split('.')[0].split('_')[2]
 

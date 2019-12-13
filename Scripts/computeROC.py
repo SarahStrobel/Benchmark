@@ -3,6 +3,7 @@ import csv
 from operator import itemgetter
 import argparse
 import os.path
+import itertools
 
 #######################################################################
 #######################################################################
@@ -22,7 +23,14 @@ def checkGffFormat(v):
     else:
         return v
 
-
+def checkInt(v):
+    v = int(v)
+    if v < 0:
+        raise argparse.ArgumentTypeError('positive Integer value expected')
+    if isinstance(v, int):
+        return v
+    else:
+        raise argparse.ArgumentTypeError('Integer value expected')
 #######################################################################
 # #overlap function
 
@@ -89,6 +97,9 @@ parser.add_argument('-neg', dest='negativesFile', help='input predicted Terminat
 parser.add_argument('-true', dest='trueFile', help='input outfiles from prediction tool', type=checkGffFormat, required=True)
 parser.add_argument('-false', dest='falseFile', help='input outfiles from prediction tool', type=checkGffFormat, required=True)
 parser.add_argument('-o', dest='outpath', help='output path and filename prefix', required=True)
+parser.add_argument('-nucs', dest='totalNucs', help='total number of nucleotides in positive and negative FASTA files', required=True)
+parser.add_argument('-l', dest='lengthTerminator', help='length of artificial terminator, default:100', type=checkInt, nargs='?', default=100)
+parser.add_argument('-n', dest='lengthOfRegion', help='length of region spanning the termination signal', type=checkInt, nargs='?', default=40)
 
 args = parser.parse_args()
 
@@ -97,6 +108,25 @@ negativesFile = args.negativesFile
 trueFile = args.trueFile
 falseFile = args.falseFile
 outpath = args.outpath
+totalNucs = int(args.totalNucs)
+lengthOfRegion = int(args.lengthOfRegion)
+lengthTerminator = int(args.lengthTerminator)
+
+l1 = lengthTerminator * 0.16666666666666664
+l2 = lengthTerminator - l1
+
+l1 =  int(math.ceil(l1))
+l2 = int(math.ceil(l2))
+
+
+l3 = lengthOfRegion * 0.25
+l4 = lengthOfRegion - l3
+
+l3 =  int(math.ceil(l3))
+l4 = int(math.ceil(l4))
+
+
+print totalNucs
 
 outfile = outpath + 'terminator.out.dG_score-accuracy.dat'
 
@@ -104,18 +134,6 @@ outfile = outpath + 'terminator.out.dG_score-accuracy.dat'
 print outfile
 
 
-totalNucs = 0
-if "BS" in positivesFile:
-    totalNucs = float(39900 + 4572000) #cat predictedPositives.fasta | grep -v \> | tr -d "\r\n"|wc -c or cat predictedNegatives.fasta | grep -v \> | tr -d "\r\n"|wc -c
-if "EF" in positivesFile:
-    if 'chrom' in positivesFile:
-        totalNucs = float(31860 + 3282000)
-    if 'pl1' in positivesFile:
-      totalNucs = float(120 + 12000)
-    if 'pl2' in positivesFile:
-      totalNucs = float(120 + 12000)
-if "LM" in positivesFile:
-   totalNucs = float(37440 + 3936000)
 #######################################################################
 #######################################################################
 
@@ -132,7 +150,10 @@ falseDict = {}
 tntpList = []
 
 #placeholder of 1, if input smaller than 1 change
-minScore = 1
+# minScore = 1
+minScore = 0 # iterm
+numberOfUniquePos=0
+numberOfUniqueNeg=0
 
 #read input predicted positives fasta file and put into trueDict
 with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
@@ -145,23 +166,18 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
             identifier = words[0]
             strand = words[0].split('_')[-1]
 
-            start = 1 # non embedded
-            end = 60
+            # # # iTerm Feng dataset
+            # sequence = f1.next()
+            # start = 1
+            # end = 1 + len(sequence)
+
+            # embedded
+            start = 501 + l2 - l4
+            end = (501 + lengthTerminator) - l1 + l3 
 
             coords = [start, end]
-
-            # if strand == '-':
-            #     start = int(words[0].split('_')[0][1:]) - 50
-            #     end = int(words[0].split('_')[0][1:]) + 10
-            #     coords = [start, end]
-
-            # else:
-            #     start = int(words[0].split('_')[0][1:]) - 10
-            #     end = int(words[0].split('_')[0][1:]) + 50
-            #     coords = [start, end]
-
         
-            trueElement = ['T', minScore, coords]
+            trueElement = ['T', minScore, coords, identifier[1:]]
 
             #check if identifier is only used once, put in trueDict
             key = identifier[1:]
@@ -172,9 +188,9 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
 
             numPositives += 1
 
+    
 
-
-    # #read input predicted negatives fasta file and put into falseDict
+    # #read input shuffled negatives fasta file and put into falseDict
 
     for line in f2:
         words = line.split()
@@ -183,23 +199,18 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
             identifier = words[0]
             strand = words[0].split('_')[-1]
 
-            start = 1
-            end = 60
+            # # # iTerm Feng dataset
+            # sequence = f2.next()
+            # start = 1
+            # end = 1 + len(sequence)
+
+            # embedded
+            start = 501 + l2 - l4
+            end = (501 + lengthTerminator) - l1 + l3 
 
             coords = [start, end]
 
-            # if strand == '-':
-            #     start = int(words[0].split('_')[0][1:]) - 50
-            #     end = int(words[0].split('_')[0][1:]) + 10
-            #     coords = [start, end]
-
-            # else:
-            #     start = int(words[0].split('_')[0][1:]) - 10
-            #     end = int(words[0].split('_')[0][1:]) + 50
-            #     coords = [start, end]
-
-
-            falseElement = ['F', minScore, coords]
+            falseElement = ['F', minScore, coords, identifier[1:]]
 
             key = identifier[1:] #slice to omit first character ('>')
             if key in trueDict:
@@ -224,14 +235,23 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
         if score < minScore:
             raise Exception("score in rnieTrue < minScore; change minScore")
 
+        # print identifier
+        # print trueDict[identifier][2]
+        # print coords
         #check if overlap
         if overlap(trueDict[identifier][2], coords):
         #if score in dict > new score --> ignore, else replace with higher score
             if trueDict[identifier][1] < score:
                 trueDict[identifier][1] = score
 
+
                 tntpList.append(trueDict[identifier])
 
+    tntpList.sort()
+    tntpList=list(tntpList for tntpList,_ in itertools.groupby(tntpList))
+    # print tntpList
+    numberOfUniquePos = len(tntpList)
+    print 'number of unique positives: ' + str(numberOfUniquePos)
 
 
     # #read output of terminator prediction software for predicted negatives
@@ -262,12 +282,18 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
 
             tntpList.append(falseDict[identifier])
 
+    tntpList.sort()
+    tntpList=list(tntpList for tntpList,_ in itertools.groupby(tntpList))
+    numberOfUniqueNeg = len(tntpList) - numberOfUniquePos
+    print 'number of unique negatives: ' + str(numberOfUniqueNeg)
+
+
 print "number of positives: " + str(numPositives)
 print "number of negatives: " + str(numNegatives)
 print "positives predicted by tool: " + str(numOfPosPred)
 print "negatives predicted by tool: " + str(numOfNegPred)
 
-
+# print tntpList
 
 tntpList.sort(key=itemgetter(1),reverse=True)
 
@@ -297,17 +323,18 @@ with open(outfile,"w") as of:
             fn-=1 
 
         else:
+            # print score
             fp+=1 #bei paul insgesamt 3383! bei mir 928; ohne overlap 3235
             tn-=1 
 
 
-
+        # if tn > 0 and fn > 0:
         sens = calcSens(tp,fn)
         ppv = calcPpv(tp,fp)
         mcc = calcMcc(tp,tn,fp,fn)
-        fpr = (fp/totalNucs)*1000
+        fpr = (fp/float(totalNucs))*1000
 
-        #print fp
+
         #print "{:.6f}".format(fpr)
         
 
@@ -320,9 +347,3 @@ with open(outfile,"w") as of:
             lastMCC=mcc
             lastScore=score[1]
 
-of.close()
-   
-f1.close()
-f2.close()
-f3.close()
-f4.close()

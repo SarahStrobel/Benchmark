@@ -1,6 +1,6 @@
-# takes output from ratioTermRNASeq_replicates_500k.py and makes scatterplots of training data +
-# takes output from SVM_gradStudAlgo_combined.py (bed files) and adds scatterplots of  
-# predicted Terminators and predicted Negatives + colors according to their distances to annotated gene
+# takes output from ratioTermRNASeq.py and makes scatterplots of training data +
+# takes output from classification.py (bed files) and adds scatterplots of  
+# predicted terminators and predicted negatives + colors according to their distances to annotated gene
 
 
 import numpy as np
@@ -59,14 +59,16 @@ def closestGene(myList, myNumber):
 #######################################################################
 #######################################################################
 parser = argparse.ArgumentParser(description= 'Look for predictions up to 150 nucleotides downstream of genes' + '\n'
-								'Usage:' + '\t' + 'position.py <options> -pos -neg -all -gff -term -o')
+								'Usage:' + '\t' + 'position.py <options> -pos -neg -all -gff -term -o' + '\n'
+								'optional:' + '\t' + '-l')
 
 #required files:
 parser.add_argument('-pos', dest='predictedTerminators', help='input predicted Terminators', type=checkBedFormat, required=True)
 parser.add_argument('-neg', dest='predictedNegatives', help='input predicted Negatives', type=checkBedFormat, required=True)
 parser.add_argument('-gff', dest='geneAnnotationFile', help='input gene annotation file', type=checkGffFormat, required=True)
 parser.add_argument('-o', dest='outpath', help='output path and filename prefix', required=True)
-parser.add_argument('-l', dest='lengthTerminator', help='length of terminator, default:120', type=checkInt, nargs='?', default=120)
+#optional:
+parser.add_argument('-l', dest='lengthTerminator', help='length of terminator, default:100', type=checkInt, nargs='?', default=100)
 
 args = parser.parse_args()
 
@@ -112,39 +114,42 @@ if "BS" in predictedTerminators:
 	organism = 'B.subtilis'
 	chrom = 'NC_000964.3/1-4215606'
 	chrom2 = 'gi|255767013|ref|NC_000964.3|'
-	plasmid = 'Chromosome'
+	plasmid = ''
 	lengthGenome = 4215607
 if "EF" in predictedTerminators:
 	organism = 'E.faecalis'
 	if 'chrom' in predictedTerminators:
 		chrom = "NC_004668.1"
 		chrom2 = chrom
+		plasmid = 'chrom.'
 		lengthGenome = 3218031
 	if 'pl1' in predictedTerminators:
 		chrom = "NC_004669.1"
 		chrom2 = chrom
-		plasmid = 'Plasmid1'
+		plasmid = 'pTEF1'
 		lengthGenome = 66320
 	if 'pl2' in predictedTerminators:
 		chrom = "NC_004671.1"
 		chrom2 = chrom
-		plasmid = 'Plasmid2'
+		plasmid = 'pTEF2'
 		lengthGenome = 57660
 	if 'pl3' in predictedTerminators:
 		chrom = "NC_004670.1"
 		chrom2 = chrom
-		plasmid = 'Plasmid3'
+		plasmid = 'pTEF3'
 		lengthGenome = 17963
 if "LM" in predictedTerminators:
 	organism = 'L.monocytogenes'
 	chrom = "NC_003210.1"
 	chrom2 = chrom
+	plasmid = ''
 	lengthGenome = 2944528
-# if 'SP' in predictedTerminators:
-# 	organism = 'S.pneumoniae'
-# 	chrom = "NC_003028.3"
-# 	chrom2 = chrom
-# 	lengthGenome = 2160842
+if 'SP' in predictedTerminators:
+	organism = 'S.pneumoniae'
+	chrom = "NC_003028.3"
+	chrom2 = chrom
+	plasmid = ''
+	lengthGenome = 2160842
 
 print '\n' + str(organism) + ' ' + str(plasmid)
 #######################################################################
@@ -184,7 +189,6 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 					stopCoordsPositiveStrand.append(endGene)
 				else:
 					startCoordsNegativeStrand.append(startGene)
-
 
 				
 
@@ -361,7 +365,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 #  predicted negatives with distance to closest gene (all Points below boundary)
 
 	plt.figure(figsize=(14.5,6),dpi=120)
-	plt.suptitle('Distance to closest gene')
+	plt.suptitle(str(organism) +" "+ str(plasmid), fontsize=17)
 
 	plt.subplot(121)
 	
@@ -372,25 +376,25 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 	cm = ListedColormap(newcolors)
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1], color='orange', alpha=0.5)
 
 	if sortedClosestTerm:
 
-		data = plt.scatter(xvalsPredTerm, yvalsPredTerm, c=distancePredTerm, s=25, label='predicted terminators - distance to gene', marker='P', cmap=cm, vmin = 0, vmax=400)
+		data = plt.scatter(xvalsPredTerm, yvalsPredTerm, c=distancePredTerm, s=25, label='predicted terminators', marker='P', cmap=cm, vmin = 0, vmax=400)
 
 		cbar = plt.colorbar(data)
-		cbar.ax.set_ylabel('distance to closest gene')
+		cbar.ax.set_ylabel('distance to closest gene', fontsize=14)
 
-		plt.ylim(0,10.5)
+		plt.ylim(0,12.5)
 		plt.xlim(0,12.5)
 
-		plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-		plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
-		plt.title('Predicted Terminators' + '\n' + '(not overl. genes, not overl. known terminators)')
+		plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+		plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
+		# plt.title('Predicted Terminators' + '\n' + '(not overl. genes, not overl. known terminators)', fontsize=14)
 
 
-		plt.legend()
+		plt.legend(prop={'size': 14})
 		ax = plt.gca()
 		legend = ax.get_legend()
 		legend.legendHandles[0].set_color(plt.cm.Greys(.8))
@@ -400,23 +404,23 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 
 	plt.plot(xII, yII, c='black',linewidth=1.0)
-	plt.fill_between(xII, yII, color='#E87CC6', alpha=0.8)
-	plt.fill_between(xII, yII, plt.ylim()[1],  color='#7A9441', alpha=0.5)
+	plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
+	plt.fill_between(xII, yII, plt.ylim()[1], color='orange', alpha=0.5)
 
-	data = plt.scatter(xvalsPredNeg, yvalsPredNeg, c=distancePredNeg, s=25, label='predicted negatives - distance to gene', marker='P', cmap=cm, vmin = 0, vmax=400)
+	data = plt.scatter(xvalsPredNeg, yvalsPredNeg, c=distancePredNeg, s=25, label='predicted negatives', marker='P', cmap=cm, vmin = 0, vmax=400)
 
 	cbar = plt.colorbar(data)
-	cbar.ax.set_ylabel('distance to closest gene')
+	cbar.ax.set_ylabel('distance to closest gene', fontsize=14)
 
-	plt.ylim(0,10.5)
+	plt.ylim(0,12.5)
 	plt.xlim(0,12.5)
 
-	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)')
-	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)')
-	plt.title('Predicted Negatives' + '\n' + '(not overl. genes, not overl. known terminators)')
+	plt.xlabel('$log_{e}$' + '(Avg. RNA-Seq count)', fontsize=14)
+	plt.ylabel('$log_{e}$' + '(Max. Term-Seq count)', fontsize=14)
+	# plt.title('Predicted Negatives' + '\n' + '(not overl. genes, not overl. known terminators)', fontsize=14)
 
 
-	plt.legend()
+	plt.legend(prop={'size': 14})
 	ax = plt.gca()
 	legend = ax.get_legend()
 	legend.legendHandles[0].set_color(plt.cm.Greys(.8))

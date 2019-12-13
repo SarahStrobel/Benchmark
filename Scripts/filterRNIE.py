@@ -1,4 +1,4 @@
-
+# filters RNIE output by score, write file with RNIE scores over 20 and make scatterplots
 
 import argparse
 import os.path
@@ -8,7 +8,8 @@ import collections
 import sys
 import os.path
 
-###################################################################################
+#######################################################################
+#######################################################################
 
 def checkGffFormat(v):
 	b = os.path.splitext(v)[1][1:].lower()
@@ -17,7 +18,8 @@ def checkGffFormat(v):
 	else:
 		return v
 
-###################################################################################
+#######################################################################
+#######################################################################
 parser = argparse.ArgumentParser(description= 'Filter RNIE output by score (>20.0)' + '\n'
 								'Usage:' + '\t' + 'filterRNIE.py <options> -i -o')
 
@@ -34,7 +36,8 @@ outpath = args.outpath
 outfile = outpath + 'filtered_trim_50_nucsRNIE_TSvsRS_RNIEover20.bed'
 plot = outpath + 'filtered_trim_50_nucsRNIE_TSvsRS_RNIEover20.png'
 
-###################################################################################
+#######################################################################
+#######################################################################
 
 RNIEdict = {}
 xs = []
@@ -70,14 +73,13 @@ npY = np.array(ys)
 npRNIEover20X = np.array(RNIEover20X)
 npRNIEover20Y = np.array(RNIEover20Y)
 
-###################################################################################
-fig, ax = plt.subplots(1,1, figsize=(6,6), dpi=120)
-plt.title('Filter RNIE scores')
+print 'RNIE scores over 20.0: ' + str(len(RNIEover20X))
 
-# plt.scatter(np.log(npY+1), np.log(npX+1))
-# plt.scatter(np.log(npRNIEover20Y+1), np.log(npRNIEover20X+1), label='RNIE over 20.0', c='red', marker='x', s=12 )
-# plt.ylim(0,8.5)
-# plt.xlim(0,12.5)
+#######################################################################
+#######################################################################
+fig, ax = plt.subplots(1,1, figsize=(6,6), dpi=120)
+plt.title('Filter RNIE scores', fontsize=14)
+
 plt.scatter(npY+1, npX+1, s=15)
 plt.scatter(npRNIEover20Y+1, npRNIEover20X+1, label='RNIE over 20.0', c='red', marker='x', s=12 )
 plt.xscale('log')
@@ -91,9 +93,6 @@ plt.ylabel('Max. Term-Seq count', fontsize=14)
 plt.grid(True)
 ax.set_axisbelow(True)
 
-plt.legend()
+plt.legend(prop={'size': 14})
 
 plt.savefig(plot,dpi=300)
-
-
-

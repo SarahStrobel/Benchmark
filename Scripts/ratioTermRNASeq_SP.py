@@ -211,8 +211,6 @@ lmonTermSeqFiles = [item for sublist in lmonTermSeqFiles for item in sublist]
 
 efaecTermSeqFiles = []
 
-
-
 for bedgraphFile in glob.glob(termSeqPath + '*_chromosome.bedgraph'):
 	efaecTermSeqFiles.append(str(bedgraphFile))
 
@@ -232,6 +230,15 @@ for file in glob.glob(rnaSeqPath + 'sorted_filtered_trimmed_ERR1248404*.bedgraph
 	efaecRNASeqFiles.append(str(file))
 
 
+
+
+spneuTermSeqFiles = []
+
+experiments = (termSeqPath + '*SRR7160964*.bedgraph', termSeqPath + '*SRR7160965*.bedgraph', termSeqPath + '*SRR7160966*.bedgraph', termSeqPath + '*SRR7160967*.bedgraph')
+for experiment in experiments:
+	spneuTermSeqFiles.append(glob.glob(experiment))
+
+spneuTermSeqFiles = [item for sublist in spneuTermSeqFiles for item in sublist]
 
 #########################################################################################################################
 
@@ -268,6 +275,11 @@ if 'Enterococcus' in rnaSeqFile:
 		chrom = "NC_004670.1"
 		plasmid = 'plasmid3'
 		print plasmid
+
+if 'Streptococcus' in rnaSeqFile:
+	organism = 'S.pneumoniae'
+	chrom = "NC_003028.3"
+	plasmid = 'chromosome'
 
 
 #######################################################################
@@ -386,7 +398,19 @@ if organism == 'E.faecalis':
 
 		uniqueReadsRS += int(headerRS.split('"')[1])
 
+if organism == 'S.pneumoniae':
+	print 'pneu'
+	spneuFilesTS = [open(i, 'r') for i in spneuTermSeqFiles]
+	spneuFileRS = open(rnaSeqFile, 'r')
 
+	for file in spneuFilesTS:
+		headerTS = file.readline()
+
+		uniqueReads = int(headerTS.split('"')[1])
+		uniqueReadsTSCombined += uniqueReads
+
+	headerRS = spneuFileRS.readline()
+	uniqueReadsRS = int(headerRS.split('"')[1])
 	
 ########################################################################
 # open Term-Seq replicates, gene annotation file, terminator file and RNA-Seq file	
@@ -450,7 +474,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 	linesTS = linesTSall[0]
 	lines2TS = linesTSall[1]
 	lines3TS = linesTSall[2]
-
+	lines4TS = linesTSall[3]
 
 
 #######################################################################
@@ -519,6 +543,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 	linesTS2 = []
 	lines2TS2 = []
 	lines3TS2 = []
+	lines4TS2 = []
 
 	if organism == 'B.subtilis':
 		for line in bed:
@@ -551,7 +576,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 				linesTS2 = linesTS[(startTerminator -1 - numberOfNucsInGenome[0]) : (endTerminator -numberOfNucsInGenome[1])]
 				lines2TS2 = lines2TS[(startTerminator -1 - numberOfNucsInGenome[0]) : (endTerminator -numberOfNucsInGenome[1])]
 				lines3TS2 = lines3TS[(startTerminator -1 - numberOfNucsInGenome[0]) : (endTerminator -numberOfNucsInGenome[1])]
-
+				lines4TS2 = lines4TS[(startTerminator -1 - numberOfNucsInGenome[0]) : (endTerminator -numberOfNucsInGenome[1])]
 
 				###################################################
 				#known terminators:
@@ -565,7 +590,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 				TScount = 0
 				TScount2 = 0
 				TScount3 = 0
-
+				TScount4 = 0
 
 				
 				for i in range(len(linesTS2)):
@@ -585,26 +610,27 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 						TScount = int(linesTS2[i].split()[3]) * uniqueReadsTSCombinedBS / uniqueReadsTSCombined
 						TScount2 = int(lines2TS2[i].split()[3]) * uniqueReadsTSCombinedBS / uniqueReadsTSCombined
 						TScount3 = int(lines3TS2[i].split()[3])	* uniqueReadsTSCombinedBS / uniqueReadsTSCombined
-
+						TScount4 = int(lines4TS2[i].split()[3])	* uniqueReadsTSCombinedBS / uniqueReadsTSCombined
 
 						TSstrand = linesTS2[i].split()[-1]
 						TSstrand2 = lines2TS2[i].split()[-1]
 						TSstrand3 = lines3TS2[i].split()[-1]
-
+						TSstrand4 = lines4TS2[i].split()[-1]
 
 
 						TScountStrand.append([TScount, TSstrand])
 						TScountStrand.append([TScount2, TSstrand2])
 						TScountStrand.append([TScount3, TSstrand3])
+						TScountStrand.append([TScount4, TSstrand4])
 
 						maxTScount = max(TScountStrand,key=itemgetter(0))[0]
 						maxTSstrand = max(TScountStrand,key=itemgetter(0))[1]
 
 
 						# averaging/taking the minimum of the 3 replicates
-						avgTScount = np.mean([TScount, TScount2, TScount3])
+						# avgTScount = np.mean([TScount, TScount2, TScount3])
 						# minTScount = np.min([TScount, TScount2, TScount3])
-
+						avgTScount = np.mean([TScount, TScount2, TScount3, TScount4])
 
 						# putting start position and average/minimum of Term-Seq counts in dictionary
 						termSeqCountTerminators[TSstart] = avgTScount
@@ -698,12 +724,13 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 	linesTS3 = []
 	lines2TS3 = []
 	lines3TS3 = []
+	linees4TS3 = []
 
 
 	linesRS3 = []
 	linesRS31 = []
 	linesRS32 = []
-
+	linesR432 = []
 
 	for i in range(0,(len(linesTS)), numberOfNucsToSplitInto):
 
@@ -712,7 +739,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 		linesTS3 = linesTS[i: i+numberOfNucsToSplitInto]
 		lines2TS3 = lines2TS[i: i+numberOfNucsToSplitInto]
 		lines3TS3 = lines3TS[i: i+numberOfNucsToSplitInto]
-
+		lines4TS3 = lines4TS[i: i+numberOfNucsToSplitInto]
 
 
 		termSeqCountWholeGenome = {}
@@ -722,7 +749,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 		TScount = 0
 		TScount2 = 0
 		TScount3 = 0
-
+		TScount4 = 0
 
 
 		for i in range(len(linesTS3)):
@@ -740,24 +767,26 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 				TScount = int(linesTS3[i].split()[3]) * uniqueReadsTSCombinedBS / uniqueReadsTSCombined
 				TScount2 = int(lines2TS3[i].split()[3]) * uniqueReadsTSCombinedBS / uniqueReadsTSCombined
 				TScount3 = int(lines3TS3[i].split()[3]) * uniqueReadsTSCombinedBS / uniqueReadsTSCombined
+				TScount4 = int(lines4TS3[i].split()[3]) * uniqueReadsTSCombinedBS / uniqueReadsTSCombined
 
 				TSstrand = linesTS3[i].split()[-1]
 				TSstrand2 = lines2TS3[i].split()[-1]
 				TSstrand3 = lines3TS3[i].split()[-1]
-
+				TSstrand4 = lines4TS3[i].split()[-1]
 
 				TScountStrand.append([TScount, TSstrand])
 				TScountStrand.append([TScount2, TSstrand2])
 				TScountStrand.append([TScount3, TSstrand3])
-
+				TScountStrand.append([TScount4, TSstrand4])
 
 				maxTScount = max(TScountStrand,key=itemgetter(0))[0]
 				maxTSstrand = max(TScountStrand,key=itemgetter(0))[1]
 
 
 				# averaging/taking the minimum of the 3 replicates
-				avgTScount = np.mean([TScount, TScount2, TScount3])
+				# avgTScount = np.mean([TScount, TScount2, TScount3])
 				# minTScount = np.min([TScount, TScount2, TScount3])
+				avgTScount = np.mean([TScount, TScount2, TScount3, TScount4])
 
 				# putting start position and average/minimum of Term-Seq counts in dictionary
 				termSeqCountWholeGenome[TSstart] = avgTScount
@@ -951,7 +980,7 @@ if organism == 'B.subtilis':
 	plt.scatter(npTScountsOverlappingGenes[:,2]+1, npTScountsOverlappingGenes[:,1]+1, s = 15, color = 'plum', label = "overlapping genes")
 	plt.scatter(npTSCountsOverlappingTerminators[:,2]+1, npTSCountsOverlappingTerminators[:,1]+1, s = 15, color = 'red', label = "overlapping known terminators")
 
-	plt.legend(prop={'size': 14})
+	plt.legend()
 	plt.grid(True)
 	plt.title("Term-Seq vs. RNA-Seq \n(avg of " + str(numberOfNucsToAvg) + " nucleotide intervals)", fontsize=14)
 	plt.xlabel("Avg. RNA-Seq count", fontsize=14)
