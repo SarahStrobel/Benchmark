@@ -143,7 +143,7 @@ for item in withoutOver30:
 	strand = item.split()[-1].split('_')[-1]
 
 	if coord-l2+500 > 0 and coord+l2+500 <= lengthGenome:
-		if coord == '-':
+		if strand == '-':
 			outfiles1[0].write(str(chrom) + '\t' + str(coord-l2) + '\t' + str(coord+l1) + '\t' + str(item) +'\n')
 
 			outfiles1[1].write(str(chrom) + '\t' + str(coord-l2-1-500) + '\t' + str(coord-1-l2) + '\t' + str(item) +'\n')

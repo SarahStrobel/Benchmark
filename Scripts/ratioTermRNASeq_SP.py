@@ -402,7 +402,7 @@ if organism == 'E.faecalis':
 		uniqueReadsRS += int(headerRS.split('"')[1])
 
 if organism == 'S.pneumoniae':
-	print orgnaism
+	print organism
 	spneuFilesTS = [open(i, 'r') for i in spneuTermSeqFiles]
 	spneuFileRS = open(rnaSeqFile, 'r')
 

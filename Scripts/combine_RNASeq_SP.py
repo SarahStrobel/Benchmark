@@ -21,7 +21,7 @@ outfile = outpath + 'combined_316_RNASeqND0min_Streptococcus_pneumoniae_genomeCo
 
 
 bedgraphFiles = glob.glob(inpath + '*316*.bedgraph')
-print bedgraphFiles
+# print bedgraphFiles
 
 bedgraphFile1 = ''
 bedgraphFile2 = ''

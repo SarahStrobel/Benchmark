@@ -154,7 +154,7 @@ def iterm_pseknc_process(bioFile, inputFile, outputFile):
     bio_list = Bio_list(bioFile)
     k_nucleotides = ObtainKnucleotides(5)
     sequences = ObtainSequences(inputFile)
-    nucleStandDict = obtainNucleotidesPhysicoChemicalDict(sys.argv[3] + "6_standard.txt")
+    nucleStandDict = obtainNucleotidesPhysicoChemicalDict("6_standard.txt")
     outputFile = open(outputFile, "w")
     for sequence in sequences:
         pse = fn_physic(sequence, 5, k_nucleotides, nucleStandDict, bio_list, 5)
@@ -188,18 +188,18 @@ def read_result(slideFileName, PredictFile, outputFileName):
     
   
 InputFile = sys.argv[1]
-slideFile = sys.argv[2] + "_SlideFile.txt"
-bioFile = sys.argv[3] + "Bio_index.txt"
-ToScaleFile = sys.argv[2] + "_ToScaleFile.txt"
-ScaleFile = sys.argv[2] + "_ScaleFile.scale"
-PredictFile = sys.argv[2]+ "_PredictFileName.txt"
+slideFile = "SlideFile.txt"
+bioFile =  "Bio_index.txt"
+ToScaleFile = "ToScaleFile.txt"
+ScaleFile = "ScaleFile.scale"
+PredictFile = "PredictFileName.txt"
 resultFile = sys.argv[2] + "_result.txt"
 
 if __name__ == "__main__":
     ParseSeq(InputFile, slideFile)
     iterm_pseknc_process(bioFile, slideFile, ToScaleFile)
-    os.popen("svm-scale -r iterm.rule ToScaleFile.txt > ScaleFile.scale")
-    os.popen("svm-predict -b 1 ScaleFile.scale iterm.model PredictFileName.txt")
+    subprocess.run("svm-scale -r iterm.rule ToScaleFile.txt > ScaleFile.scale", shell=True, check=True)
+    subprocess.run("svm-predict -b 1 ScaleFile.scale iterm.model PredictFileName.txt", shell=True, check=True)
     read_result(slideFile, PredictFile, resultFile)
     os.remove(slideFile)
     os.remove(ToScaleFile)
