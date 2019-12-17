@@ -4,6 +4,8 @@
 Download [Termi script](https://github.com/SarahStrobel/Benchmark/blob/master/Termi.sh) and run with `sh Termi.sh` <br/>
 Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Termi_Benchmark.sh) and run with `sh Termi_Benchmark.sh` <br/>
 
+For the script to run you need the RNA-Seq FASTQ files by Warrier et al. and put them in a folder "yourWorkingDirectory/Termi/RNASeq".
+
 ### Used Programs:<br/>
 
 * [git](https://git-scm.com/)<br/>
