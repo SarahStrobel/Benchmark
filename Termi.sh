@@ -304,7 +304,7 @@ python $pathToParentDirectory/Termi/Scripts/ratioTermRNASeq_SP.py  \
 
 ######################
 
-whole genome
+# whole genome
 
 for ((i=0;i<${#termSeqFiles1[@]};++i))
 do
