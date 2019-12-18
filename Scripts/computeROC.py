@@ -149,9 +149,8 @@ falseDict = {}
 
 tntpList = []
 
-#placeholder of 1, if input smaller than 1 change
-# minScore = 1
-minScore = 0 # iterm
+#placeholder of 0, if input smaller than 0 change
+minScore = 0 
 numberOfUniquePos=0
 numberOfUniqueNeg=0
 
@@ -165,11 +164,6 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
         if '>' in words[0]:
             identifier = words[0]
             strand = words[0].split('_')[-1]
-
-            # # # iTerm Feng dataset
-            # sequence = f1.next()
-            # start = 1
-            # end = 1 + len(sequence)
 
             # embedded
             start = 501 + l2 - l4
@@ -198,11 +192,6 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
         if '>' in words[0]:
             identifier = words[0]
             strand = words[0].split('_')[-1]
-
-            # # # iTerm Feng dataset
-            # sequence = f2.next()
-            # start = 1
-            # end = 1 + len(sequence)
 
             # embedded
             start = 501 + l2 - l4
@@ -235,9 +224,7 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
         if score < minScore:
             raise Exception("score in rnieTrue < minScore; change minScore")
 
-        # print identifier
-        # print trueDict[identifier][2]
-        # print coords
+
         #check if overlap
         if overlap(trueDict[identifier][2], coords):
         #if score in dict > new score --> ignore, else replace with higher score
@@ -323,20 +310,15 @@ with open(outfile,"w") as of:
             fn-=1 
 
         else:
-            # print score
-            fp+=1 #bei paul insgesamt 3383! bei mir 928; ohne overlap 3235
+            fp+=1 
             tn-=1 
 
 
-        # if tn > 0 and fn > 0:
         sens = calcSens(tp,fn)
         ppv = calcPpv(tp,fp)
         mcc = calcMcc(tp,tn,fp,fn)
         fpr = (fp/float(totalNucs))*1000
-
-
-        #print "{:.6f}".format(fpr)
-        
+     
 
         if ((abs(lastSens-sens) > 0.001 or abs(lastPPV-ppv)>0.001 or abs(lastMCC-mcc)>0.001) and lastScore != score[1]):
             toWrite = str("{:.6f}".format(sens)) +"\t"+ str("{:.6f}".format(ppv)) +"\t"+ str("{:.6f}".format(mcc)) + "\t" + "{:.6f}".format(fpr) + "\t" + "{:.6f}".format(score[1])

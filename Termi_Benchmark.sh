@@ -78,8 +78,8 @@ do
 	fi
 done
 
-######################################################################
-######################################################################
+#####################################################################
+#####################################################################
 
 
 
@@ -94,19 +94,6 @@ for file in $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive/*.out
 do
 	perl $pathToParentDirectory/Termi/RNIE/terminator-lesnik2gff.pl -t $file 
 done
-
-or file in $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive/*.gff
-do
-	echo $file
-	perl $pathToParentDirectory/Termi/RNIE/rnie2gff.pl -r $file
-done
-
-
-for file in $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive/*.out
-do
-	perl $pathToParentDirectory/Termi/RNIE/terminator-lesnik2gff.pl -t $file 
-done
-
 
 fastaFiles=()
 
@@ -131,6 +118,20 @@ do
 	-i ${fastaFiles[i]} \
 	-o $pathToParentDirectory/Benchmark/iTerm_PseKNC/iTerm_results_from_wl/"$(basename "${resultFiles[i]}" .txt)"
 done
+
+
+for file in $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive/*.gff
+do
+	echo $file
+	perl $pathToParentDirectory/Termi/RNIE/rnie2gff.pl -r $file
+done
+
+
+for file in $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive/*.out
+do
+	perl $pathToParentDirectory/Termi/RNIE/terminator-lesnik2gff.pl -t $file 
+done
+
 
 #######################################################################
 #######################################################################
@@ -177,15 +178,15 @@ do
 	python $pathToParentDirectory/Termi/Scripts/computeROC.py \
 	-pos $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta \
 	-neg $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta \
-	-true $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive/100_predicted_${brev[i]}_embedded_predictedTerminators_shuffled_th0-geneMode-rnie.bits.gff \
-	-false $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive/100_predicted_${brev[i]}_embedded_shuffledNegatives_shuffled_th0-geneMode-rnie.bits.gff  \
+	-true $pathToParentDirectory/Benchmark/RNIE/1NegativePerPositive/1_predicted_${brev[i]}_embedded_predictedTerminators_shuffled_th0-geneMode-rnie.bits.gff \
+	-false $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive/100_predicted_${brev[i]}_embedded_shuffledNegatives_shuffled_th0-geneMode-rnie.bits.gff \
 	-o $pathToParentDirectory/Benchmark/ROC/100NegativesPerPositive/RNIEth0_${brev[i]}_shuffled_ \
 	-nucs $((a+b))
 
 	python $pathToParentDirectory/Termi/Scripts/computeROC.py \
 	-pos $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta \
 	-neg $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta \
-	-true $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive/100_predicted_${brev[i]}_embedded_predictedTerminators_shuffled.terminator-lesnik.out.dG_score.gff\
+	-true $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive/1_predicted_${brev[i]}_embedded_predictedTerminators_shuffled.terminator-lesnik.out.dG_score.gff\
 	-false $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive/100_predicted_${brev[i]}_embedded_shuffledNegatives_shuffled.terminator-lesnik.out.dG_score.gff \
 	-o $pathToParentDirectory/Benchmark/ROC/100NegativesPerPositive/RNAmotif_${brev[i]}_shuffled_ \
 	-nucs $((a+b))
