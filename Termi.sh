@@ -1,5 +1,20 @@
 # !/bin/bash
 
+# die if there's an error
+set -e
+set -o pipefail
+echo on
+
+# test if required software is available
+fasterq-dump --help # should be in recent versions of the sra-toolkit package.  Otherwise, install the pre-compiled binaries of the sra-toolkit at the NCBI site (currently https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software )
+novoindex
+blastn -h # package: ncbi-blast+
+samtools --help
+bedtools
+esl-shuffle -h # this command comes from the Infernal software, but is not installed by default.  In the easel/miniapps subdirectory, do 'make install'
+# fastp, python stuff
+
+
 pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
