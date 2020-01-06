@@ -3,27 +3,28 @@
 # die if there's an error
 set -e
 set -o pipefail
+set -x
 
 # test if required software is available
 echo testing that required software is installed
-wget --help
-awk --help
-sort --help
-fasterq-dump --help # should be in recent versions of the sra-toolkit package.  Otherwise, install the pre-compiled binaries of the sra-toolkit at the NCBI site (currently https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software )
-novoindex
-blastn -h # package: ncbi-blast+
-samtools --help
-bedtools
-esl-shuffle -h # this command comes from the Infernal software, but is not installed by default.  In the easel/miniapps subdirectory, do 'make install'
+wget --help > /dev/null
+awk --help > /dev/null
+sort --help > /dev/null
+fasterq-dump --help > /dev/null # should be in recent versions of the sra-toolkit package.  Otherwise, install the pre-compiled binaries of the sra-toolkit at the NCBI site (currently https://trace.ncbi.nlm.nih.gov/Traces/sra/sra.cgi?view=software )
+novoindex > /dev/null
+blastn -h > /dev/null # package: ncbi-blast+
+samtools --help > /dev/null
+bedtools > /dev/null
+esl-shuffle -h > /dev/null # this command comes from the Infernal software, but is not installed by default.  In the easel/miniapps subdirectory, do 'make install'
 # fastp, python stuff
-fastp
-python3 -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, numpy, os, os.path, pandas, re, subprocess, sys"
-python3 -c "from __future__ import absolute_import, division, print_function"
-python3 -c "from bisect import bisect_left"
-python3 -c "from collections import Counter"
-python3 -c "from matplotlib.colors import ListedColormap"
-python3 -c "from operator import itemgetter"
-python3 -c "from tabulate import tabulate"
+fastp > /dev/null
+python3 -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, numpy, os, os.path, pandas, re, subprocess, sys"  > /dev/null
+python3 -c "from __future__ import absolute_import, division, print_function" > /dev/null
+python3 -c "from bisect import bisect_left" > /dev/null
+python3 -c "from collections import Counter" > /dev/null
+python3 -c "from matplotlib.colors import ListedColormap" > /dev/null
+python3 -c "from operator import itemgetter" > /dev/null
+python3 -c "from tabulate import tabulate" > /dev/null
 
 
 pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
