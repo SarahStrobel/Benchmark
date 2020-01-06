@@ -74,7 +74,7 @@ printf "\n##########################################################\n\n"
 mkdir -p $pathToParentDirectory"/Termi/RNASeq"
 mkdir -p $pathToParentDirectory"/Termi/TermSeq"
 
-TermseqFiles=( ERX1304415 ERX1320300 ERX1320301 ERR1248401 ERR1248402 ERR1248403 ERR1248436 ERR1248437 ERR1248438 )
+#TermseqFiles=( ERX1304415 ERX1320300 ERX1320301 ERR1248401 ERR1248402 ERR1248403 ERR1248436 ERR1248437 ERR1248438 )
 TermseqFiles=( ERX1304415 ERX1320300 ERX1320301 ERR1248401 ERR1248402 ERR1248403 ERR1248436 ERR1248437 ERR1248438 SRR7160964 SRR7160965 SRR7160966 SRR7160967)
 for i in "${TermseqFiles[@]}"
 do
@@ -93,6 +93,9 @@ done
 ####
 # here you have to ask for the RNA-Seq files from Warrier et al. somehow and save the fasta files in the $pathToParentDirectory/Termi/RNASeq/ folder :)
 #####
+
+printf 'Temporary hack for Streptococcus'
+cp 316*.fastq.gz $pathToParentDirectory/Termi/RNASeq/
 
 printf "\n##########################################################"
 printf '\n    all RNA-Seq and Term-Seq experiments downloaded'
