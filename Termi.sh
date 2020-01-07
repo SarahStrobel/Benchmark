@@ -26,6 +26,7 @@ python3 -c "from matplotlib.colors import ListedColormap" > /dev/null
 python3 -c "from operator import itemgetter" > /dev/null
 python3 -c "from tabulate import tabulate" > /dev/null
 
+ls 316*.fastq.gz > /dev/null # make sure the Warrier et al files are in the current directory
 
 pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -70,7 +71,7 @@ printf "\n##########################################################\n\n"
 
 ################################################################################################################################################
 
-# download fastq files wit fasterq-dump
+# download fastq files with fasterq-dump
 mkdir -p $pathToParentDirectory"/Termi/RNASeq"
 mkdir -p $pathToParentDirectory"/Termi/TermSeq"
 
@@ -96,6 +97,7 @@ done
 
 printf 'Temporary hack for Streptococcus'
 cp 316*.fastq.gz $pathToParentDirectory/Termi/RNASeq/
+gzip -d $pathToParentDirectory/Termi/RNASeq/316*.fastq.gz
 
 printf "\n##########################################################"
 printf '\n    all RNA-Seq and Term-Seq experiments downloaded'
