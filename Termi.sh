@@ -18,13 +18,14 @@ bedtools > /dev/null
 esl-shuffle -h > /dev/null # this command comes from the Infernal software, but is not installed by default.  In the easel/miniapps subdirectory, do 'make install'
 # fastp, python stuff
 fastp > /dev/null
-python3 -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, numpy, os, os.path, pandas, re, subprocess, sys"  > /dev/null
-python3 -c "from __future__ import absolute_import, division, print_function" > /dev/null
-python3 -c "from bisect import bisect_left" > /dev/null
-python3 -c "from collections import Counter" > /dev/null
-python3 -c "from matplotlib.colors import ListedColormap" > /dev/null
-python3 -c "from operator import itemgetter" > /dev/null
-python3 -c "from tabulate import tabulate" > /dev/null
+python -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, numpy, os, os.path, pandas, re, subprocess, sys"  > /dev/null
+python -c "from __future__ import absolute_import, division, print_function" > /dev/null
+python -c "from bisect import bisect_left" > /dev/null
+python -c "from collections import Counter" > /dev/null
+python -c "from matplotlib.colors import ListedColormap" > /dev/null
+python -c "from operator import itemgetter" > /dev/null
+python -c "from tabulate import tabulate" > /dev/null
+python3 -c "import itertools, numpy, os, pandas, subprocess, sys"
 
 ls 316*.fastq.gz > /dev/null # make sure the Warrier et al files are in the current directory
 
@@ -92,7 +93,7 @@ do
 done
 
 ####
-# here you have to ask for the RNA-Seq files from Warrier et al. somehow and save the fasta files in the $pathToParentDirectory/Termi/RNASeq/ folder :)
+# here you have to ask for the RNA-Seq files from Warrier et al. somehow and save the fastq files in the $pathToParentDirectory/Termi/RNASeq/ folder :)
 #####
 
 printf 'Temporary hack for Streptococcus'
