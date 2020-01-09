@@ -26,6 +26,7 @@ python -c "from matplotlib.colors import ListedColormap" > /dev/null
 python -c "from operator import itemgetter" > /dev/null
 python -c "from tabulate import tabulate" > /dev/null
 python3 -c "import itertools, numpy, os, pandas, subprocess, sys"
+echo GOOD, looks like all required software is available
 
 ls 316*.fastq.gz > /dev/null # make sure the Warrier et al files are in the current directory
 
@@ -97,7 +98,7 @@ done
 #####
 
 printf 'Temporary hack for Streptococcus'
-cp 316*.fastq.gz $pathToParentDirectory/Termi/RNASeq/
+cp 316*.fastq.gz $pathToParentDirectory/Termi/RNASeq/ # if you change the file names, also change the stuff that's hardcoded in combine_RNASeq_SP.py
 gzip -d $pathToParentDirectory/Termi/RNASeq/316*.fastq.gz
 
 printf "\n##########################################################"
