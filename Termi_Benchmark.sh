@@ -1,5 +1,8 @@
 # !/bin/bash
 
+# set for Python2
+PYTHON=python
+SCRIPTS=Scripts-python2
 
 pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -113,7 +116,7 @@ for ((i=0;i<${#resultFiles[@]};++i))
 do
 	echo ${resultFiles[i]}
 	echo ${fastaFiles[i]}
-	python3 $pathToParentDirectory/Termi/Scripts/iTerm2gff.py \
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/iTerm2gff.py \
 	-iterm ${resultFiles[i]} \
 	-i ${fastaFiles[i]} \
 	-o $pathToParentDirectory/Benchmark/iTerm_PseKNC/iTerm_results_from_wl/"$(basename "${resultFiles[i]}" .txt)"
@@ -145,7 +148,7 @@ do
 	a=$(cat $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta | grep -v \> | tr -d "\r\n"|wc -c)
 	b=$(cat $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta | grep -v \> | tr -d "\r\n"|wc -c)
 
-	python3 $pathToParentDirectory/Termi/Scripts/computeROC.py \
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/computeROC.py \
 	-pos $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta \
 	-neg $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta \
 	-true $pathToParentDirectory/Benchmark/iTerm_PseKNC/iTerm_results_from_wl/1_predicted_${brev[i]}_embedded_predictedTerminators_shuffled_result.gff \
@@ -153,7 +156,7 @@ do
 	-o $pathToParentDirectory/Benchmark/ROC/1NegativePerPositive/iTerm_${brev[i]}_shuffled_ \
 	-nucs $((a+b))
 
-	python3 $pathToParentDirectory/Termi/Scripts/computeROC.py \
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/computeROC.py \
 	-pos $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta \
 	-neg $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta \
 	-true $pathToParentDirectory/Benchmark/RNIE/1NegativePerPositive/1_predicted_${brev[i]}_embedded_predictedTerminators_shuffled_th0-geneMode-rnie.bits.gff \
@@ -161,7 +164,7 @@ do
 	-o $pathToParentDirectory/Benchmark/ROC/1NegativePerPositive/RNIEth0_${brev[i]}_shuffled_ \
 	-nucs $((a+b))
 
-	python3 $pathToParentDirectory/Termi/Scripts/computeROC.py \
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/computeROC.py \
 	-pos $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta \
 	-neg $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta \
 	-true $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive/1_predicted_${brev[i]}_embedded_predictedTerminators_shuffled.terminator-lesnik.out.dG_score.gff\
@@ -175,7 +178,7 @@ do
 	a=$(cat $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta | grep -v \> | tr -d "\r\n"|wc -c)
 	b=$(cat $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta | grep -v \> | tr -d "\r\n"|wc -c)
 
-	python3 $pathToParentDirectory/Termi/Scripts/computeROC.py \
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/computeROC.py \
 	-pos $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta \
 	-neg $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta \
 	-true $pathToParentDirectory/Benchmark/RNIE/1NegativePerPositive/1_predicted_${brev[i]}_embedded_predictedTerminators_shuffled_th0-geneMode-rnie.bits.gff \
@@ -183,7 +186,7 @@ do
 	-o $pathToParentDirectory/Benchmark/ROC/100NegativesPerPositive/RNIEth0_${brev[i]}_shuffled_ \
 	-nucs $((a+b))
 
-	python3 $pathToParentDirectory/Termi/Scripts/computeROC.py \
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/computeROC.py \
 	-pos $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta \
 	-neg $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_shuffledNegatives_shuffled.fasta \
 	-true $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive/1_predicted_${brev[i]}_embedded_predictedTerminators_shuffled.terminator-lesnik.out.dG_score.gff\
