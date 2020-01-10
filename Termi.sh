@@ -277,9 +277,6 @@ printf "\n##########################################################"
 printf '\n    all Files filtered and sorted'
 printf "\n##########################################################\n\n"
 
-echo here is a good stopping point
-exit
-
 ###############################################################################################################################################
 
 # calculate genome Coverage of RNA-Seq files and end-nuc counts of Term-Seq files
