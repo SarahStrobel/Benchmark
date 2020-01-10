@@ -5,7 +5,20 @@ set -e
 set -o pipefail
 set -x
 
-# test if required software is available
+# test if cmsearch is available, and version 1.0 -- otherwise RNie will call the wrong function
+echo testing that cmsearch is version 1.0
+cmsearch -h > /dev/null # check if cmsearch is available at all.  if not, you should install infernal 1.0
+if cmsearch -h | grep -q "INFERNAL 1.1" ; then
+    echo The cmsearch command from Infernal version 1.1 is in the PATH.  You need to make sure that version 1.0 is in the PATH, so that the RNie program will work correctly
+    exit 1
+fi
+if cmsearch -h | grep -q "INFERNAL 1.0" ; then
+    echo good, got version 1.0
+else
+    echo Found cmsearch command, but it is not from Infernal version 1.0.  Is this some super-old version of it?  RNie requires version 1.0
+fi
+
+# test if other required software is available
 echo testing that required software is installed
 wget --help > /dev/null
 awk --help > /dev/null
