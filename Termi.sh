@@ -1,4 +1,4 @@
-# !/bin/bash
+#!/bin/bash
 
 # die if there's an error
 set -e
@@ -31,7 +31,7 @@ bedtools > /dev/null
 esl-shuffle -h > /dev/null # this command comes from the Infernal software, but is not installed by default.  In the easel/miniapps subdirectory, do 'make install'
 # fastp, python3 stuff
 fastp > /dev/null
-python3 -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, numpy, os, os.path, pandas, re, subprocess, sys"  > /dev/null
+python3 -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, matplotlib.pyplot, numpy, os, os.path, pandas, re, subprocess, sys"  > /dev/null
 python3 -c "from __future__ import absolute_import, division, print_function" > /dev/null
 python3 -c "from bisect import bisect_left" > /dev/null
 python3 -c "from collections import Counter" > /dev/null
