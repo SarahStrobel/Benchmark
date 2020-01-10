@@ -90,15 +90,15 @@ for samFile in glob.glob(termSeqPath + '*.sam'):
 
 	experiment = samFile.split('/')[-1].split('.')[0].split('_')[2]
 
-	print(experiment)
+	print experiment
 
 	if organism == 'Enterococcus_faecalis':
 		outfile = outfile + experiment + '_' + organism + '_' + plasmid
 	else:
 		outfile = outfile + experiment + '_' + organism
 
-	print('\n' + str(organism) + ' ' + str(plasmid))
-	print('genome length: ' + str(lengthGenome))
+	print '\n' + str(organism) + ' ' + str(plasmid)
+	print 'genome length: ' + str(lengthGenome)
 
 
 	fivePrimeEndsWithStrands = []
@@ -167,14 +167,14 @@ for samFile in glob.glob(termSeqPath + '*.sam'):
 
 							fivePrimeEndsWithStrands.append((end, strand))
 
-			print('unique reads: ' + str(uniqueReads))
-			print('\n')
+			print 'unique reads: ' + str(uniqueReads)
+			print '\n'
 
 			coordDictWithStrands = Counter(fivePrimeEndsWithStrands)
 
 			newCoordDictWithStrands = {}
 
-			for key, value in list(coordDictWithStrands.items()):
+			for key, value in coordDictWithStrands.items():
 				newCoordDictWithStrands[key[0]] = [value, key[1]]
 
 #######################################################################

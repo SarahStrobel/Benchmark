@@ -99,7 +99,7 @@ if 'SP' in predictedTerminators:
 	lengthGenome = 2160842
 	brev = 'SP'
 	
-print('\n' + str(organism) + ' ' + str(plasmid))
+print '\n' + str(organism) + ' ' + str(plasmid)
 
 
 outfiles = [outpath + brev + '_predTerm_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long60.bed',
@@ -126,14 +126,14 @@ with open(predictedTerminators,'r') as term, open(blastFile,'r') as blast:
 
 
 # print sorted(distanceCoords)
-print("Predicted Terminators before: " + str(len(distanceCoords)))
+print "Predicted Terminators before: " + str(len(distanceCoords))
 
-print("With Bitscores over 30: " + str(len(bitscoreOver30Coords)))
+print "With Bitscores over 30: " + str(len(bitscoreOver30Coords))
 
 # difference of two sets (A-B): elements only in A but not in B
 withoutOver30 = (distanceCoords - bitscoreOver30Coords)
 
-print("Predicted Terminators Without Bitscores over 30: " + str(len(withoutOver30)))
+print "Predicted Terminators Without Bitscores over 30: " + str(len(withoutOver30))
 
 
 outfiles1 = [open(i, 'w') for i in outfiles]

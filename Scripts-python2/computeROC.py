@@ -126,12 +126,12 @@ l3 =  int(math.ceil(l3))
 l4 = int(math.ceil(l4))
 
 
-print(totalNucs)
+print totalNucs
 
 outfile = outpath + 'terminator.out.dG_score-accuracy.dat'
 
 
-print(outfile)
+print outfile
 
 
 #######################################################################
@@ -238,7 +238,7 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
     tntpList=list(tntpList for tntpList,_ in itertools.groupby(tntpList))
     # print tntpList
     numberOfUniquePos = len(tntpList)
-    print('number of unique positives: ' + str(numberOfUniquePos))
+    print 'number of unique positives: ' + str(numberOfUniquePos)
 
 
     # #read output of terminator prediction software for predicted negatives
@@ -272,13 +272,13 @@ with open(positivesFile, 'r') as f1, open(negativesFile, 'r') as f2, \
     tntpList.sort()
     tntpList=list(tntpList for tntpList,_ in itertools.groupby(tntpList))
     numberOfUniqueNeg = len(tntpList) - numberOfUniquePos
-    print('number of unique negatives: ' + str(numberOfUniqueNeg))
+    print 'number of unique negatives: ' + str(numberOfUniqueNeg)
 
 
-print("number of positives: " + str(numPositives))
-print("number of negatives: " + str(numNegatives))
-print("positives predicted by tool: " + str(numOfPosPred))
-print("negatives predicted by tool: " + str(numOfNegPred))
+print "number of positives: " + str(numPositives)
+print "number of negatives: " + str(numNegatives)
+print "positives predicted by tool: " + str(numOfPosPred)
+print "negatives predicted by tool: " + str(numOfNegPred)
 
 # print tntpList
 

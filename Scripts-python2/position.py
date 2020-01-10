@@ -150,7 +150,7 @@ if 'SP' in predictedTerminators:
 	plasmid = ''
 	lengthGenome = 2160842
 
-print('\n' + str(organism) + ' ' + str(plasmid))
+print '\n' + str(organism) + ' ' + str(plasmid)
 #######################################################################
 #######################################################################
 # read files, log transformed:
@@ -309,8 +309,8 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
 
 
-	print("predicted Terminators not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfTerminatorsUnder150))
-	print("predicted Negatives not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150))
+	print "predicted Terminators not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfTerminatorsUnder150)
+	print "predicted Negatives not overlapping genes, not overlapping known terminators, up to 150 nucs downstream of gene: " + str(numberOfNegativesUnder150)
 
 	negbed.close()
 	negbedLong.close()

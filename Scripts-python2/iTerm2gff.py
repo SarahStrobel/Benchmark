@@ -43,7 +43,7 @@ with open(iTermOutput, 'r') as iTermOut, open(iTermInput, 'r')  as iTermIn, open
 			ID = ids[IDiTerm-1]
 			start = int(line.split()[2])		
 			score = float(line.split()[-1])
-			sequence = next(iTermOut)	
+			sequence = iTermOut.next()	
 			end = start + (len(sequence)-1)
 
 			out.write(str(ID) + '\t' + 'iTerm-PseKNC' + '\t' + 'terminator' + '\t' + str(start) + '\t' + str(end) + '\t' + str(score) + '\t' + '.' + '\t' + '.' + '\t' + '.' + '\n')
@@ -53,7 +53,7 @@ with open(iTermOutput, 'r') as iTermOut, open(iTermInput, 'r')  as iTermIn, open
 			ID = ids[IDiTerm-1]
 			start = int(line.split()[2])		
 			score = 1-float(line.split()[-1])
-			sequence = next(iTermOut)	
+			sequence = iTermOut.next()	
 			end = start + (len(sequence)-1)
 			
 			out.write(str(ID) + '\t' + 'iTerm-PseKNC' + '\t' + 'non-terminator' + '\t' + str(start) + '\t' + str(end) + '\t' + str(score) + '\t' + '.' + '\t' + '.' + '\t' + '.' + '\n')

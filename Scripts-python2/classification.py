@@ -220,8 +220,8 @@ if 'SP' in positivesFile:
 	chrom2 = chrom
 	lengthGenome = 2160842
 
-print(organism + plasmid)
-print(chrom)
+print organism + plasmid
+print chrom
 
 # outfiles for plots
 outfileG1 = outpath + 'gradStudentsAlgo_traintest_' + organismBrev
@@ -572,22 +572,22 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 
 
 
-	print('\npredicted Terminators: ' + str(len(predictedTerminatorsAllPointsDataTest)))
-	print('predicted Terminators NOT overlapping genes, NOT overlapping known terminators: ' + str(len(npPredictedTerminatorsAllPointsNOTOverlappingTest)))
-	print('predicted Terminators NOT overlapping genes: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingGenesTest)))
-	print('predicted Terminators NOT overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest)))
+	print '\npredicted Terminators: ' + str(len(predictedTerminatorsAllPointsDataTest))
+	print 'predicted Terminators NOT overlapping genes, NOT overlapping known terminators: ' + str(len(npPredictedTerminatorsAllPointsNOTOverlappingTest))
+	print 'predicted Terminators NOT overlapping genes: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingGenesTest))
+	print 'predicted Terminators NOT overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsNOTOverlappingTerminatorsTest))
 
-	print('predicted Terminators overlapping genes: ' + str(len(predictedTerminatorsAllPointsOverlappingGenesTest)))
-	print('predicted Terminators overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsOverlappingTerminatorsTest)))
+	print 'predicted Terminators overlapping genes: ' + str(len(predictedTerminatorsAllPointsOverlappingGenesTest))
+	print 'predicted Terminators overlapping known terminators: ' + str(len(predictedTerminatorsAllPointsOverlappingTerminatorsTest))
 
 
-	print('\npredicted Negatives: ' + str(len(predictedNegativesAllPointsDataTest)))
-	print('predicted Negatives NOT overlapping genes, NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTest)))
-	print('predicted Negatives NOT overlapping genes: ' + str(len(predictedNegativesAllPointsNOTOverlappingGenesTest)))
-	print('predicted Negatives NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTerminatorsTest)))
+	print '\npredicted Negatives: ' + str(len(predictedNegativesAllPointsDataTest))
+	print 'predicted Negatives NOT overlapping genes, NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTest))
+	print 'predicted Negatives NOT overlapping genes: ' + str(len(predictedNegativesAllPointsNOTOverlappingGenesTest))
+	print 'predicted Negatives NOT overlapping known terminators: ' + str(len(predictedNegativesAllPointsNOTOverlappingTerminatorsTest))
 
-	print('predicted Negatives overlapping genes: ' + str(len(predictedNegativesAllPointsOverlappingGenesTest)))
-	print('predicted Negatives overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTerminatorsTest)))
+	print 'predicted Negatives overlapping genes: ' + str(len(predictedNegativesAllPointsOverlappingGenesTest))
+	print 'predicted Negatives overlapping known terminators: ' + str(len(predictedNegativesAllPointsOverlappingTerminatorsTest))
 
 
 
@@ -600,9 +600,9 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 	printList.append(['own boundary',ppvG, tprG, fprG, tpG, fpG, tnG, fnG])
 
 
-	print('\n')
-	print(tabulate(printList, headers=['algorithm','PPV','TPR', 'FPR','TP', 'FP', 'TN', 'FN'], floatfmt=[".3f", ".4f", ".4f", ".4f", ".0f", ".0f", ".0f", ".0f"]))
-	print('\n')
+	print '\n'
+	print tabulate(printList, headers=['algorithm','PPV','TPR', 'FPR','TP', 'FP', 'TN', 'FN'], floatfmt=[".3f", ".4f", ".4f", ".4f", ".0f", ".0f", ".0f", ".0f"])
+	print '\n'
 
 
 

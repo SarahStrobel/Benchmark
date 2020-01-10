@@ -258,19 +258,19 @@ if 'Enterococcus' in rnaSeqFile:
 	if '_chromosome' in rnaSeqFile:
 		chrom = "NC_004668.1"
 		plasmid = 'chromosome'
-		print(plasmid)
+		print plasmid
 	if 'plasmid1' in rnaSeqFile:
 		chrom = "NC_004669.1"
 		plasmid = 'plasmid1'
-		print(plasmid)
+		print plasmid
 	if 'plasmid2' in rnaSeqFile:
 		chrom = "NC_004671.1"
 		plasmid = 'plasmid2'
-		print(plasmid)
+		print plasmid
 	if 'plasmid3' in rnaSeqFile:
 		chrom = "NC_004670.1"
 		plasmid = 'plasmid3'
-		print(plasmid)
+		print plasmid
 
 
 #######################################################################
@@ -423,16 +423,16 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 	else:
 		raise Exception('\nnucleotides to cut must be smaller than genome length')		
 
-	print('\norganism:\t\t\t\t\t\t' + organism)
-	print('unique reads in all Term-Seq files:\t\t\t' + str(uniqueReadsTSCombined))
-	print('unique reads in RNA-Seq files\t\t\t\t' + str(uniqueReadsRS))
-	print('span of nucleotides in genome: \t\t\t\t' + str(numberOfNucsInGenome[0]) + '-' + str(numberOfNucsInGenome[1]))
-	print('number of nucleotides to cut off genes: \t\t' + str(numberOfNucsToChopOffGenes))
-	print('length of intervals to cut the genome into: \t\t' + str(numberOfNucsToSplitInto))
-	print('length of region in RNA-Seq to average/max over: \t' + str(numberOfNucsToAvg))
-	print('path of outfile:\t\t\t\t\t' + str(outfile))
-	print('calculate maximum RNA-Seq coverage:\t\t\t' + str(boolMax))
-	print('lenght of genome:\t\t\t\t\t' + str(lengthGenome))
+	print '\norganism:\t\t\t\t\t\t' + organism
+	print 'unique reads in all Term-Seq files:\t\t\t' + str(uniqueReadsTSCombined)
+	print 'unique reads in RNA-Seq files\t\t\t\t' + str(uniqueReadsRS)
+	print 'span of nucleotides in genome: \t\t\t\t' + str(numberOfNucsInGenome[0]) + '-' + str(numberOfNucsInGenome[1])
+	print 'number of nucleotides to cut off genes: \t\t' + str(numberOfNucsToChopOffGenes)
+	print 'length of intervals to cut the genome into: \t\t' + str(numberOfNucsToSplitInto)
+	print 'length of region in RNA-Seq to average/max over: \t' + str(numberOfNucsToAvg)
+	print 'path of outfile:\t\t\t\t\t' + str(outfile)
+	print 'calculate maximum RNA-Seq coverage:\t\t\t' + str(boolMax)
+	print 'lenght of genome:\t\t\t\t\t' + str(lengthGenome)
 
 
 	linesTSall = []
@@ -617,7 +617,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 						termSeqStrandsTerminators[TSstart] = maxTSstrand
 
 				# getting the maximum Term-Seq count and its position
-				maxTScoord = max(iter(termSeqCountTerminators.keys()), key=lambda k: termSeqCountTerminators[k])
+				maxTScoord = max(termSeqCountTerminators.iterkeys(), key=lambda k: termSeqCountTerminators[k])
 				maxTScount = termSeqCountTerminators[maxTScoord]
 				maxTSstrand = termSeqStrandsTerminators[maxTScoord]
 
@@ -681,12 +681,12 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 
 
 		# print out stats for terminators and genes
-		print('max lenght of terminators:\t\t\t\t' + str(maxLengthOfTerminator))
-		print('avg length of terminators:\t\t\t\t' + str(avgLengthOfTerminator))
-		print('number of terminators in the nucs ' + str(numberOfNucsInGenome) + ':\t\t' + str(numberOfTerminators) + ' (' + str(len(terminatorCoords)) + ' terminator nucleotides)')
+		print 'max lenght of terminators:\t\t\t\t' + str(maxLengthOfTerminator)
+		print 'avg length of terminators:\t\t\t\t' + str(avgLengthOfTerminator)
+		print 'number of terminators in the nucs ' + str(numberOfNucsInGenome) + ':\t\t' + str(numberOfTerminators) + ' (' + str(len(terminatorCoords)) + ' terminator nucleotides)'
 
 
-	print('number of genes in the nucs ' + str(numberOfNucsInGenome) + ':\t\t' + str(numberOfGenes) + ' (' + str(len(geneCoords)) + ' gene nucleotides)') 
+	print 'number of genes in the nucs ' + str(numberOfNucsInGenome) + ':\t\t' + str(numberOfGenes) + ' (' + str(len(geneCoords)) + ' gene nucleotides)' 
 
 
 
@@ -767,7 +767,7 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
 				TermSeqStrands[TSstart] = maxTSstrand
 		
 
-		maxTScoord = max(iter(termSeqCountWholeGenome.keys()), key=lambda k: termSeqCountWholeGenome[k])
+		maxTScoord = max(termSeqCountWholeGenome.iterkeys(), key=lambda k: termSeqCountWholeGenome[k])
 		maxTScount = termSeqCountWholeGenome[maxTScoord]
 		maxTSstrand = TermSeqStrands[maxTScoord]
 
@@ -882,9 +882,9 @@ strandTScountsOverlappingTerminatorsPLUSTScountsOverlappingGenes = strandTScount
 #######################################################################
 # print stats for overlaps
 
-print('\nTS overl. known Terminators: ' + str(len(TScountsOverlappingTerminators)))
-print('TS overl. genes: ' + str(len(TScountsOverlappingGenes)))
-print('\n')
+print '\nTS overl. known Terminators: ' + str(len(TScountsOverlappingTerminators))
+print 'TS overl. genes: ' + str(len(TScountsOverlappingGenes))
+print '\n'
 
 
 

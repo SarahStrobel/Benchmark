@@ -64,7 +64,7 @@ with open(rnieFile, 'r') as rnie:
 
 
 with open(outfile, 'w') as out:
-	for value, key in list(RNIEdict.items()):
+	for value, key in RNIEdict.items():
 		out.write(str(value) + '\t' + str(key[0]) + '\t' + str(key[1]) + '\t' + str(key[2]) + '\t' + str(key[3]) + '\n')
 
 
@@ -73,7 +73,7 @@ npY = np.array(ys)
 npRNIEover20X = np.array(RNIEover20X)
 npRNIEover20Y = np.array(RNIEover20Y)
 
-print('RNIE scores over 20.0: ' + str(len(RNIEover20X)))
+print 'RNIE scores over 20.0: ' + str(len(RNIEover20X))
 
 #######################################################################
 #######################################################################
