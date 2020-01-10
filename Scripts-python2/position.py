@@ -5,6 +5,8 @@
 
 import numpy as np
 import math
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from bisect import bisect_left
 from matplotlib.colors import ListedColormap
