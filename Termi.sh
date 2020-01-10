@@ -426,7 +426,7 @@ do
  		-name | \
 	cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
 		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta 
-	rnie.pl \
+	$pathToParentDirectory/Termi/RNIE/rnie.pl \
 		--gene \
 		-f $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta \
 	 	-md $pathToParentDirectory/Termi/RNIE/models \
