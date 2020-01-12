@@ -149,9 +149,9 @@ do
 	novoindex $pathToParentDirectory/Termi/Genomes/"$(basename "$filename" .fasta).index" $filename
 done
 
-mkdir $pathToParentDirectory/Termi/Alignments/
-mkdir $pathToParentDirectory/Termi/Alignments/RNASeq/
-mkdir $pathToParentDirectory/Termi/Alignments/TermSeq/
+mkdir -p $pathToParentDirectory/Termi/Alignments/
+mkdir -p $pathToParentDirectory/Termi/Alignments/RNASeq/
+mkdir -p $pathToParentDirectory/Termi/Alignments/TermSeq/
 
 ########################
 # rna seq
@@ -315,7 +315,7 @@ printf "\n##########################################################\n\n"
 
 ################################################################################################################################################
 
-mkdir $pathToParentDirectory"/Termi/Results"
+mkdir -p $pathToParentDirectory"/Termi/Results"
 
 # draw scatterplots of max Term-Seq end nuc counts vs. avg. RNA-Seq coverage over specified intervals of a set number of nucleotides 
 # outputs Term-Seq counts overlapping genes (known class negative), counts overlapping known terminators (known class positive) and all counts
@@ -430,8 +430,7 @@ do
 	bedtools getfasta -fi $pathToParentDirectory/Termi/Genomes/${fastaFiles[i]} \
 		-bed $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.bed\
  		-name | \
-	cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
-		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta 
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta 
 	$pathToParentDirectory/Termi/RNIE/rnie.pl \
 		--gene \
 		-f $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta \
@@ -452,7 +451,7 @@ printf "\n##########################################################\n\n"
 
 # classify counts into "predicted positives/terminators" and "predicted negatives"
 
-mkdir $pathToParentDirectory"/Termi/Results/Classification"
+mkdir -p $pathToParentDirectory"/Termi/Results/Classification"
 
 # b.subtilis
 $PYTHON $pathToParentDirectory/Termi/$SCRIPTS/classification.py  \
@@ -486,7 +485,7 @@ brev=('BS' 'EF_chrom' 'EF_pl1' 'EF_pl2' 'EF_pl3' 'LM' 'SP')
 gffFiles=('Bacillus_subtilis.gff' 'Enterococcus_faecalis_chromosome.gff3' 'Enterococcus_faecalis_plasmid1.gff3'\
 	'Enterococcus_faecalis_plasmid2.gff3' 'Enterococcus_faecalis_plasmid3.gff3'\
 	'Listeria_monocytogenes.gff' 'Streptococcus_pneumoniae.gff3')
-mkdir $pathToParentDirectory"/Termi/Results/Distance"
+mkdir -p $pathToParentDirectory"/Termi/Results/Distance"
 
 for ((i=0;i<${#gffFiles[@]};++i))
 do
@@ -507,13 +506,13 @@ printf "\n##########################################################\n\n"
 # removing predicted positives that are too similar to known terminators (BLAST bitscores > 30 )
 
 # make blast db of known terminators
-mkdir $pathToParentDirectory"/Termi/BLASTDB"
+mkdir -p $pathToParentDirectory"/Termi/BLASTDB"
 
 makeblastdb -in $pathToParentDirectory/Termi/Genomes/true_upper_UtoT_shortIDs.fa \
 			-dbtype nucl -parse_seqids -out $pathToParentDirectory/Termi/BLASTDB/known_terminators_db
 
-mkdir $pathToParentDirectory"/Termi/Results/BLAST"
-mkdir $pathToParentDirectory"/Termi/Results/BLAST/withoutPolluted"
+mkdir -p $pathToParentDirectory"/Termi/Results/BLAST"
+mkdir -p $pathToParentDirectory"/Termi/Results/BLAST/withoutPolluted"
 
 
 fastaFiles2=('Bacillus_subtilis.fasta' 'Enterococcus_faecalis_chromosome.fasta' 'Enterococcus_faecalis_plasmid1.fasta'\
@@ -526,8 +525,7 @@ do
 		-fi $pathToParentDirectory/Termi/Genomes/${fastaFiles2[i]} \
 		-bed $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.bed \
  		-name | \
-	cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
-		then echo $L; read L; echo $L; fi; done > $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta 
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta 
 	blastn -query $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta \
 		-db $pathToParentDirectory/Termi/BLASTDB/known_terminators_db \
 		-word_size 7 \
@@ -566,9 +564,9 @@ printf "\n##########################################################\n\n"
 
 # using esl-shuffle with a 1st order Markov process to generate negatives and diresidue shuffle using Altschul-Erickson algorithm to generate sequences to embed negatives into
 
-mkdir $pathToParentDirectory"/Termi/Results/Negatives"
-mkdir $pathToParentDirectory"/Termi/Results/Negatives/1NegativePerPositive"
-mkdir $pathToParentDirectory"/Termi/Results/Negatives/100NegativesPerPositive"
+mkdir -p $pathToParentDirectory"/Termi/Results/Negatives"
+mkdir -p $pathToParentDirectory"/Termi/Results/Negatives/1NegativePerPositive"
+mkdir -p $pathToParentDirectory"/Termi/Results/Negatives/100NegativesPerPositive"
 
 
 bedFiles=()
@@ -594,8 +592,7 @@ do
 	-fi $pathToParentDirectory/Termi/Genomes/${fastaFiles3[i]} \
 	-bed ${bedFiles[i]} \
 	-name | \
-	cat | while read L; do if [[ $L == *+ ]]; then echo $L; read L; echo $L | rev | tr "ATGC" "TACG" ; elif [[ $L == *- ]]; \
-	then echo $L; read L; echo $L; fi; done > $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/"$(basename "${bedFiles[i]}" .bed)".fasta
+	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/"$(basename "${bedFiles[i]}" .bed)".fasta
 done
 
 # using esl-shuffle with a 1st order Markov process to generate negatives
@@ -632,9 +629,9 @@ do
 	> $pathToParentDirectory/Termi/Results/Negatives/100NegativesPerPositive/oneLine_"$(basename "$file")"
 done
 
-mkdir $pathToParentDirectory"/Termi/Results/Embedded"
-mkdir $pathToParentDirectory"/Termi/Results/Embedded/1NegativePerPositive"
-mkdir $pathToParentDirectory"/Termi/Results/Embedded/100NegativesPerPositive"
+mkdir -p $pathToParentDirectory"/Termi/Results/Embedded"
+mkdir -p $pathToParentDirectory"/Termi/Results/Embedded/1NegativePerPositive"
+mkdir -p $pathToParentDirectory"/Termi/Results/Embedded/100NegativesPerPositive"
 
 # embed predicted terminators and shuffled negatives into permuted sequences
 for ((i=0;i<${#brev3[@]};++i))
