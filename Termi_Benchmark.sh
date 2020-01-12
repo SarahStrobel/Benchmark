@@ -4,6 +4,11 @@
 PYTHON=python
 SCRIPTS=Scripts-python2
 
+# die if there's an error
+set -e
+set -o pipefail
+set -x
+
 pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 mkdir $pathToParentDirectory/"Benchmark"
