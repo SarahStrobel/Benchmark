@@ -22,7 +22,7 @@ while True:
         # sense sequence
         print line
         print line2
-    elif re.search('nostrand::',line):
+    elif re.search('nostrand$',line):
         # neither strand
         # don't output anything
         pass

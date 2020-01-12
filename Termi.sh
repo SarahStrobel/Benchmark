@@ -304,7 +304,7 @@ do
 done
 
 
-$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/5primePosfromSam_2_Bedgraph.py \
+$PYTHON $pathToParentDirectory/$SCRIPTS/5primePosfromSam_2_Bedgraph.py \
 		-termSeq $pathToParentDirectory/Termi/Alignments/TermSeq/filtered_ \
 		-o $pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_
 
@@ -340,11 +340,11 @@ brev=('BS' 'EF_chrom' 'EF_pl1' 'EF_pl2' 'EF_pl3' 'LM')
 
 ########################
 
-$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/combine_RNASeq_SP.py \
+$PYTHON $pathToParentDirectory/$SCRIPTS/combine_RNASeq_SP.py \
 		-i $pathToParentDirectory/Termi/Alignments/RNASeq/ \
 		-o $pathToParentDirectory/Termi/Alignments/RNASeq/
 
-$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/ratioTermRNASeq_SP.py  \
+$PYTHON $pathToParentDirectory/$SCRIPTS/ratioTermRNASeq_SP.py  \
 		-gff $pathToParentDirectory/Termi/Genomes/Streptococcus_pneumoniae.gff3 \
 		-ts $pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_SRR7160964_Streptocoocus_pneumoniae.bedgraph \
 			$pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_SRR7160965_Streptocoocus_pneumoniae.bedgraph\
@@ -361,7 +361,7 @@ $PYTHON $pathToParentDirectory/Termi/$SCRIPTS/ratioTermRNASeq_SP.py  \
 
 for ((i=0;i<${#termSeqFiles1[@]};++i))
 do
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/ratioTermRNASeq.py  \
+	$PYTHON $pathToParentDirectory/$SCRIPTS/ratioTermRNASeq.py  \
 			-gff $pathToParentDirectory/Termi/Genomes/${gffFiles[i]} \
 			-ts $pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_${termSeqFiles1[i]}.bedgraph \
 				$pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_${termSeqFiles2[i]}.bedgraph \
@@ -384,7 +384,7 @@ done
 
 # for ((i=0;i<${#termSeqFiles1[@]};++i))
 # do
-# 	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/ratioTermRNASeq.py  \
+# 	$PYTHON $pathToParentDirectory/$SCRIPTS/ratioTermRNASeq.py  \
 # 			-gff $pathToParentDirectory/Termi/Genomes/${gffFiles[i]} \
 # 			-ts $pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_${termSeqFiles1[i]}.bedgraph \
 # 				$pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_${termSeqFiles2[i]}.bedgraph \
@@ -394,7 +394,7 @@ done
 # 			-c 100 \
 # 			-g 1 500000\
 # 			-o $pathToParentDirectory/Termi/Results/first500k_filtered_trim_scaled_${brev[i]}
-# 	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/ratioTermRNASeq.py  \
+# 	$PYTHON $pathToParentDirectory/$SCRIPTS/ratioTermRNASeq.py  \
 # 			-gff $pathToParentDirectory/Termi/Genomes/${gffFiles[i]} \
 # 			-ts $pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_${termSeqFiles1[i]}.bedgraph \
 # 				$pathToParentDirectory/Termi/Alignments/TermSeq/stop_filtered_trimmed_${termSeqFiles2[i]}.bedgraph \
@@ -430,14 +430,14 @@ do
 	bedtools getfasta -fi $pathToParentDirectory/Termi/Genomes/${fastaFiles[i]} \
 		-bed $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.bed\
  		-name | \
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta 
+	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta 
 	$pathToParentDirectory/Termi/RNIE/rnie.pl \
 		--gene \
 		-f $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta \
 	 	-md $pathToParentDirectory/Termi/RNIE/models \
 		-th 0 \
 	 	-p $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS_th0
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/filterRNIE.py\
+	$PYTHON $pathToParentDirectory/$SCRIPTS/filterRNIE.py\
 		-i $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS_th0-geneMode-rnie.gff \
 		-o $pathToParentDirectory/Termi/Results/wholeGenome_${brev2[i]}_
 done
@@ -454,7 +454,7 @@ printf "\n##########################################################\n\n"
 mkdir -p $pathToParentDirectory"/Termi/Results/Classification"
 
 # b.subtilis
-$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/classification.py  \
+$PYTHON $pathToParentDirectory/$SCRIPTS/classification.py  \
 		-pos $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_BS_50_nucs_TScountsOverlappingTerminators \
 		-neg $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_BS_50_nucs_TScountsOverlappingGenes \
 		-all $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_BS_50_nucs_TSvsRS \
@@ -466,7 +466,7 @@ $PYTHON $pathToParentDirectory/Termi/$SCRIPTS/classification.py  \
 for ((i=0;i<${#gffFiles2[@]};++i))
 do
 	echo ${gffFiles2[i]} 
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/classification.py  \
+	$PYTHON $pathToParentDirectory/$SCRIPTS/classification.py  \
 		-pos $pathToParentDirectory/Termi/Results/wholeGenome_${brev2[i]}_filtered_trim_50_nucsRNIE_TSvsRS_RNIEover20.bed \
 		-neg $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucs_TScountsOverlappingGenes \
 		-all $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucs_TSvsRS \
@@ -489,7 +489,7 @@ mkdir -p $pathToParentDirectory"/Termi/Results/Distance"
 
 for ((i=0;i<${#gffFiles[@]};++i))
 do
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/position.py \
+	$PYTHON $pathToParentDirectory/$SCRIPTS/position.py \
 		-pos $pathToParentDirectory/Termi/Results/Classification/wholeGenome_filtered_trim_scaled_${brev[i]}_predictedTerminators_NO_knownTerminators_NO_genes_long.bed \
 		-neg $pathToParentDirectory/Termi/Results/Classification/wholeGenome_filtered_trim_scaled_${brev[i]}_predictedNegatives_NO_knownTerminators_NO_genes_long.bed \
 		-gff $pathToParentDirectory/Termi/Genomes/${gffFiles[i]}  \
@@ -525,13 +525,13 @@ do
 		-fi $pathToParentDirectory/Termi/Genomes/${fastaFiles2[i]} \
 		-bed $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.bed \
  		-name | \
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta 
+	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta 
 	blastn -query $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta \
 		-db $pathToParentDirectory/Termi/BLASTDB/known_terminators_db \
 		-word_size 7 \
 		-outfmt 6 |
 	sort -k12 -rn > $pathToParentDirectory/Termi/Results/BLAST/wholeGenome_filtered_trim_scaled_${brev[i]}_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.tab
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/filterBLAST.py \
+	$PYTHON $pathToParentDirectory/$SCRIPTS/filterBLAST.py \
 		-term  $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.bed \
 		-blast $pathToParentDirectory/Termi/Results/BLAST/wholeGenome_filtered_trim_scaled_${brev[i]}_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.tab \
 		-o $pathToParentDirectory/Termi/Results/BLAST/ 
@@ -592,7 +592,7 @@ do
 	-fi $pathToParentDirectory/Termi/Genomes/${fastaFiles3[i]} \
 	-bed ${bedFiles[i]} \
 	-name | \
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/"$(basename "${bedFiles[i]}" .bed)".fasta
+	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/"$(basename "${bedFiles[i]}" .bed)".fasta
 done
 
 # using esl-shuffle with a 1st order Markov process to generate negatives
@@ -636,7 +636,7 @@ mkdir -p $pathToParentDirectory"/Termi/Results/Embedded/100NegativesPerPositive"
 # embed predicted terminators and shuffled negatives into permuted sequences
 for ((i=0;i<${#brev3[@]};++i))
 do
-	$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/embedding.py \
+	$PYTHON $pathToParentDirectory/$SCRIPTS/embedding.py \
 		-term $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/cut_${brev3[i]}_predTerm_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta  \
 		-neg $pathToParentDirectory/Termi/Results/Negatives/1NegativePerPositive/oneLine_1shuffled_cut_${brev3[i]}_predTerm_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta \
 		-front $pathToParentDirectory/Termi/Results/Negatives/1NegativePerPositive/oneLine_1shuffled_cut_${brev3[i]}_500front_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta \
@@ -645,7 +645,7 @@ do
 		-backN $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/cut_${brev3[i]}_500back_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta\
 		-o $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/${brev3[i]}_
 
-		$PYTHON $pathToParentDirectory/Termi/$SCRIPTS/embedding.py \
+		$PYTHON $pathToParentDirectory/$SCRIPTS/embedding.py \
 		-term $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/cut_${brev3[i]}_predTerm_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta  \
 		-neg $pathToParentDirectory/Termi/Results/Negatives/100NegativesPerPositive/oneLine_100shuffled_cut_${brev3[i]}_predTerm_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta \
 		-front $pathToParentDirectory/Termi/Results/Negatives/100NegativesPerPositive/oneLine_100shuffled_cut_${brev3[i]}_500front_BLAST_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta \
