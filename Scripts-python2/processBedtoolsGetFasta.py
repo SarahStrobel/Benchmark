@@ -13,11 +13,12 @@ while True:
     if not line2:
         raise RuntimeError('descriptor line without sequence')
     line2=line2.rstrip()
-    if re.search('[-]::',line):
+    line=re.sub('::.*$','',line) # apparently some versions of 'bedtools getfasta' add '::' and then the coordinates, and some don't.  we just remove them
+    if re.search('[-]$',line):
         # reverse-complement sequence
         print line
         print line2.translate(complement)[::-1]        
-    elif re.search('[+]::',line): 
+    elif re.search('[+]$',line): 
         # sense sequence
         print line
         print line2
