@@ -22,6 +22,17 @@ else
     echo Found cmsearch command, but it is not from Infernal version 1.0.  Is this some super-old version of it?  RNie requires version 1.0
 fi
 
+# test esl-shuffle version
+echo testing that esl-shuffle is found
+esl-shuffle -h > /dev/null
+echo test esl-shuffle is from Infernal 1.0.2
+if esl-shuffle -h | grep -q "Copyright .C. 2009"; then
+    echo good
+else
+    echo esl-shuffle is not from Infernal version 1.0.2.  This is actually okay, but you will not get the exact same results.
+    exit 1
+fi
+
 # test if other required software is available
 echo testing that required software is installed
 wget --help > /dev/null
@@ -277,7 +288,7 @@ printf "\n##########################################################"
 printf '\n    all Files filtered and sorted'
 printf "\n##########################################################\n\n"
 
-# stopping point
+# this is a good stopping point / checkpoint if you want to avoid re-doing huge computations while debugging.  The above code is the really computationally expensive stuff.  The remainder takes 1-2 hours.
 
 ###############################################################################################################################################
 
