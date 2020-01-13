@@ -1,40 +1,58 @@
 # Benchmark for terminator prediction using RNA-Seq and Term-Seq data
 
+## Replicating the benchmark from source
 
-Download [Termi script](https://github.com/SarahStrobel/Benchmark/blob/master/Termi.sh) and run with `sh Termi.sh` <br/>
-Download [Benchmark script](https://github.com/SarahStrobel/Benchmark/blob/master/Termi_Benchmark.sh) and run with `sh Termi_Benchmark.sh` <br/>
+The scripts necessary to replicate the benchmark data are included here.  To run these, you will need:
+* To use a UNIX system.  We have only tested this with CentOS (Linux)
+* To install required software (see below)
+* run the script <tt>Termi.sh</tt> (in this directory) to generate the benchmark data
+* run the script <tt>Termi_Benchmark.sh</tt> (in this directory) to run the tests for RNIE, iTerm-PseKNC and the RNAmotif pattern by Lesnik et al
 
-Attention:
-For the script to run you need the RNA-Seq FASTQ files by Warrier et al. that were kindly shared with us and put them in the folder "yourWorkingDirectory/Termi/RNASeq" that is made by the Termi.sh script.
+Attention: At the moment you'll also need the RNA-Seq FASTQ files by Warrier et al. that were kindly shared with us and put them in the folder "yourWorkingDirectory/Termi/RNASeq" that is made by the Termi.sh script.  We will remove this requirement once the files are available in the NCBI'a SRA.
 
-### Used Programs:<br/>
+## Required software
 
+In order to run the benchmark scripts, you'll need the following software.  We have given the version of the software we used.  We expect that other versions of the software will likely give the same results, but, of course, we cannot guarantee this.
+
+The case where the version number is definitely important is with the Infernal software (see below). We use the <tt>cmsearch</tt> and <tt>esl-shuffle</tt> commands from this software.  We used version 1.0.2, because the RNIE script is dependant on it.  If you use a newer version of Infernal, you will not be able to replicate the benchmark.  The appropriate versions of the <tt>cmsearch</tt> and <tt>esl-shuffle</tt> commands should be available in the <tt>$PATH</tt>.
+
+The first think that the <tt>Termi.sh</tt> script does is to check that the necessary software is available.  The script will also check that the cmsearch and esl-shuffle commands are from the appropriate version of Infernal.  In other cases, the script does not check version information.
+
+Here is the software and version numbers:
+* bash shell
+* Python **************** 2 or 3
+* Perl. (This is required for the RNIE script)
 * [git](https://git-scm.com/)<br/>
 <t/>version-control system for tracking changes in source code<br/>
 * [SRA-Toolkit-2.9.6-ubuntu64](https://www.ncbi.nlm.nih.gov/sra/docs/toolkitsoft/)<br/>
-<t/>enables reading ("dumping") of sequencing files from the SRA database<br/>
+<t/>enables reading ("dumping") of sequencing files from the SRA database.  Note: the currently available package lacks the <tt>fasterq-dump</tt> program, which we need.  If the command is missing, the <tt>Termi.sh</tt> script will report that fact.  If you install a package and the <tt>fasterq-dump</tt> command is not available, we recommend that you install NCBI's pre-compiled verseion (available at the above URL) <br/>
 * [fastp-0.20.0](https://github.com/OpenGene/fastp)<br/>
 <t/>all-in-one preprocessing for FastQ files<br/>
 * [Novoalign-V3.02.07.Linux3.0](http://www.novocraft.com/products/novoalign/)<br/>
-<t/>mapping of short reads onto a reference genome<br/>
+<t/>mapping of short reads onto a reference genome.  We used the academic version, which is free to academic users.<br/>
 * [Samtools-1.9](http://www.htslib.org/download/)<br/>
 <t/>set of utilities for interacting with and post-processing short sequence read alignments<br/>
 * [Bedtools-v2.27.1](https://bedtools.readthedocs.io/en/latest/index.html)<br/>
 <t/>tools for a wide-range of genomics analysis tasks<br/>
 * [BLAST-2.9.0+-x64-linux](https://blast.ncbi.nlm.nih.gov/Blast.cgi)<br/>
 <t/>Basic Local Alignment Search Tool finds regions of local similarity between sequences<br/>
-* [Infernal-0.81](http://eddylab.org/infernal/)<br/>
-<t/>Infers RNA Alignment using covariance models (CMs)<br/>
+* [Infernal-1.0.2](http://eddylab.org/infernal/)<br/>
+<t/>Infers RNA Alignment using covariance models (CMs).  <br/>
 * [Easel](http://eddylab.org/infernal/)<br/>
-<t/>Integrated in Infernal-1.1.2<br/>
-* [RNIE](https://github.com/ppgardne/RNIE)<br/>
-<t/>Terminator prediction software<br/>
+<t/>Integrated in Infernal-1.0.2.  We require only the <tt>esl-shuffle</tt> command.  There is no pre-packaged software package available that includes the esl-shuffle command.  To install, download Infernal version 1.0.2 (at the above URL), run the <tt>configure</tt> script, run <tt>make</tt>, then cd into the <tt>easel</tt> subdirectory, and run <tt>make install</tt>, or <tt>cp</tt> the <tt>esl-shuffle</tt> command from <tt>easel/miniapps</tt> into a directory within your <tt>$PATH</tt>.<br/>
+
+The following software is required for the <tt>Termi_Benchmark.sh</tt> script, but is not required for <tt>Termi.sh</tt>
 * [RNAmotif-3.1.1](http://casegroup.rutgers.edu/casegr-sh-2.5.html)<br/>
 <t/>Terminator prediction software<br/>
-* [iTerm-PseKNC](http://lin-group.cn/server/iTerm-PseKNC/download.php)<br/>
-<t/>Terminator prediction software<br/>
-* [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)<br/>
+* [LIBSVM-3.23-3](https://www.csie.ntu.edu.tw/~cjlin/libsvm/)<br/>
 <t/>Integrated software for support vector classification<br/>
+
+The repository comes with the following software that is obtained from other sources.  You do not need to install it.
+* [RNIE](https://github.com/ppgardne/RNIE)<br/>
+<t/>Terminator prediction software<br/>
+* [iTerm-PseKNC](http://lin-group.cn/server/iTerm-PseKNC/download.php)<br/>
+<t/>Terminator prediction software.  We have modified the original Python script slightly so that it integrates better with our scripts.<br/>
+
 
 ### Used Python2 packages:<br/>
 
@@ -86,6 +104,7 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 
 ### Additional Programs:<br/>
 
+We used the following software in our project, but these software are not necessary in order to run the benchmark scripts.
 * [FastQC](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/)<br/>
 * [BamQC](https://github.com/s-andrews/BamQC)<br/>
 * [IGV](https://software.broadinstitute.org/software/igv/)<br/>
@@ -97,6 +116,7 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 
 ### Additional Python3 packages:<br/>
 
+We used the following Python3 packages in our project, but these packages are not necessary to run the benchmark scripts.
 * [scikit-learn](https://scikit-learn.org/stable/)<br/>
 * [mlxtend](http://rasbt.github.io/mlxtend/api_subpackages/mlxtend.plotting/)<br/>
 
