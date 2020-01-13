@@ -137,7 +137,7 @@ for samFile in glob.glob(termSeqPath + '*.sam'):
 					# 16 (0x10): read reverse strand, 32 (0x20): mate reverse strand,
 					# 64 (0x40): first in pair, 128 (0x80): second in pair,
 					# 256 (0x100): not primary alignment, 272 (0x100, 0x10): not primary alignment reverse strand,
-					# 516 (0x200): read fails platform/vendor quality check, 1024 (0x400): read is pcr or optical duplicate,
+					# 512 (0x200): read fails platform/vendor quality check, 1024 (0x400): read is pcr or optical duplicate,
 					# 2048 (0x800): supplementary alignment
 
 					# bitwise operator: only primary unpaired reads + reverse of that

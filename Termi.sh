@@ -430,7 +430,7 @@ do
 	bedtools getfasta -fi $pathToParentDirectory/Termi/Genomes/${fastaFiles[i]} \
 		-bed $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.bed\
  		-name | \
-	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta 
+	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py -revRev > $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta 
 	$pathToParentDirectory/Termi/RNIE/rnie.pl \
 		--gene \
 		-f $pathToParentDirectory/Termi/Results/wholeGenome_filtered_trim_scaled_${brev2[i]}_50_nucsRNIE_TSvsRS.fasta \
@@ -525,7 +525,7 @@ do
 		-fi $pathToParentDirectory/Termi/Genomes/${fastaFiles2[i]} \
 		-bed $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.bed \
  		-name | \
-	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta 
+	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py -revRev > $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta 
 	blastn -query $pathToParentDirectory/Termi/Results/Distance/wholeGenome_filtered_trim_scaled_${brev[i]}_Distance_predictedTerminators_NO_knownTerminators_NO_genes_long.fasta \
 		-db $pathToParentDirectory/Termi/BLASTDB/known_terminators_db \
 		-word_size 7 \
@@ -592,7 +592,7 @@ do
 	-fi $pathToParentDirectory/Termi/Genomes/${fastaFiles3[i]} \
 	-bed ${bedFiles[i]} \
 	-name | \
-	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py > $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/"$(basename "${bedFiles[i]}" .bed)".fasta
+	$PYTHON $pathToParentDirectory/$SCRIPTS/processBedtoolsGetFasta.py -revRev > $pathToParentDirectory/Termi/Results/BLAST/withoutPolluted/"$(basename "${bedFiles[i]}" .bed)".fasta
 done
 
 # using esl-shuffle with a 1st order Markov process to generate negatives
