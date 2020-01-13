@@ -1,11 +1,11 @@
-import sys, re, string, argparse
+import sys, re, argparse
 
 parser = argparse.ArgumentParser(description='Transform output of bedtools getfasta\n')
 parser.add_argument('-revRev', action='store_true',help='reverse reverseness, i.e. write reverse complement for the plus strand (+), and the sense strand for the negative strand (-)')
 parser.add_argument('-noRev', action='store_true',help='do not reverse complement sequences')
 args = parser.parse_args()
 
-complement = string.maketrans("ACGTU","TGCAA")
+complement = str.maketrans("ACGTU","TGCAA")
 
 while True:
     line = sys.stdin.readline()

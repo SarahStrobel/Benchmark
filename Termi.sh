@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# set for Python2
-PYTHON=python
-SCRIPTS=Scripts-python2
+# set for Python3
+PYTHON=python3
+SCRIPTS=Scripts-python3
 
 # die if there's an error
 set -e
