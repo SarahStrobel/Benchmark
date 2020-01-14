@@ -382,7 +382,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
 
         if sortedClosestTerm:
 
-                data = plt.scatter(xvalsPredTerm, yvalsPredTerm, c=distancePredTerm, s=25, label='predicted terminators', marker='P', cmap=cm, vmin = 0, vmax=400)
+                data = plt.scatter(xvalsPredTerm, yvalsPredTerm, c=distancePredTerm.astype(int), s=25, label='predicted terminators', marker='P', cmap=cm, vmin = 0, vmax=400)
 
                 cbar = plt.colorbar(data)
                 cbar.ax.set_ylabel('distance to closest gene', fontsize=14)
@@ -408,7 +408,7 @@ with open(predictedTerminators, 'r') as predTerm, open(predictedNegatives, 'r') 
         plt.fill_between(xII, yII, color='mediumpurple', alpha=0.5)
         plt.fill_between(xII, yII, plt.ylim()[1], color='orange', alpha=0.5)
 
-        data = plt.scatter(xvalsPredNeg, yvalsPredNeg, c=distancePredNeg, s=25, label='predicted negatives', marker='P', cmap=cm, vmin = 0, vmax=400)
+        data = plt.scatter(xvalsPredNeg, yvalsPredNeg, c=distancePredNeg.astype(int), s=25, label='predicted negatives', marker='P', cmap=cm, vmin = 0, vmax=400)
 
         cbar = plt.colorbar(data)
         cbar.ax.set_ylabel('distance to closest gene', fontsize=14)
