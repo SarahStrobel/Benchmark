@@ -20,7 +20,7 @@ The first think that the <tt>Termi.sh</tt> script does is to check that the nece
 
 Here is the software and version numbers:
 * bash shell
-* Python **************** 2 or 3
+* Python 2 and 3 (Python 2 is required for exactly replicated the Benchmark results.  Similar results can be obtained using only Python 3.  If you desire this, edit the <tt>Termi.sh</tt> and <tt>Termi_Benchmark.sh</tt> scripts as follows.  Set <tt>PYTHON=python3</tt> and set <tt>SCRIPTS=Scripts-python2</tt>)
 * Perl. (This is required for the RNIE script)
 * [git](https://git-scm.com/)<br/>
 <t/>version-control system for tracking changes in source code<br/>
@@ -54,13 +54,9 @@ The repository comes with the following software that is obtained from other sou
 <t/>Terminator prediction software.  We have modified the original Python script slightly so that it integrates better with our scripts.<br/>
 
 
-### Used Python2 packages:<br/>
+### Required Python 2 packages:<br/>
 
-`pip install packagename`<br/>
-will be installed to /usr/bin/ on Linux or in your Python installation on Windows<br/>
-<br/>
-`pip install packagename --user`<br/>
-will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Windows<br/>
+The following Python 2 packages are required to exactly replicate the benchmark results.  If you wish to use Python 3, see the comment above.
 
 * [argparse](https://docs.python.org/2/library/argparse.html)<br/>
 * [bisect](https://docs.python.org/2/library/bisect.html)<br/>
@@ -76,13 +72,9 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 * [sys](https://docs.python.org/2/library/sys.html)<br/>
 * [tabulate](https://pypi.org/project/tabulate/)<br/>
 
-### Python3 packages used by iTerm-PseKNC_modified.py:<br/>
+### Required Python 3 packages<br/>
 
-`pip3 install packagename`<br/>
-will be installed to /usr/bin/ on Linux or in your Python installation on Windows<br/>
-<br/>
-`pip3 install packagename --user`<br/>
-will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Windows<br/>
+These Python 3 packages are required for the <tt>iTerm-PseKNC_modified.py</tt> script.
 
 * [itertools](https://docs.python.org/3/library/itertools.html)<br/>
 * [numpy](https://numpy.org/)<br/>
@@ -91,6 +83,7 @@ will be installed to ~/.local/bin/ on Linux or to %AppData\Python\Scripts\ on Wi
 * [subprocess](https://docs.python.org/3/library/subprocess.html)<br/>
 * [sys](https://docs.python.org/3/library/sys.html)<br/>
 
+<!--
 ### B.subtilis, E.faecalis and L.monocytogenes RNA-Seq / Term-Seq Data (Dar et al., 2016):<br/>
 * [Paper](https://www.ncbi.nlm.nih.gov/pubmed/27120414)<br/>
 * [fastq files](https://www.ncbi.nlm.nih.gov/sra?term=ERP014057)<br/>
@@ -120,6 +113,4 @@ We used the following Python3 packages in our project, but these packages are no
 * [scikit-learn](https://scikit-learn.org/stable/)<br/>
 * [mlxtend](http://rasbt.github.io/mlxtend/api_subpackages/mlxtend.plotting/)<br/>
 
-
-
-
+-->
