@@ -834,7 +834,6 @@ with open(gffFile, 'r') as gff, open(terminatorBedFile, 'r') as bed, \
                 # slicing linesRS into spans of "numberOfNucsToAvg" according to strand
                 if maxTSstrand == '-':
                         # if the maxTScoord is too small, subtracting could lead to negative values
-                        print('smibbles. %s,%s' % (str(maxTScoord2),str(numberOfNucsToAvg)))
                         if maxTScoord2 - numberOfNucsToAvg < 0:
                                 linesRS3 = linesRS[0 : maxTScoord2]
                         else:
