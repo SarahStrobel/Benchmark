@@ -11,23 +11,23 @@ set -x
 
 pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-mkdir $pathToParentDirectory/"Benchmark"
+mkdir -p $pathToParentDirectory/"Benchmark"
 
 brev=('BS' 'EF_chrom' 'LM' 'SP' )
 
-mkdir $pathToParentDirectory/Benchmark/RNIE/
-mkdir $pathToParentDirectory/Benchmark/RNIE/1NegativePerPositive
-mkdir $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive
-mkdir $pathToParentDirectory/Benchmark/RNAmotif/
-mkdir $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive
-mkdir $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive
-mkdir $pathToParentDirectory/Benchmark/iTerm_PseKNC/
-mkdir $pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive
+mkdir -p $pathToParentDirectory/Benchmark/RNIE/
+mkdir -p $pathToParentDirectory/Benchmark/RNIE/1NegativePerPositive
+mkdir -p $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive
+mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/
+mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive
+mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive
+mkdir -p $pathToParentDirectory/Benchmark/iTerm_PseKNC/
+mkdir -p $pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive
 
 for file in $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/*.fasta
 do
 	echo $file
-	if /usr/bin/time rnie.pl \
+	if /usr/bin/time $pathToParentDirectory/Termi/RNIE/rnie.pl \
 		--gene \
 		-f $file \
 	 	-md $pathToParentDirectory/Termi/RNIE/models\
@@ -51,7 +51,7 @@ done
 for file in $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/*.fasta
 do
 	echo $file
-	if /usr/bin/time rnie.pl \
+	if /usr/bin/time $pathToParentDirectory/Termi/RNIE/rnie.pl \
 		--gene \
 		-f $file \
 	 	-md $pathToParentDirectory/Termi/RNIE/models\
@@ -144,9 +144,9 @@ done
 #######################################################################
 #######################################################################
 
-mkdir $pathToParentDirectory/"Benchmark/ROC"
-mkdir $pathToParentDirectory/"Benchmark/ROC/1NegativePerPositive"
-mkdir $pathToParentDirectory/"Benchmark/ROC/100NegativesPerPositive"
+mkdir -p $pathToParentDirectory/"Benchmark/ROC"
+mkdir -p $pathToParentDirectory/"Benchmark/ROC/1NegativePerPositive"
+mkdir -p $pathToParentDirectory/"Benchmark/ROC/100NegativesPerPositive"
 
 for ((i=0;i<${#brev[@]};++i))
 do

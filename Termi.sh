@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# set for Python3
-PYTHON=python3
-SCRIPTS=Scripts-python3
+# set for Python2
+PYTHON=python
+SCRIPTS=Scripts-python2
 
 # die if there's an error
 set -e
@@ -46,14 +46,14 @@ bedtools > /dev/null
 esl-shuffle -h > /dev/null # this command comes from the Infernal software, but is not installed by default.  In the easel/miniapps subdirectory, do 'make install'
 # fastp, python3 stuff
 fastp > /dev/null
-python3 -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, matplotlib.pyplot, numpy, os, os.path, pandas, re, subprocess, sys"  > /dev/null
-python3 -c "from __future__ import absolute_import, division, print_function" > /dev/null
-python3 -c "from bisect import bisect_left" > /dev/null
-python3 -c "from collections import Counter" > /dev/null
-python3 -c "from matplotlib.colors import ListedColormap" > /dev/null
-python3 -c "from operator import itemgetter" > /dev/null
-python3 -c "from tabulate import tabulate" > /dev/null
-#python3 -c "import itertools, numpy, os, pandas, subprocess, sys"
+$PYTHON -c "import argparse, collections, csv, glob, itertools, linecache, math, matplotlib, matplotlib.pyplot, numpy, os, os.path, pandas, re, subprocess, sys"  > /dev/null
+$PYTHON -c "from __future__ import absolute_import, division, print_function" > /dev/null
+$PYTHON -c "from bisect import bisect_left" > /dev/null
+$PYTHON -c "from collections import Counter" > /dev/null
+$PYTHON -c "from matplotlib.colors import ListedColormap" > /dev/null
+$PYTHON -c "from operator import itemgetter" > /dev/null
+$PYTHON -c "from tabulate import tabulate" > /dev/null
+python3 -c "import itertools, numpy, os, pandas, subprocess, sys"
 echo GOOD, looks like all required software is available
 
 ls 316*.fastq.gz > /dev/null # make sure the Warrier et al files are in the current directory

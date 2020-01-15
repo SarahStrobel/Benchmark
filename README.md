@@ -20,7 +20,7 @@ The first think that the <tt>Termi.sh</tt> script does is to check that the nece
 
 Here is the software and version numbers:
 * bash shell
-* Python 2 and 3 (Python 2 is required for exactly replicated the Benchmark results.  Similar results can be obtained using only Python 3.  If you desire this, edit the <tt>Termi.sh</tt> and <tt>Termi_Benchmark.sh</tt> scripts as follows.  Set <tt>PYTHON=python3</tt> and set <tt>SCRIPTS=Scripts-python2</tt>)
+* Python 2 and 3 (Python 2 is required for exactly replicated the Benchmark results.  Similar results can be obtained using only Python 3.  If you desire this, edit the <tt>Termi.sh</tt> and <tt>Termi_Benchmark.sh</tt> scripts as follows.  Set <tt>PYTHON=python3</tt> and set <tt>SCRIPTS=Scripts-python2</tt>.  Note: the reason for the requirement for Python 2 is that the order of keys in the dictionary has changed in Python 3.  As a result, when multiple maximum values are identical, which one is selected will depend on the dictionary keys' order.  Although these differences are not significant, they do lead to non-identical results.)
 * Perl. (This is required for the RNIE script)
 * [git](https://git-scm.com/)<br/>
 <t/>version-control system for tracking changes in source code<br/>
