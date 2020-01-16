@@ -4,6 +4,9 @@
 PYTHON=python
 SCRIPTS=Scripts-python2
 
+# comment the following line out to disable the more time-consuming tests with 100 negatives per positive.  un-comment it to enable 100 negatives per positive
+#ENABLE_100_NEG_PER_POS=1
+
 # die if there's an error
 set -e
 set -o pipefail
@@ -44,12 +47,16 @@ brev=('BS' 'EF_chrom' 'LM' 'SP' )
 
 mkdir -p $pathToParentDirectory/Benchmark/RNIE/
 mkdir -p $pathToParentDirectory/Benchmark/RNIE/1NegativePerPositive
-mkdir -p $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive
 mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/
 mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive
-mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive
 mkdir -p $pathToParentDirectory/Benchmark/iTerm_PseKNC/
 mkdir -p $pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive
+
+if [[ $ENABLE_100_NEG_PER_POS == 1 ]] ; then
+mkdir -p $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive
+mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive
+fi
+
 
 for file in $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/*.fasta
 do
@@ -75,6 +82,8 @@ do
 	fi
 done
 
+if [[ $ENABLE_100_NEG_PER_POS == 1 ]] ; then
+
 for file in $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/*.fasta
 do
 	echo $file
@@ -98,8 +107,9 @@ do
 		exit 1
 	fi
 done
+fi # 100 neg per pos
 
-cd $pathToParentDirectory/Termi/iTerm-PseKNC_modified/
+#cd $pathToParentDirectory/Termi/iTerm-PseKNC_modified/
 
 for file in $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/*.csv
 do
@@ -154,6 +164,7 @@ do
 	-o $pathToParentDirectory/Benchmark/iTerm_PseKNC/iTerm_results_from_wl/"$(basename "${resultFiles[i]}" .txt)"
 done
 
+if [[ $ENABLE_100_NEG_PER_POS == 1 ]] ; then
 
 for file in $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive/*.gff
 do
@@ -166,6 +177,7 @@ for file in $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive/*.
 do
 	perl $pathToParentDirectory/Termi/RNIE/terminator-lesnik2gff.pl -t $file 
 done
+fi # 100 neg per pos
 
 
 #######################################################################
@@ -173,7 +185,11 @@ done
 
 mkdir -p $pathToParentDirectory/"Benchmark/ROC"
 mkdir -p $pathToParentDirectory/"Benchmark/ROC/1NegativePerPositive"
+
+if [[ $ENABLE_100_NEG_PER_POS == 1 ]] ; then
+
 mkdir -p $pathToParentDirectory/"Benchmark/ROC/100NegativesPerPositive"
+fi
 
 for ((i=0;i<${#brev[@]};++i))
 do
@@ -205,6 +221,8 @@ do
 	-nucs $((a+b))
 done
 
+if [[ $ENABLE_100_NEG_PER_POS == 1 ]] ; then
+
 for ((i=0;i<${#brev[@]};++i))
 do
 	a=$(cat $pathToParentDirectory/Termi/Results/Embedded/100NegativesPerPositive/${brev[i]}_embedded_predictedTerminators_shuffled.fasta | grep -v \> | tr -d "\r\n"|wc -c)
@@ -226,7 +244,9 @@ do
 	-o $pathToParentDirectory/Benchmark/ROC/100NegativesPerPositive/RNAmotif_${brev[i]}_shuffled_ \
 	-nucs $((a+b))
 done
+fi # 100 neg per pos
 
 #######################################################################
 #######################################################################
 
+echo done all tests
