@@ -14,6 +14,7 @@ import os
 import itertools
 import pandas as pd
 import numpy as np
+import argparse
 
 def SeqToSubSeq(seq, seq_id, slideFile):
     i = 1
@@ -150,11 +151,11 @@ def fn_physic(sequence, k, k_nucleotides, nucleStandDict, bio_list, lamdas):
 
     return pse
 
-def iterm_pseknc_process(bioFile, inputFile, outputFile):
+def iterm_pseknc_process(bioFile, inputFile, outputFile, modelDir):
     bio_list = Bio_list(bioFile)
     k_nucleotides = ObtainKnucleotides(5)
     sequences = ObtainSequences(inputFile)
-    nucleStandDict = obtainNucleotidesPhysicoChemicalDict("6_standard.txt")
+    nucleStandDict = obtainNucleotidesPhysicoChemicalDict(modelDir + "/6_standard.txt")
     outputFile = open(outputFile, "w")
     for sequence in sequences:
         pse = fn_physic(sequence, 5, k_nucleotides, nucleStandDict, bio_list, 5)
@@ -185,21 +186,32 @@ def read_result(slideFileName, PredictFile, outputFileName):
     slideFile.close()
     predictFile.close()
     outputFile.close()
-    
-  
-InputFile = sys.argv[1]
-slideFile = "SlideFile.txt"
-bioFile =  "Bio_index.txt"
-ToScaleFile = "ToScaleFile.txt"
-ScaleFile = "ScaleFile.scale"
-PredictFile = "PredictFileName.txt"
-resultFile = sys.argv[2] + "_result.txt"
+
+parser = argparse.ArgumentParser(description= 'Classify Rho-independent transcription terminators using the iTerm-PseKNC method.  Modified from authors\' original file by Sarah Strobel and Zasha Weinberg' + '\n'
+                                                                'Usage:' + '\t' + 'iTerm-PseKNC_modified.py -in <input-fasta-file> -modelDir <directory-with-files-like-Bio_index.txt> -outPrefix <path-prefix-for-results>\n[any directories in -pathPrefix must already exist]')
+parser.add_argument('-in', dest='inFile', help='input fasta file to search', required=True)
+parser.add_argument('-modelDir', dest='modelDir', help='directory containing files 6_standard.txt, Bio_index.txt, iterm.model and iterm.rule', required=True)
+parser.add_argument('-outPrefix', dest='outPrefix', help='Prefix of output files', required=True)
+
+args=parser.parse_args()
+
+InputFile = args.inFile
+bioFile =  args.modelDir+"/Bio_index.txt"
+slideFile = args.outPrefix+"SlideFile.txt"
+ToScaleFile = args.outPrefix+"ToScaleFile.txt"
+ScaleFile = args.outPrefix+"ScaleFile.scale"
+PredictFile = args.outPrefix+"PredictFileName.txt"
+resultFile = args.outPrefix + "_result.txt"
 
 if __name__ == "__main__":
+    svmScaleCmd='svm-scale -r '+args.modelDir+'/iterm.rule '+ToScaleFile+' > '+ScaleFile
+    svmPredictCmd='svm-predict -b 1 '+ScaleFile+' '+args.modelDir+'/iterm.model '+PredictFile
+    print(svmScaleCmd)
+    print(svmPredictCmd)
     ParseSeq(InputFile, slideFile)
-    iterm_pseknc_process(bioFile, slideFile, ToScaleFile)
-    subprocess.run("svm-scale -r iterm.rule ToScaleFile.txt > ScaleFile.scale", shell=True, check=True)
-    subprocess.run("svm-predict -b 1 ScaleFile.scale iterm.model PredictFileName.txt", shell=True, check=True)
+    iterm_pseknc_process(bioFile, slideFile, ToScaleFile, args.modelDir)
+    subprocess.run(svmScaleCmd, shell=True, check=True)
+    subprocess.run(svmPredictCmd, shell=True, check=True)
     read_result(slideFile, PredictFile, resultFile)
     os.remove(slideFile)
     os.remove(ToScaleFile)

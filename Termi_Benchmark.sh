@@ -35,9 +35,8 @@ $PYTHON -c "from collections import Counter" > /dev/null
 $PYTHON -c "from matplotlib.colors import ListedColormap" > /dev/null
 $PYTHON -c "from operator import itemgetter" > /dev/null
 $PYTHON -c "from tabulate import tabulate" > /dev/null
-python3 -c "import itertools, numpy, os, pandas, subprocess, sys"
+python3 -c "import itertools, numpy, os, pandas, subprocess, sys, argparse"
 echo GOOD, looks like all required software is available
-
 
 pathToParentDirectory="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
@@ -57,6 +56,15 @@ mkdir -p $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive
 mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/100NegativesPerPositive
 fi
 
+# BTW, this stuff with RNAmotif is a bit scary, because the exit code of the process is still 0, so bash thinks it completed successfully.  But, if $EFNDATA is set, and if I can find the stack.dat file there (an arbitrary file), then I'll figure it's okay.
+if [ -z "$EFNDATA" ]; then
+    echo Please set the \$EFNDATA environment variable for RNAmotif.  This should be the path of the efndata subdirectory of the RNAmotif distribution
+    exit 1;
+fi
+if [ ! -f "$EFNDATA/stack.dat" ]; then
+    echo The \$EFNDATA environment variable is not set to a valid directory.  Please set the \$EFNDATA environment variable for RNAmotif.  This should be the path of the efndata subdirectory of the RNAmotif distribution
+    exit 1;
+fi
 
 for file in $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/*.fasta
 do
@@ -114,9 +122,10 @@ fi # 100 neg per pos
 for file in $pathToParentDirectory/Termi/Results/Embedded/1NegativePerPositive/*.csv
 do
 	echo $file
-	if /usr/bin/time python3 $pathToParentDirectory/Termi/iTerm-PseKNC_modified/iTerm-PseKNC_modified.py \
-		$file \
-		$pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive/1_predicted_"$(basename "$file" .csv)"; then
+	if /usr/bin/time python3 $pathToParentDirectory/iTerm-PseKNC_modified/iTerm-PseKNC_modified.py \
+	        -in $file \
+	        -modelDir $pathToParentDirectory/iTerm-PseKNC_modified \
+		-outPrefix $pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive/1_predicted_"$(basename "$file" .csv)"; then
 			echo 'worked'
 	else
 		exit 1
