@@ -50,6 +50,7 @@ mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/
 mkdir -p $pathToParentDirectory/Benchmark/RNAmotif/1NegativePerPositive
 mkdir -p $pathToParentDirectory/Benchmark/iTerm_PseKNC/
 mkdir -p $pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive
+mkdir -p $pathToParentDirectory/Benchmark/iTerm_PseKNC/iTerm_results_from_wl
 
 if [[ $ENABLE_100_NEG_PER_POS == 1 ]] ; then
 mkdir -p $pathToParentDirectory/Benchmark/RNIE/100NegativesPerPositive
