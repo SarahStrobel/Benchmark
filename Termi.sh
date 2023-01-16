@@ -82,6 +82,7 @@ printf "\n##########################################################\n\n"
 #awk 'BEGIN{FS=" "}{if(!/>/){print toupper($0)}else{print $1 " " $2}}'  \
 	> $pathToParentDirectory"/Termi/knownTerminators/true_upper_UtoT.fa"
 
+## Actually, put this file into the respository to guard against link rot
 # download B.subtilis known terminator file form the Lin group homepage
 wget http://lin-group.cn/server/iTerm-PseKNC/dependent_data2.csv -O $pathToParentDirectory"/Termi/knownTerminators/dependent_data2.fa"
 
