@@ -159,7 +159,7 @@ done
 
 resultFiles=()
 
-for file in $pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive/*result.txt
+for file in $pathToParentDirectory/Benchmark/iTerm_PseKNC/1NegativePerPositive/*_shuffled_result.txt
 do
 	resultFiles=("${resultFiles[@]}" "$file")
 done

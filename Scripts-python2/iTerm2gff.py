@@ -32,11 +32,14 @@ with open(iTermOutput, 'r') as iTermOut, open(iTermInput, 'r')  as iTermIn, open
 
 	for line in iTermIn:
 		if '>' in line:
+                        id=line[1:].strip()
+                        print("id=%s" % (id))
 			ids.append(line[1:].strip())
 
 
 
 	for line  in iTermOut:
+                print("line: %s" % (line))
 
 		if 'is a terminator' in line:
 			IDiTerm = int(line.split()[1])
@@ -50,6 +53,7 @@ with open(iTermOutput, 'r') as iTermOut, open(iTermInput, 'r')  as iTermIn, open
 
 		if 'non-terminator' in line:
 			IDiTerm = int(line.split()[1])
+                        print("IDiTerm=%s" % (IDiTerm))
 			ID = ids[IDiTerm-1]
 			start = int(line.split()[2])		
 			score = 1-float(line.split()[-1])
