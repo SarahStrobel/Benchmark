@@ -72,13 +72,14 @@ printf "\n##########################################################\n\n"
 
 #################################################################################################################################################
 
-# download known terminator file from Paul Gardners's github to new folder with wget
-wget https://raw.githubusercontent.com/ppgardne/RNIE-benchmark/master/training-test/true.fa -P $pathToParentDirectory"/Termi/knownTerminators/"
+## Actually, we put this file into our repository so that we're safe with link rot
+## download known terminator file from Paul Gardners's github to new folder with wget
+#wget https://raw.githubusercontent.com/ppgardne/RNIE-benchmark/master/training-test/true.fa -P $pathToParentDirectory"/Termi/knownTerminators/"
 
 
-# change u to ts and make uppercase in known terminators sequences
-sed 's/U/t/g' $pathToParentDirectory"/Termi/knownTerminators/true.fa" |
-awk 'BEGIN{FS=" "}{if(!/>/){print toupper($0)}else{print $1 " " $2}}'  \
+## change u to ts and make uppercase in known terminators sequences
+#sed 's/U/t/g' $pathToParentDirectory"/Termi/knownTerminators/true.fa" |
+#awk 'BEGIN{FS=" "}{if(!/>/){print toupper($0)}else{print $1 " " $2}}'  \
 	> $pathToParentDirectory"/Termi/knownTerminators/true_upper_UtoT.fa"
 
 # download B.subtilis known terminator file form the Lin group homepage
