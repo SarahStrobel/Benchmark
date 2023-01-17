@@ -1,5 +1,7 @@
 # Benchmark for terminator prediction using RNA-Seq and Term-Seq data
 
+The results (including the actual set of terminators) is in the repository BenchmarkResults (https://github.com/SarahStrobel/BenchmarkResults)
+
 ## Replicating the benchmark from source
 
 The scripts necessary to replicate the benchmark data are included here.  To run these, you will need:
