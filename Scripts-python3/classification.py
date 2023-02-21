@@ -467,7 +467,7 @@ with open(positivesFile, 'r') as pf, open(negativesFile, 'r') as nf, open(allPoi
 			predictedTerminatorsAllPointsNOTOverlappingTest.append([posTest[0],posTest[1]])
 
 			outfilePredTerm[0].write(chrom2 + '\t' + str(posTest[2]) + '\t' + str(posTest[2]+1) \
-							+ '\t' + 'predicted terminator (not overl. genes and known terminators)' + '\n')
+							+ '\t' + 'predicted terminator (not overl. genes and known terminators)_' + posTest[3] + '\n')
 
 			# make artificial terminators of 'lengthTerminator'
 			# if read on negative strand: artificial terminator coords: 'l2' upstream and 'l1' downstream from TS coord 
